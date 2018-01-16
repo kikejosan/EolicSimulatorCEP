@@ -76,9 +76,9 @@ public class Main {
 		    System.out.println();
 		    contador ++;
 		}
-		for (EventoInfo eve:eventos) {
+		/*for (EventoInfo eve:eventos) {
 			System.out.println(eve.toString());
-		}
+		}*/
 		// cerramos el libro excel
 		//((Closeable) workbook).close();
 		

@@ -19,8 +19,11 @@
 
 package com.funapp.thingspeak;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+
+import Clasificator.EventoInfo;
 
 /**
  * Create a new Entry to update a channel, or retrieve individual elements from
@@ -90,7 +93,8 @@ public class Entry {
             case 7:
                 return field7;
             case 8:
-                return field8;                
+                return field8;
+            
         }
         throw new IllegalArgumentException("Invalid field.");
     }
@@ -138,6 +142,9 @@ public class Entry {
         }
         throw new IllegalArgumentException("Invalid field.");
     }
+    
+   
+    
     
     /**
      * Get latitude.

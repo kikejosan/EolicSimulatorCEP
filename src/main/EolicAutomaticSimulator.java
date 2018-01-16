@@ -1,8 +1,13 @@
 package main;
 
+import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import Clasificator.EventoInfo;
 
 /**
  * @author Daniel Payán Alcedo & Juan Boubeta-Puig (University of Cádiz)
@@ -35,7 +40,7 @@ public class EolicAutomaticSimulator{
     private static SimulatorChannel thingSpeak_401291;
 
     //Frequency updating time
-    private static int time = 17000;
+    private static int time = 20000;
     
     private static double energyconsumption = 0.0; //Field 1 in thingspeak
     private static double humidity = 0.0; //Field 2 in thingspeak
@@ -53,10 +58,21 @@ public class EolicAutomaticSimulator{
     private static double minTvConsumption = 0.0;
     private static double maxEnergyConsumption = 4650.0;
     private static double minEnergyConsumption = 0.0;
+    static int contador = 1; 
     
-    private static double numeroPrueba2 = 0.0;
-    private static double numeroPrueba = 100000.0;
-    private static String cadenaPrueba = "Cambiando el ordenador";
+    private static double numero1 = 1.0;
+    private static double numero2 = 2.0;
+    private static double numero3 = 3.0;
+    private static double numero4 = 4.0;
+    private static double numero5 = 5.0;
+    private static double numero6 = 6.0;
+    private static double numero7 = 7.0;
+    //private static ArrayList<Double> coleccion = new ArrayList<Double>();
+    private static double numero8 = 8.0;
+	private static ArrayList<EventoInfo> eventos = new ArrayList<EventoInfo>();
+
+    
+    private static String cadena = "HOLA ESB COMO ESTAS";
     
     private static double random(double min, double max)
     {
@@ -75,6 +91,22 @@ public class EolicAutomaticSimulator{
     	thingSpeak_67074 = new SimulatorChannel(THINGSPEAK_API_KEY_67074, CHANNEL_ID_67074);
     	generateData(thingSpeak_67074,6000);
     	*/
+    	EventoInfo evento = new EventoInfo();
+    	try {
+    		System.out.println("COMENCEMOS A PROCESAR EL EXCELL");
+			eventos = evento.getEventosArfe("C:\\Users\\Kike Brazález\\eclipse-workspace\\HomeAutomationSimulator\\docs\\datos_aerogenerador.xlsx");
+			
+			
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	System.out.println(eventos);
+    	for(EventoInfo eve : eventos) {
+    		System.out.println(eve.getMySelf());
+    	}
+    	
     	thingSpeak_401291 = new SimulatorChannel(THINGSPEAK_API_KEY_401291, CHANNEL_ID_401291);
     	generateDataV2(thingSpeak_401291,0);
     	
@@ -137,36 +169,45 @@ public class EolicAutomaticSimulator{
 	        timer.scheduleAtFixedRate(timerTask, delay, time);
 	}
     private static void generateDataV2(final SimulatorChannel thingspeak, int delay){
-		
+    	
         TimerTask timerTask = new TimerTask(){ 
             @Override
             //Code will be repeated:
             public void run()
             {  
-          	       	
+            	
             	//We will establish a value for each ThingSpeak channel field
             	System.out.println("\n*Generating random data from channel '"  + thingspeak.getChannelName() +"' \n");
+            	System.out.println("holaaaaholiata"+eventos.get(contador).getMySelf());
+            	thingspeak.setDataField(1,numero1);
+            	thingspeak.setDataField(2,numero2);            	
+            	thingspeak.setDataField(3,numero3);
+            	thingspeak.setDataField(4,numero4);
+            	thingspeak.setDataField(5,numero5);
+            	thingspeak.setDataField(6,numero6);            	
+            	thingspeak.setDataField(7,numero7);
+            	thingspeak.setDataField(8,eventos.get(contador).getMySelf());
+            	
+            	//thingspeak.setDataField(8,numero8);
+            	
+            	  	
+            	
+            	
+            	System.out.println("Mandado numero1 "+numero1);
+            	System.out.println("Mandado numero2 "+numero2);
+            	System.out.println("Mandado numero3 "+numero3);
+            	System.out.println("Mandado numero4 "+numero4);
+            	System.out.println("Mandado numero5 "+numero5);
+            	System.out.println("Mandado numero6 "+numero6);
+            	System.out.println("Mandado numero7 "+numero7);
+            	System.out.println("Mandado numero8 "+numero8);
+            	System.out.println("Mandado eventos "+eventos.get(contador).getMySelf());
 
-            	thingspeak.setDataField(1,numeroPrueba);
-            	System.out.println("Mandado numero = "+numeroPrueba);
-            	
-            	thingspeak.setDataField(2,numeroPrueba2);
-            	System.out.println("Mandado numero = "+numeroPrueba2);
-            	
-            	thingspeak.setDataField(2,numeroPrueba2);
-            	
-            	
-            	thingspeak.setDataField(3,cadenaPrueba);
-            	System.out.println("Mandado cadena = "+cadenaPrueba);
-
-
-            	
-            	
-            	
             	System.out.println("\n*Remember, system will generate data every "  + time/1000 + " seconds\n");	            	
             	thingspeak.sendData();	                
 
                 System.out.println("\n");
+                contador++;
             	
             }
         }; 

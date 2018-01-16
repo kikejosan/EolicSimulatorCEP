@@ -1,10 +1,13 @@
 package main;
 import java.sql.Date;
+import java.util.ArrayList;
 
 import com.funapp.thingspeak.Channel;
 import com.funapp.thingspeak.Entry;
 import com.funapp.thingspeak.ThingSpeakException;
 import com.mashape.unirest.http.exceptions.UnirestException;
+
+import Clasificator.EventoInfo;
 
 /**
  * @author Iván Fernádez de la Rosa & Juan Boubeta-Puig (University of Cádiz)
@@ -46,6 +49,13 @@ public class SimulatorChannel
 	public void setDataField(int field, Date value) {
 		entry.setField(field, value.toString());
 	}
+	public void setDataField(int field, ArrayList value) {
+		entry.setField(field, value.toString());
+	}
+	public void setDataField(int field,	EventoInfo eve) {
+		entry.setField(field, eve.toString());
+	}
+	
 	/*KIKEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE*/
 	public String getStatus()
 	{
