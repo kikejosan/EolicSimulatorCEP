@@ -63,6 +63,7 @@ public class Feed {
         private String field6;
         private String field7;
         private String field8;
+        private String field9;
         private Integer id;
         private Integer last_entry_id;
         private String name;
@@ -125,9 +126,12 @@ public class Feed {
                 return channel.field7;
             case 8:
                 return channel.field8;
+            case 9:
+                return channel.field9;
         }
         throw new IllegalArgumentException("Invalid field.");
     }
+    
 
     /**
      * Get the ID of this channel.

@@ -172,12 +172,35 @@ public class EventoInfo {
 		}
 		return eventos;
 	}
-	public double getindex() {
+	public double getIndex() {
 		return this.index;
 	}
+	public int getSystemNumber() {
+		return this.systemNumber;
+	}
+	public Date getDate() {
+		return this.date;
+	}
+	public Date getTime() {
+		return this.time;
+	}
+	public int getTimeOffset() {
+		return this.timeOffset;
+	}
+	public int getCount() {
+		return this.count;
+	}
+	public double getPower() {
+		return this.power;
+	}
+	public double getTowerDeflection() {
+		return this.towerDeflection;
+	}
+	
 	public ArrayList getMySelf() {
 		return this.mySelf;
 	}
+	
 	
 	
 	

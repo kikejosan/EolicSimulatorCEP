@@ -55,6 +55,9 @@ public class SimulatorChannel
 	public void setDataField(int field,	EventoInfo eve) {
 		entry.setField(field, eve.toString());
 	}
+	public void setDataField(int field,	Object eve) {
+		entry.setField(field, eve.toString());
+	}
 	
 	/*KIKEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE*/
 	public String getStatus()

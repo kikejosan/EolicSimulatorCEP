@@ -178,31 +178,31 @@ public class EolicAutomaticSimulator{
             	
             	//We will establish a value for each ThingSpeak channel field
             	System.out.println("\n*Generating random data from channel '"  + thingspeak.getChannelName() +"' \n");
-            	System.out.println("holaaaaholiata"+eventos.get(contador).getMySelf());
-            	thingspeak.setDataField(1,numero1);
-            	thingspeak.setDataField(2,numero2);            	
-            	thingspeak.setDataField(3,numero3);
-            	thingspeak.setDataField(4,numero4);
-            	thingspeak.setDataField(5,numero5);
-            	thingspeak.setDataField(6,numero6);            	
-            	thingspeak.setDataField(7,numero7);
-            	thingspeak.setDataField(8,eventos.get(contador).getMySelf());
+            	System.out.println("holaaaaholiata"+eventos.get(contador).getMySelf().toString());
+            	thingspeak.setDataField(1,eventos.get(contador).getMySelf().get(0));
+            	thingspeak.setDataField(2,eventos.get(contador).getMySelf().get(1));            	
+            	thingspeak.setDataField(3,eventos.get(contador).getMySelf().get(2));
+            	thingspeak.setDataField(4,eventos.get(contador).getMySelf().get(3));
+            	thingspeak.setDataField(5,eventos.get(contador).getMySelf().get(4));
+            	thingspeak.setDataField(6,eventos.get(contador).getMySelf().get(5));
+            	thingspeak.setDataField(7,eventos.get(contador).getMySelf().get(6));            	
+            	thingspeak.setDataField(8,eventos.get(contador).getMySelf().get(7));
             	
-            	//thingspeak.setDataField(8,numero8);
             	
             	  	
             	
             	
-            	System.out.println("Mandado numero1 "+numero1);
-            	System.out.println("Mandado numero2 "+numero2);
-            	System.out.println("Mandado numero3 "+numero3);
-            	System.out.println("Mandado numero4 "+numero4);
-            	System.out.println("Mandado numero5 "+numero5);
-            	System.out.println("Mandado numero6 "+numero6);
-            	System.out.println("Mandado numero7 "+numero7);
-            	System.out.println("Mandado numero8 "+numero8);
-            	System.out.println("Mandado eventos "+eventos.get(contador).getMySelf());
-
+            	System.out.println("Mandado numero1 "+eventos.get(contador).getMySelf().get(0));
+            	System.out.println("Mandado numero2 "+eventos.get(contador).getMySelf().get(1));
+            	System.out.println("Mandado numero3 "+eventos.get(contador).getMySelf().get(2));
+            	System.out.println("Mandado numero4 "+eventos.get(contador).getMySelf().get(3));
+            	System.out.println("Mandado numero5 "+eventos.get(contador).getMySelf().get(4));
+            	System.out.println("Mandado numero6 "+eventos.get(contador).getMySelf().get(5));
+            	System.out.println("Mandado numero7 "+eventos.get(contador).getMySelf().get(6));
+            	System.out.println("Mandado numero8 "+eventos.get(contador).getMySelf().get(7));
+            	System.out.println("Mandado numero9 "+"SOY EL CRACK Y ES UN ATRIBUTO EXTRA");
+            	
+            	
             	System.out.println("\n*Remember, system will generate data every "  + time/1000 + " seconds\n");	            	
             	thingspeak.sendData();	                
 

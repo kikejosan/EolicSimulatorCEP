@@ -49,6 +49,8 @@ public class Entry {
     private String field6;
     private String field7;
     private String field8;
+    private String field9;
+    
     private Double latitude;
     private Double longitude;
     private Double elevation;
@@ -94,6 +96,8 @@ public class Entry {
                 return field7;
             case 8:
                 return field8;
+            case 9:
+                return field9;
             
         }
         throw new IllegalArgumentException("Invalid field.");
@@ -139,9 +143,14 @@ public class Entry {
                 field8 = value;
                 updateMap.put("field8", value);
                 return;
+            case 9:
+                field8 = value;
+                updateMap.put("field9", value);
+                return;
         }
         throw new IllegalArgumentException("Invalid field.");
     }
+    
     
    
     

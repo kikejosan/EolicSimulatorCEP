@@ -230,7 +230,8 @@ public class FeedParameters {
      * @param t Time period.
      */
     public void average(Period t) {
-        fields.put("average", t.minutes());        
+        fields.put("average", t.minutes()); 
+        
     }
     
     /**
