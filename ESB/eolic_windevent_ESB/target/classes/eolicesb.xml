@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns:smtps="http://www.mulesoft.org/schema/mule/smtps" xmlns:smtp="http://www.mulesoft.org/schema/mule/smtp" xmlns:vm="http://www.mulesoft.org/schema/mule/vm" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:quartz="http://www.mulesoft.org/schema/mule/quartz" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/quartz http://www.mulesoft.org/schema/mule/quartz/current/mule-quartz.xsd
+http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/current/mule-vm.xsd
+http://www.mulesoft.org/schema/mule/smtp http://www.mulesoft.org/schema/mule/smtp/current/mule-smtp.xsd
+http://www.mulesoft.org/schema/mule/smtps http://www.mulesoft.org/schema/mule/smtps/current/mule-smtps.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd">
+    <http:request-config name="HTTP_Request_Configuration" host="api.thingspeak.com" port="80" doc:name="HTTP Request Configuration"/>
+    <vm:endpoint exchange-pattern="one-way" path="ComplexEventConsumerPath" name="ComplexEventConsumerGlobalVM" doc:name="VM"/>
+    <flow name="eolic_windeventFlow">
+        <quartz:inbound-endpoint jobName="j1" repeatInterval="21000" responseTimeout="10000" doc:name="Quartz">
+            <quartz:event-generator-job/>
+        </quartz:inbound-endpoint>
+        <http:request config-ref="HTTP_Request_Configuration" path="/channels/401291/feed.json?results=1" method="GET" doc:name="Eolic1"/>
+        <custom-transformer class="transformer.JsonToWindEventTransformer" doc:name="JsonToWindEventTransformer"/>
+        <scatter-gather doc:name="Scatter-Gather">
+            <logger message="#[payload]" level="INFO" doc:name="Logger"/>
+            <component doc:name="Send WindEvent to Esper Engine">
+               <singleton-object class="esper.SendEventToEsperComponent"/>
+            </component> 
+        </scatter-gather> 
+    </flow>
+    
+    <flow name="ReceptionAndDecisionMaking">
+        <vm:inbound-endpoint exchange-pattern="one-way"  doc:name="ComplexEvent Consumer" ref="ComplexEventConsumerGlobalVM"/>
+       
+        <scatter-gather doc:name="Scatter-Gather">
+            <processor-chain>
+                <set-payload value="Detected Alert '#[message.inboundProperties['eventPatternName']]': #[payload]" doc:name="Set Alert Payload"/>
+                <smtps:outbound-endpoint host="smtp.gmail.com" port="465" user="${email.username}" password="${email.password}" to="${emailto}" from="${emailfrom}" subject="ALERTA DE TU MOTOR CEP" responseTimeout="10000" doc:name="Send Alert by Email"/>
+            </processor-chain>
+            <logger message="***Complex Event: #[payload]" level="INFO" doc:name="Logger"/>
+        </scatter-gather>
+    </flow>
+    
+    
+    
+    <flow name="EventPatternAdditionToEsper">
+        <file:inbound-endpoint path="new-eventpattern" responseTimeout="10000" doc:name="New EPL EventPattern" moveToDirectory="deployed-eventpattern">
+        </file:inbound-endpoint>
+        
+        <file:file-to-string-transformer doc:name="File to String"/>
+        <component doc:name="Add EventPattern to Esper Engine">
+            <singleton-object class="esper.AddEventPatternToEsperComponent"/>
+        </component>
+        <choice-exception-strategy doc:name="Choice Exception Strategy">
+            <catch-exception-strategy when="exception.causeMatches('com.espertech.esper.*')" doc:name="Syntax Error in EventPattern Code">
+                <file:outbound-endpoint path="incorrect-eventpattern" responseTimeout="10000" doc:name="Incorrect EventPattern Code"/>
+            </catch-exception-strategy>
+        </choice-exception-strategy>
+    </flow>
+      
+</mule>
