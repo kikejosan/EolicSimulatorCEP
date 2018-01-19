@@ -175,7 +175,7 @@ public class EolicAutomaticSimulator{
             //Code will be repeated:
             public void run()
             {  
-            	
+            	String hola ="";
             	//We will establish a value for each ThingSpeak channel field
             	System.out.println("\n*Generating random data from channel '"  + thingspeak.getChannelName() +"' \n");
             	System.out.println("holaaaaholiata"+eventos.get(contador).getMySelf().toString());
