@@ -58,7 +58,11 @@ public class EolicAutomaticSimulator{
     private static double minTvConsumption = 0.0;
     private static double maxEnergyConsumption = 4650.0;
     private static double minEnergyConsumption = 0.0;
-    static int contador = 1; 
+    static int contador = 1;
+    static int contadorE = 0;
+    static int contadorErrores = 0;
+    
+    
     
     private static double numero1 = 1.0;
     private static double numero2 = 2.0;
@@ -200,13 +204,19 @@ public class EolicAutomaticSimulator{
             	System.out.println("Mandado numero6 "+eventos.get(contador).getMySelf().get(5));
             	System.out.println("Mandado numero7 "+eventos.get(contador).getMySelf().get(6));
             	System.out.println("Mandado numero8 "+eventos.get(contador).getMySelf().get(7));
-            	System.out.println("Mandado numero9 "+"SOY EL CRACK Y ES UN ATRIBUTO EXTRA");
+            	System.out.println("		"+contador+" PRUEBAS EN TOTAL");
+            	System.out.println("		"+contadorErrores +" Errores encontrados");
             	
-            	
-            	System.out.println("\n*Remember, system will generate data every "  + time/1000 + " seconds\n");	            	
-            	thingspeak.sendData();	                
+            	try {
+            		System.out.println("\n*Remember, system will generate data every "  + time/1000 + " seconds\n");	            	
+                	thingspeak.sendData();	  
+            	}catch(Exception e) {
+            		contadorErrores++;
+            	}
+            	              
 
                 System.out.println("\n");
+                contadorE++;
                 contador++;
             	
             }
