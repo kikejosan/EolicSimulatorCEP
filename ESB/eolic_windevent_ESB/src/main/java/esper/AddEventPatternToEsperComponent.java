@@ -42,17 +42,17 @@ public class AddEventPatternToEsperComponent implements Callable {
 				System.out.println();
 				System.out.println();
 				System.out.println();
-				System.out.println("	UPDATE: CHAVAL ESTOY AÑADIENDO UN NUEVO PATRON AL MOTOR");
+				System.out.println("	ATENCION!: HE DETECTADO UN EVENTO COMPLEJO ESTOY MANDANDO UN AVISO A TU CORREO");
 				if (newComplexEvents != null) {	
 					
 					try {
 						
 						// newComplexEvents[0].getUnderlying() is the payload of the complex event detected by this listener.
-						System.out.println("=====complex event payload:" + newComplexEvents[0].getUnderlying());
+						System.out.println("		=====complex event payload:" + newComplexEvents[0].getUnderlying());
 						
 						// detectedEventPattern.getEventType().getName() specifies the event pattern that has created this complex event.
 						String eventPatternName = detectedEventPattern.getEventType().getName();
-						System.out.println("=====eventPatternName: " + eventPatternName);
+						System.out.println("		=====eventPatternName: " + eventPatternName);
 						
 						// Create the detected complex event as a Java map (eventPatternName, event properties)
 						Map<String, Object> complexEvent = new LinkedHashMap<String, Object>();

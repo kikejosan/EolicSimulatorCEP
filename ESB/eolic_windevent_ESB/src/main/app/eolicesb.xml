@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:ftp="http://www.mulesoft.org/schema/mule/ftp" xmlns:sftp="http://www.mulesoft.org/schema/mule/sftp" xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns:smtps="http://www.mulesoft.org/schema/mule/smtps" xmlns:smtp="http://www.mulesoft.org/schema/mule/smtp" xmlns:vm="http://www.mulesoft.org/schema/mule/vm" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:quartz="http://www.mulesoft.org/schema/mule/quartz" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+<mule xmlns:metadata="http://www.mulesoft.org/schema/mule/metadata" xmlns:ftp="http://www.mulesoft.org/schema/mule/ftp" xmlns:sftp="http://www.mulesoft.org/schema/mule/sftp" xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns:smtps="http://www.mulesoft.org/schema/mule/smtps" xmlns:smtp="http://www.mulesoft.org/schema/mule/smtp" xmlns:vm="http://www.mulesoft.org/schema/mule/vm" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:quartz="http://www.mulesoft.org/schema/mule/quartz" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
 	xmlns:spring="http://www.springframework.org/schema/beans" 
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
@@ -13,38 +13,30 @@ http://www.mulesoft.org/schema/mule/smtps http://www.mulesoft.org/schema/mule/sm
 http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
 http://www.mulesoft.org/schema/mule/sftp http://www.mulesoft.org/schema/mule/sftp/current/mule-sftp.xsd
 http://www.mulesoft.org/schema/mule/ftp http://www.mulesoft.org/schema/mule/ftp/current/mule-ftp.xsd">
-    <http:request-config name="HTTP_Request_Configuration" host="api.thingspeak.com" port="80" doc:name="HTTP Request Configuration"/>
+    <configuration doc:name="Configuration">
+		<expression-language autoResolveVariables="true">
+	    	<import class="org.mule.util.StringUtils" />
+		</expression-language>
+	</configuration>
+   <file:connector name="File" autoDelete="true" streaming="true" validateConnections="true" doc:name="File"/>
     <vm:endpoint exchange-pattern="one-way" path="ComplexEventConsumerPath" name="ComplexEventConsumerGlobalVM" doc:name="VM"/>
-    <sftp:connector name="SFTP" outputPattern="#[payload]" validateConnections="true" doc:name="SFTP"/>
-    <ftp:connector name="FTP" pollingFrequency="1000" validateConnections="true" doc:name="FTP"/>
-   	<!-- <flow name="eolic_windeventFlow">
-        <quartz:inbound-endpoint jobName="j1" repeatInterval="21000" responseTimeout="10000" doc:name="Quartz">
-            <quartz:event-generator-job/>
-        </quartz:inbound-endpoint>
-        <http:request config-ref="HTTP_Request_Configuration" path="/channels/401291/feed.json?results=1" method="GET" doc:name="Eolic1"/>
-        <custom-transformer class="transformer.JsonToWindEventTransformer" doc:name="JsonToWindEventTransformer"/>
+   	
+   	
+   	<flow name="eolic_windeventFlow">
+        <file:inbound-endpoint path="${file.input}" moveToDirectory="${file.archive}" connector-ref="File" responseTimeout="10000" doc:name="Poll Product Catalog" metadata:id="13b73b5c-6466-4b22-8729-273d9a4cd6b3"/>
+			<object-to-string-transformer doc:name="Object to String"/>
+			<splitter expression="#[StringUtils.split(message.payload, '\n\r')]" doc:name="Splitter" />
+         	<custom-transformer class="transformer.JsonToWindEventTransformer" doc:name="JsonToWindEventTransformer"/>
         <scatter-gather doc:name="Scatter-Gather">
-            <logger message="#[payload]" level="INFO" doc:name="Logger"/>
+            <logger message="Line - #[payload]" level="INFO" doc:name="Logger"/>
             <component doc:name="Send WindEvent to Esper Engine">
                <singleton-object class="esper.SendEventToEsperComponent"/>
             </component> 
-        </scatter-gather> 
-    </flow> -->
-  <flow name="eolic_windeventFlow">
-        <ftp:inbound-endpoint connector-ref="FTP" host="localhost" port="21" path="IN" user="kike" password="comandos2" responseTimeout="10000" doc:name="FTP"/>
-         <!--  <custom-transformer class="transformer.JsonToSFTPEventTransformer" doc:name="JsonToSFTPEventTransformer"/> -->
-        <!-- <scatter-gather doc:name="Scatter-Gather"> </scatter-gather>-->
-            <logger  level="INFO" doc:name="Logger"/>
-        <file:outbound-endpoint path="src/test/resources/out" responseTimeout="10000" doc:name="File"/>
-            <!--<component doc:name="Send WindEvent to Esper Engine">
-               <singleton-object class="esper.SendEventToEsperComponent"/>
-            </component>   -->
-         
-    </flow> 
-    <!-- 
+        </scatter-gather>
+	</flow> 
+      
     <flow name="ReceptionAndDecisionMaking">
-        <vm:inbound-endpoint exchange-pattern="one-way"  doc:name="ComplexEvent Consumer" ref="ComplexEventConsumerGlobalVM"/>
-       
+       	<vm:inbound-endpoint exchange-pattern="one-way"  doc:name="ComplexEvent Consumer" ref="ComplexEventConsumerGlobalVM"/>
         <scatter-gather doc:name="Scatter-Gather">
             <processor-chain>
                 <set-payload value="Detected Alert '#[message.inboundProperties['eventPatternName']]': #[payload]" doc:name="Set Alert Payload"/>
@@ -70,5 +62,12 @@ http://www.mulesoft.org/schema/mule/ftp http://www.mulesoft.org/schema/mule/ftp/
             </catch-exception-strategy>
         </choice-exception-strategy>
     </flow>
-       -->
+    <flow name="dbConverter">
+        <file:inbound-endpoint path="C:\eolic\dbFiles" moveToDirectory="C:\eolic\archive" connector-ref="File" responseTimeout="10000" doc:name=".DB files receiver" metadata:id="64b79b7b-ae0a-450e-a5f2-db24a834bd51" />
+        <file:file-to-string-transformer doc:name="File to String"/>
+        <component doc:name="toExcel" class="transformer.dbConverter">
+        </component>
+    </flow>
+	
+       
 </mule>

@@ -1,4 +1,0 @@
-@Name("EventMoreThanFive") 
-insert into EventoComplejoPrueba
-select e.id_Event as idEvento
-from pattern [every e = WindEvent(e.id_Event>= 5)]
