@@ -20,6 +20,13 @@ http://www.mulesoft.org/schema/mule/ftp http://www.mulesoft.org/schema/mule/ftp/
 	</configuration>
    <file:connector name="File" autoDelete="true" streaming="true" validateConnections="true" doc:name="File"/>
     <vm:endpoint exchange-pattern="one-way" path="ComplexEventConsumerPath" name="ComplexEventConsumerGlobalVM" doc:name="VM"/>
+    <spring:beans>
+        <spring:bean id="list" name="myList" class="org.springframework.beans.factory.config.ListFactoryBean">
+            <spring:property name="sourceList">
+                <spring:list/>
+            </spring:property>
+        </spring:bean>
+    </spring:beans>
    	
    	
    	<flow name="eolic_windeventFlow">
@@ -34,7 +41,7 @@ http://www.mulesoft.org/schema/mule/ftp http://www.mulesoft.org/schema/mule/ftp/
             </component> 
         </scatter-gather>
 	</flow> 
-      
+     
     <flow name="ReceptionAndDecisionMaking">
        	<vm:inbound-endpoint exchange-pattern="one-way"  doc:name="ComplexEvent Consumer" ref="ComplexEventConsumerGlobalVM"/>
         <scatter-gather doc:name="Scatter-Gather">
