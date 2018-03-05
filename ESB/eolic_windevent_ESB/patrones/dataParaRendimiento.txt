@@ -1,0 +1,47 @@
+WindEvent = {systemNumber = 1, time = "2001-01-01 01:00:00.000", windSpeed= 8.35, power=1634}
+WindEvent = {systemNumber = 2, time = "2001-01-01 01:00:00.000", windSpeed= 8.45, power=1274.1}
+WindEvent = {systemNumber = 3, time = "2001-01-01 01:00:00.000", windSpeed= 8.69, power=2000.3}
+WindEvent = {systemNumber = 1, time = "2001-01-01 01:00:00.000", windSpeed= 9.85, power=1634.1}
+WindEvent = {systemNumber = 2, time = "2001-01-01 01:00:00.000", windSpeed= 9.45, power=1274.1}
+WindEvent = {systemNumber = 3, time = "2001-01-01 01:00:00.000", windSpeed= 9.75, power=2000.3}
+
+t=t.plus(10 minutes)
+WindEvent = {systemNumber = 1, time = "2001-01-01 01:10:00.000", windSpeed= 8.35, power=1332.1}
+WindEvent = {systemNumber = 2, time = "2001-01-01 01:10:00.000", windSpeed= 8.45, power=1235.1}
+WindEvent = {systemNumber = 3, time = "2001-01-01 01:10:00.000", windSpeed= 8.69, power=1562.3}
+WindEvent = {systemNumber = 1, time = "2001-01-01 01:10:00.000", windSpeed= 9.85, power=1234.1}
+WindEvent = {systemNumber = 2, time = "2001-01-01 01:10:00.000", windSpeed= 9.45, power=1000.1}
+WindEvent = {systemNumber = 3, time = "2001-01-01 01:10:00.000", windSpeed= 9.75, power=1198.3}
+
+t=t.plus(1 hour)
+WindEvent = {systemNumber = 1, time = "2001-01-01 02:00:00.000", windSpeed= 8.62, power=1500.2}
+WindEvent = {systemNumber = 2, time = "2001-01-01 02:00:00.000", windSpeed= 8.45, power=1100.3}
+WindEvent = {systemNumber = 3, time = "2001-01-01 02:00:00.000", windSpeed= 8.23, power=1438.45}
+WindEvent = {systemNumber = 1, time = "2001-01-01 02:00:00.000", windSpeed= 9.85, power=1230.1}
+WindEvent = {systemNumber = 2, time = "2001-01-01 02:00:00.000", windSpeed= 9.45, power=1274.1}
+WindEvent = {systemNumber = 3, time = "2001-01-01 02:00:00.000", windSpeed= 9.75, power=1450.3}
+
+WindEvent = {systemNumber = 1, time = "2001-01-01 02:00:00.000", windSpeed= 8.62, power=1500.2}
+WindEvent = {systemNumber = 2, time = "2001-01-01 02:00:00.000", windSpeed= 8.45, power=1100.3}
+WindEvent = {systemNumber = 3, time = "2001-01-01 02:00:00.000", windSpeed= 8.23, power=4000}
+WindEvent = {systemNumber = 1, time = "2001-01-01 02:00:00.000", windSpeed= 9.85, power=1230.1}
+WindEvent = {systemNumber = 2, time = "2001-01-01 02:00:00.000", windSpeed= 9.45, power=1274.1}
+WindEvent = {systemNumber = 3, time = "2001-01-01 02:00:00.000", windSpeed= 9.75, power=1450.3}
+t=t.plus(1 hour)
+/*------------------------------------------------------------------------------*/
+WindEvent = {systemNumber = 1, time = "2001-01-01 03:00:00.000", windSpeed= 8.0, power=1425.36}
+WindEvent = {systemNumber = 2, time = "2001-01-01 03:00:00.000", windSpeed= 8.0, power=1223.5}
+WindEvent = {systemNumber = 3, time = "2001-01-01 03:00:00.000", windSpeed= 8.0, power=1350}
+t=t.plus(1 hour)
+WindEvent = {systemNumber = 1, time = "2001-01-01 04:00:00.000", windSpeed= 8.0, power=1455.36}
+WindEvent = {systemNumber = 2, time = "2001-01-01 04:00:00.000", windSpeed= 8.0, power=1124.85}
+WindEvent = {systemNumber = 3, time = "2001-01-01 04:00:00.000", windSpeed= 8.0, power=1500.2}
+t=t.plus(1 hour) /*son las 5*/
+/*------------------------------------------------------------------------------*/
+
+
+
+
+
+
+

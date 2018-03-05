@@ -1,0 +1,96 @@
+/*   VERSION FINALIZADA  ATENCION INICIALIZAR EL TIME STAMP A "2001-01-01 01:00:00.000" */
+create schema WindEvent(systemNumber int, time Date, windSpeed double, power double);
+
+create schema ss(time Date, palmo int);
+
+@Name("RankingProd")
+INSERT INTO RankingProd
+SELECT SUM(power) as suma, 
+count(systemNumber) as events,
+systemNumber,
+MAX(time) as time,
+SUM(power)/count(systemNumber) as productividad
+FROM  WindEvent.win:time_batch(2 hours) t
+GROUP BY systemNumber
+ORDER BY productividad DESC;
+
+@Name("CambioInicio")
+INSERT INTO CambioInicio
+SELECT a1.systemNumber,
+		a2.systemNumber,
+		a3.systemNumber,
+		a4.systemNumber, 
+		a5.systemNumber, 
+		a6.systemNumber
+FROM PATTERN [ every  (a1 = RankingProd()->
+	a2 = RankingProd() ->
+	a3 = RankingProd() ->timer:interval(2 hours) ->
+	a4 = RankingProd() ->
+	a5 = RankingProd() ->
+	a6 = RankingProd())
+]
+WHERE (a1.systemNumber = a4.systemNumber AND 
+		a2.systemNumber=a5.systemNumber AND 
+		a3.systemNumber=a6.systemNumber)!=TRUE;
+
+@Name("CambioSegundo")
+INSERT INTO CambioInicio
+SELECT a1.systemNumber,
+		a2.systemNumber,
+		a3.systemNumber, 
+		a4.systemNumber, 
+		a5.systemNumber, 
+		a6.systemNumber
+FROM PATTERN [every  (a1 = RankingProd(a1.time.toMillisec()>978314400000)->
+	a2 = RankingProd() ->
+	a3 = RankingProd() -> timer:interval(2 hours)->
+	a4 = RankingProd() ->
+	a5 = RankingProd() ->
+	a6 = RankingProd())
+]
+WHERE (a1.systemNumber = a4.systemNumber AND 
+		a2.systemNumber=a5.systemNumber AND 
+		a3.systemNumber=a6.systemNumber)!=TRUE;
+
+@Name("Transicion")
+INSERT INTO Transicion
+SELECT a4.systemNumber as primero,
+(case 	when a4.systemNumber= a1.systemNumber then 0 
+    	when a4.systemNumber= a2.systemNumber then 1 
+    	else 2 end) as subida1,
+a5.systemNumber as segundo,
+(case 	when a5.systemNumber= a1.systemNumber then -1 
+    	when a5.systemNumber= a2.systemNumber then 0
+    	else 1 end) as subida2,
+a6.systemNumber as tercero,
+(case 	when a6.systemNumber= a1.systemNumber then -2
+    	when a6.systemNumber= a2.systemNumber then -1
+    	else 0 end) as subida3
+FROM CambioInicio;
+
+
+@Name("fluctuaProd")
+INSERT INTO fluctuaProd
+SELECT *
+FROM PATTERN[every (a1 = Transicion(a1.subida1=-2 OR a1.subida2=-2 OR a1.subida3=-2))];
+
+
+/************************************************************************************************/
+/*EXTRAS      NO HACER CASO*/
+@Name("Largo")
+INSERT INTO Detector
+SELECT a1.systemNumber,a2.systemNumber,a3.systemNumber,a4.systemNumber,a5.systemNumber,a6.systemNumber
+FROM PATTERN [ every  (a1 = RankingProd()->
+	a2 = RankingProd() ->
+	a3 = RankingProd() ->
+	a4 = RankingProd() ->
+	a5 = RankingProd() ->
+	a6 = RankingProd(((a1.systemNumber=a4.systemNumber AND
+					 a2.systemNumber=a5.systemNumber AND				
+					 a3.systemNumber=a6.systemNumber)!=TRUE) AND (a1.systemNumber <> a2.systemNumber AND
+																  a2.systemNumber <> a3.systemNumber AND 
+																  a1.systemNumber <> a3.systemNumber AND
+																  a4.systemNumber <> a5.systemNumber AND 
+																  a5.systemNumber <> a6.systemNumber AND
+																  a4.systemNumber <> a6.systemNumber)) )
+];

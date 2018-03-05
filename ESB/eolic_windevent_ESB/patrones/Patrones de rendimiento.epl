@@ -1,0 +1,94 @@
+create schema WindEvent(systemNumber int, time Date, windSpeed double, power double);
+create schema WindEventA(systemNumber int, time Date, windSpeed double, power double, eventazo Object[]);
+
+@Name("WindEventTr")
+INSERT INTO WindEventTr
+SELECT *,
+(case when ((windSpeed-Math.floor(windSpeed))-0.5)<0 then Math.floor(windSpeed)
+	  else Math.floor(windSpeed)+0.5 end) as viento
+FROM  WindEvent;
+
+@Name("WindEventR")
+INSERT INTO WindEventR
+SELECT power,
+systemNumber, 
+AVG(power) as media,
+STDDEV(power) as desviacion,
+windSpeed,
+viento,
+count(systemNumber) as veces
+FROM  WindEventTr.win:time_batch(2 hours) ventana
+GROUP BY systemNumber, viento;
+
+@Name("EstadisticoDiario")
+INSERT INTO EstadisticoDiario
+SELECT systemNumber, 
+AVG(power) as media,
+STDDEV(power) as desviacion,
+viento,
+count(systemNumber) as veces,
+MAX(time) as time
+FROM  WindEventTr.win:time_batch(2 hours) ventana
+GROUP BY systemNumber, viento
+order by viento;
+
+@Name("Fuera")
+INSERT INTO Fuera
+SELECT systemNumber,
+count(systemNumber) as vecesFuera,
+viento
+FROM WindEventR.win:time_batch(1 sec) ventana
+WHERE power<media-desviacion OR power>media+desviacion
+GROUP BY systemNumber,viento
+HAVING count(systemNumber)>0
+order by viento;
+
+
+@Name("WindEventT")
+INSERT INTO WindEventT
+SELECT systemNumber ,
+stddev(power) as desv,
+MAX(time) as time,
+AVG(power) as rend,
+COUNT(*) as veces,
+STDDEV(power) as desv,
+Math.floor(windSpeed) as viento
+FROM  WindEvent.win:time_batch(2 hours) t
+GROUP BY systemNumber,Math.floor(windSpeed)
+HAVING COUNT(*)>0 ;
+
+@Name(BajadaDe10)
+INSERT INTO BajadaDe10
+SELECT a1.systemNumber as id1,
+a1.rend as rend1,
+a1.time as time1, 
+a1.viento as viento1,
+a2.systemNumber as id2, 
+a2.rend as rend2,
+a2.time as time2,
+a2.viento as viento2
+FROM PATTERN[
+	every a1=WindEventT() -> a2=WindEventT (a1.systemNumber=a2.systemNumber AND 
+											a1.viento = a2.viento AND
+											a1.rend*0.9 > a2.rend)
+]
+order by a1.time;
+
+@Name(BajadaCritica)
+INSERT INTO BajadaCritica
+SELECT a1.systemNumber as id1,
+a1.rend as rend1,
+a1.time as time1, 
+a1.viento as viento1,
+a2.systemNumber as id2, 
+a2.rend as rend2,
+a2.time as time2,
+a2.viento as viento2
+FROM PATTERN[
+	every a1=WindEventT() -> a2=WindEventT (a1.systemNumber=a2.systemNumber AND 
+											a1.viento = a2.viento AND
+											a2.rend < a1.rend*0.6) 
+	where timer:within(8 hours)/* RANGO DE DIAS QUE SE QUIERA*/
+]
+order by a1.time;
+
