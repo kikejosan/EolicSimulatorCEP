@@ -85,25 +85,72 @@ public class main {
 		
 		ArrayList<ArrayList<Double>> rangos = new ArrayList<ArrayList<Double>>();
 		
-		for(int i = 0 ; i<25;i++) rangos.add(new ArrayList<Double>());
+		for(int i = 0 ; i<=40;i++) rangos.add(new ArrayList<Double>());
 
 		double indice =0.0;
 		for(int i = 0;i<viento.size();i++) {
+			indice = (viento.get(i)-Math.floor(viento.get(i)))-0.5;
+			
+			if(indice<0) indice = Math.floor(viento.get(i));
+			else indice = Math.floor(viento.get(i))+0.5;
+			
 			System.out.println("COMPAR "+viento.get(i)+" - "+(int)viento.get(i).doubleValue());
-			if(viento.get(i)>25 || viento.get(i)<0) {
-				if(viento.get(i)>24) {
-					rangos.get(0).add(potencia.get(i));
+			if(viento.get(i)>20|| viento.get(i)<0) {
+				if(viento.get(i)>20) {
+					rangos.get(40).add(potencia.get(i));
 				}else {
-					rangos.get(24).add(potencia.get(i));
+					
+					rangos.get(0).add(potencia.get(i));
 				}
 			}else {
-				rangos.get((int)viento.get(i).doubleValue()).add(potencia.get(i));
+				if(indice==0.0)rangos.get(0).add(potencia.get(i));
+				if(indice==0.5)rangos.get(1).add(potencia.get(i));
+				if(indice==1.0)rangos.get(2).add(potencia.get(i));
+				if(indice==1.5)rangos.get(3).add(potencia.get(i));
+				if(indice==2.0)rangos.get(4).add(potencia.get(i));
+				if(indice==2.5)rangos.get(5).add(potencia.get(i));
+				if(indice==3.0)rangos.get(6).add(potencia.get(i));
+				if(indice==3.5)rangos.get(7).add(potencia.get(i));
+				if(indice==4.0)rangos.get(8).add(potencia.get(i));
+				if(indice==4.5)rangos.get(9).add(potencia.get(i));
+				if(indice==5.0)rangos.get(10).add(potencia.get(i));
+				if(indice==5.5)rangos.get(11).add(potencia.get(i));
+				if(indice==6.0)rangos.get(12).add(potencia.get(i));
+				if(indice==6.5)rangos.get(13).add(potencia.get(i));
+				if(indice==7.0)rangos.get(14).add(potencia.get(i));
+				if(indice==7.5)rangos.get(15).add(potencia.get(i));
+				if(indice==8.0)rangos.get(16).add(potencia.get(i));
+				if(indice==8.5)rangos.get(17).add(potencia.get(i));
+				if(indice==9.0)rangos.get(18).add(potencia.get(i));
+				if(indice==9.5)rangos.get(19).add(potencia.get(i));
+				if(indice==10.0)rangos.get(20).add(potencia.get(i));
+				if(indice==10.5)rangos.get(21).add(potencia.get(i));
+				if(indice==11.0)rangos.get(22).add(potencia.get(i));
+				if(indice==11.5)rangos.get(23).add(potencia.get(i));
+				if(indice==12.0)rangos.get(24).add(potencia.get(i));
+				if(indice==12.5)rangos.get(25).add(potencia.get(i));
+				if(indice==13.0)rangos.get(26).add(potencia.get(i));
+				if(indice==13.5)rangos.get(27).add(potencia.get(i));
+				if(indice==14.0)rangos.get(28).add(potencia.get(i));
+				if(indice==14.5)rangos.get(29).add(potencia.get(i));
+				if(indice==15.0)rangos.get(30).add(potencia.get(i));
+				if(indice==15.5)rangos.get(31).add(potencia.get(i));
+				if(indice==16.0)rangos.get(32).add(potencia.get(i));
+				if(indice==16.5)rangos.get(33).add(potencia.get(i));
+				if(indice==17.0)rangos.get(34).add(potencia.get(i));
+				if(indice==17.5)rangos.get(35).add(potencia.get(i));
+				if(indice==18.0)rangos.get(36).add(potencia.get(i));
+				if(indice==18.5)rangos.get(37).add(potencia.get(i));
+				if(indice==19.0)rangos.get(38).add(potencia.get(i));
+				if(indice==19.5)rangos.get(39).add(potencia.get(i));
+				if(indice==20.0)rangos.get(40).add(potencia.get(i));
 			}
 		}
-		
+		double inter=0.0;
 		for(int i = 0 ; i<rangos.size();i++) {
-			System.out.println("CONTADOR = "+i);
+			System.out.println("CONTADOR = "+inter);
 			System.out.println(rangos.get(i));
+			inter=inter+0.5;
 		}
 		
 		ArrayList<Double> medias = new ArrayList<Double>();
@@ -171,16 +218,19 @@ public class main {
 			}
 			
 		}
+		inter=0.0;
 		for(int i=0;i<medias.size();i++) {
-			if(medias.get(i).isNaN()) {
+			if(medias.get(i).isNaN() || i==0) {
 				medias.set(i, 0.0);
 				varianzas.set(i, 0.0);
 				desviaciones.set(i, 0.0);
 			}
-			System.out.println("	INTERVALO "+i+"-");
+			System.out.println(i+"	INTERVALO "+inter);
 			System.out.println("M = "+medias.get(i));
 			System.out.println("V = "+varianzas.get(i));
 			System.out.println("D = "+desviaciones.get(i));
+			inter=inter+0.5;
+
 		}
 		
 		Ventana hola = new Ventana(medias);
