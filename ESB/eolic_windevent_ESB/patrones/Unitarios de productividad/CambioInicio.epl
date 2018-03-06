@@ -1,0 +1,18 @@
+@Name("CambioInicio")
+INSERT INTO CambioInicio
+SELECT a1.systemNumber,
+		a2.systemNumber,
+		a3.systemNumber,
+		a4.systemNumber, 
+		a5.systemNumber, 
+		a6.systemNumber
+FROM PATTERN [ every  (a1 = RankingProd()->
+	a2 = RankingProd() ->
+	a3 = RankingProd() ->timer:interval(2 hours) ->
+	a4 = RankingProd() ->
+	a5 = RankingProd() ->
+	a6 = RankingProd())
+]
+WHERE (a1.systemNumber = a4.systemNumber AND 
+		a2.systemNumber=a5.systemNumber AND 
+		a3.systemNumber=a6.systemNumber)!=TRUE;

@@ -232,7 +232,16 @@ public class main {
 			inter=inter+0.5;
 
 		}
-		
+		String salida="";
+		inter = 0.0;
+		for(int i=0;i<medias.size();i++) {
+			
+			if(i==0) salida = inter+","+medias.get(i)+","+desviaciones.get(i)+",0";
+			else salida=salida+":"+inter+","+medias.get(i)+","+desviaciones.get(i)+",0";
+			
+			inter=inter+0.5;
+		}
+		System.out.println(salida);
 		Ventana hola = new Ventana(medias);
         hola.setVisible(true);
 

@@ -1,0 +1,10 @@
+@Name("RankingProd")
+INSERT INTO RankingProd
+SELECT SUM(power) as suma, 
+count(systemNumber) as events,
+systemNumber,
+MAX(time) as time,
+SUM(power)/count(systemNumber) as productividad
+FROM  WindEvent.win:time_batch(2 hours) t
+GROUP BY systemNumber
+ORDER BY productividad DESC

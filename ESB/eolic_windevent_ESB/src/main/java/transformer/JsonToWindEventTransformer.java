@@ -1,7 +1,9 @@
 package transformer;
 
+
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -51,50 +53,37 @@ public class JsonToWindEventTransformer extends AbstractMessageTransformer{
 		
 		//saco los valores para aceptar el criterio de cada valor
 		ArrayList<Zona> reglas = getListProperty(message);
-		for(int i=0;i<reglas.size();i++){
-			System.out.println(reglas.get(i));
-		}
-		int viento = (int)((double)eventPayload.get("windSpeed"));
+		
+		double viento = (double)eventPayload.get("windSpeed");
 		System.out.println("intervalo "+viento);
-		double maximo = reglas.get(viento-1).media+(4*reglas.get(viento-1).desv);
-		double minimo = reglas.get(viento-1).media-(4*reglas.get(viento-1).desv);
+		
+		if(viento-Math.floor(viento)-0.5<0)
+			viento = Math.floor(viento);
+		else
+			viento = Math.floor(viento)+0.5;
+		
+		Zona miZona = getZona(reglas,viento);
+		double maximo = miZona.media+(4*miZona.desv);
+		double minimo = miZona.media-(4*miZona.desv);
 		double potencia = (double)eventPayload.get("power");
 		System.out.println("intervalo "+viento+ " MAX/MIN ["+maximo+" "+minimo+"]");
-		
+		miZona.N++;
 		if(potencia >=minimo && potencia<=maximo){
 			System.out.println("MANDO "+potencia);
 			
-
 		}else{
 			System.out.println("NO MANDO"+potencia);
-			reglas.get(0).zone=viento;
-			reglas.get(0).media=potencia;
-			reglas.get(0).N=(int)eventPayload.get("index");
-			reglas.get(viento-1).N++;
-		}
 			
+		}
+		reglas = setZona(reglas,miZona,viento);	
 		//reseteo los valores para la siguiente entrada
 		String property = resetProperty(reglas);
-		
 		System.setProperty("key.rules", property);
-	
-		
-		
 		System.out.println("PROPERTY// "+property);
+		for(int i=0;i<reglas.size();i++){
+			System.out.println(reglas.get(i));
+		}
 		//System.setProperty("key.rules", property);
-		
-		
-		
-		
-		
-	
-		
-
-		
-		
-		
-		
-		
 		
 		/*{"channel":{	"id":401291,
 		 * 			  	"name":"prueba",
@@ -178,10 +167,28 @@ public class JsonToWindEventTransformer extends AbstractMessageTransformer{
 
 	    return file_string;    
 	}
-	private static ArrayList<Zona> ponderar(ArrayList<Zona> reglas, double velocidad){
-		
-		return reglas;
+	private static Zona getZona(ArrayList<Zona> reglas, double velocidad){
+		int indice =0;
+		boolean encontrado = false;
+		for(int i=0; i<reglas.size();i++)
+			if(reglas.get(i).zone==velocidad){
+				System.out.println("get#@#@#@#@#@#@#@#@#@#@# "+reglas.get(i) +" "+ velocidad);
+				return reglas.get(i);
+			}
+		return null;
 	}
+	private static ArrayList<Zona> setZona(ArrayList<Zona> reglas,Zona miZona,double viento){
+		for(int i=0; i<reglas.size();i++){
+			if(reglas.get(i).zone==viento) {
+				System.out.println("set#@#@#@#@"+miZona.zone+"#@#@#@#@#@#@# "+reglas.get(i) +" "+ viento);
+				reglas.set(i, miZona);
+				return reglas;
+			}
+		}
+		
+		return reglas;		
+	}
+	
 	private static String resetProperty(ArrayList<Zona> reglas){
 		String property = "";
 		for(int i=0; i<reglas.size();i++){
@@ -225,13 +232,34 @@ public class JsonToWindEventTransformer extends AbstractMessageTransformer{
 				event.put("index",Integer.parseInt(registro[i]));
 				break;
 			case 1:
-				event.put("SystemNumber", Integer.parseInt(registro[i]));
+				event.put("systemNumber", Integer.parseInt(registro[i]));
 				break;
 			case 2:
 				event.put("Date", registro[i]);
 				break;
 			case 3:
-				event.put("Time", registro[i]);
+				String miDate [] = registro[2].split("/");
+				int ano = Integer.parseInt(miDate[2]);
+				System.out.println(miDate[2]+ " "+ano);
+				String miHora [] = registro[i].split(":");
+				Date laFecha = new Date();
+				
+				laFecha.setDate(Integer.parseInt(miDate[0]));
+				laFecha.setMonth(Integer.parseInt(miDate[1]));
+				laFecha.setYear(Integer.parseInt(miDate[2]));
+				laFecha.setHours(Integer.parseInt(miHora[0]));
+				laFecha.setMinutes(Integer.parseInt(miHora[1]));
+				laFecha.setSeconds(Integer.parseInt(miHora[2]));
+				
+				java.sql.Timestamp sqlTimestamp = new java.sql.Timestamp(Integer.parseInt(miDate[2]), 
+																		 Integer.parseInt(miDate[1]),
+																		 Integer.parseInt(miDate[0]), 
+																		 Integer.parseInt(miHora[0]), 
+																		 Integer.parseInt(miHora[1]), 
+																		 Integer.parseInt(miHora[2]),
+																		 0);
+				System.out.println(sqlTimestamp);
+				event.put("time", sqlTimestamp.clone());
 				break;
 			case 4:
 				event.put("TimeOffset", Integer.parseInt(registro[i]));
