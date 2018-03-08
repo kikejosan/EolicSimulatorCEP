@@ -2,6 +2,8 @@ package transformer;
 
 
 import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
@@ -226,6 +228,19 @@ public class JsonToWindEventTransformer extends AbstractMessageTransformer{
 		}
 		return reglas;
 	}
+	private static Date getDate(SimpleDateFormat formatter, String dateInString){
+		try {
+
+            Date date = formatter.parse(dateInString.replaceAll("Z$", "+0000"));
+            return date;
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+            
+        }
+		
+	}
 	private static Map<String, Object> clasificador(Map<String, Object> event,String [] registro,int i){
 		switch(i){
 			case 0:
@@ -239,32 +254,15 @@ public class JsonToWindEventTransformer extends AbstractMessageTransformer{
 				break;
 			case 3:
 				String miDate [] = registro[2].split("/");
-				int ano = Integer.parseInt(miDate[2]);
-				System.out.println(miDate[2]+ " "+ano);
 				String miHora [] = registro[i].split(":");
-				Date laFecha = new Date();
-				
-				laFecha.setDate(Integer.parseInt(miDate[0]));
-				laFecha.setMonth(Integer.parseInt(miDate[1]));
-				laFecha.setYear(Integer.parseInt(miDate[2]));
-				laFecha.setHours(Integer.parseInt(miHora[0]));
-				laFecha.setMinutes(Integer.parseInt(miHora[1]));
-				laFecha.setSeconds(Integer.parseInt(miHora[2]));
-				
-				java.sql.Timestamp sqlTimestamp = new java.sql.Timestamp(Integer.parseInt(miDate[2]), 
-																		 Integer.parseInt(miDate[1]),
-																		 Integer.parseInt(miDate[0]), 
-																		 Integer.parseInt(miHora[0]), 
-																		 Integer.parseInt(miHora[1]), 
-																		 Integer.parseInt(miHora[2]),
-																		 0);
-				System.out.println(sqlTimestamp);
-				event.put("time", sqlTimestamp.clone());
+				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
+				String dateInString = miDate[2]+"-"+miDate[1]+"-"+miDate[0]+"T"+miHora[0]+":"+miHora[1]+":"+miHora[2]+"Z";
+				Date laFecha = getDate(formatter,dateInString);
+				event.put("time", laFecha);
 				break;
 			case 4:
 				event.put("TimeOffset", Integer.parseInt(registro[i]));
 				break;
-				///////////////////////////////////////////////////////////////////////
 			case 5:
 				event.put("power", Double.parseDouble(registro[i]));
 				break;

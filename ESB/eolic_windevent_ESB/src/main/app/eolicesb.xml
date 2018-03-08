@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:metadata="http://www.mulesoft.org/schema/mule/metadata" xmlns:ftp="http://www.mulesoft.org/schema/mule/ftp" xmlns:sftp="http://www.mulesoft.org/schema/mule/sftp" xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns:smtps="http://www.mulesoft.org/schema/mule/smtps" xmlns:smtp="http://www.mulesoft.org/schema/mule/smtp" xmlns:vm="http://www.mulesoft.org/schema/mule/vm" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:quartz="http://www.mulesoft.org/schema/mule/quartz" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+<mule xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns:metadata="http://www.mulesoft.org/schema/mule/metadata" xmlns:ftp="http://www.mulesoft.org/schema/mule/ftp" xmlns:sftp="http://www.mulesoft.org/schema/mule/sftp" xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns:smtps="http://www.mulesoft.org/schema/mule/smtps" xmlns:smtp="http://www.mulesoft.org/schema/mule/smtp" xmlns:vm="http://www.mulesoft.org/schema/mule/vm" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:quartz="http://www.mulesoft.org/schema/mule/quartz" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
 	xmlns:spring="http://www.springframework.org/schema/beans" 
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
 http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
 http://www.mulesoft.org/schema/mule/quartz http://www.mulesoft.org/schema/mule/quartz/current/mule-quartz.xsd
@@ -18,6 +20,11 @@ http://www.mulesoft.org/schema/mule/ftp http://www.mulesoft.org/schema/mule/ftp/
 	    	<import class="org.mule.util.StringUtils" />
 		</expression-language>
 	</configuration>
+	
+	<db:mysql-config name="MySQL_Configuration" host="localhost" port="3306" user="root" database="cep"  doc:name="MySQL Configuration"/>
+	
+	
+	
    <file:connector name="File" autoDelete="true" streaming="true" validateConnections="true" doc:name="File"/>
     <vm:endpoint exchange-pattern="one-way" path="ComplexEventConsumerPath" name="ComplexEventConsumerGlobalVM" doc:name="VM"/>
     <spring:beans>
@@ -35,7 +42,7 @@ http://www.mulesoft.org/schema/mule/ftp http://www.mulesoft.org/schema/mule/ftp/
 			<splitter expression="#[StringUtils.split(message.payload, '\n\r')]" doc:name="Splitter" />
          	<custom-transformer class="transformer.JsonToWindEventTransformer" doc:name="JsonToWindEventTransformer"/>
         <scatter-gather doc:name="Scatter-Gather">
-            <logger message="Line - #[payload]" level="INFO" doc:name="Logger"/>
+            <logger message="Line - #[payload]" level="DEBUG" doc:name="Logger"/>
             <component doc:name="Send WindEvent to Esper Engine">
                <singleton-object class="esper.SendEventToEsperComponent"/>
             </component> 
@@ -49,7 +56,14 @@ http://www.mulesoft.org/schema/mule/ftp http://www.mulesoft.org/schema/mule/ftp/
                 <set-payload value="Detected Alert '#[message.inboundProperties['eventPatternName']]': #[payload]" doc:name="Set Alert Payload"/>
                 <smtps:outbound-endpoint host="smtp.gmail.com" port="465" user="${email.username}" password="${email.password}" to="${emailto}" from="${emailfrom}" subject="ALERTA DE TU MOTOR CEP" responseTimeout="10000" doc:name="Send Alert by Email"/>
             </processor-chain>
-            <logger message="***Complex Event: #[payload]" level="INFO" doc:name="Logger"/>
+            <logger message="***SOY EL LOGGER Complex Event: #[payload.systemNumber]" level="INFO" doc:name="Logger"/>
+            <db:insert config-ref="MySQL_Configuration" doc:name="Database">
+                <db:parameterized-query><![CDATA[insert into prueba (systemNumber,time,suma,productividad,events) values (#[payload["RankingProd"]["systemNumber"]],
+#[payload["RankingProd"]["time"]],
+#[payload["RankingProd"]["suma"]],
+#[payload["RankingProd"]["productividad"]],
+#[payload["RankingProd"]["events"]]);]]></db:parameterized-query>
+            </db:insert>
         </scatter-gather>
     </flow>
     
@@ -69,12 +83,21 @@ http://www.mulesoft.org/schema/mule/ftp http://www.mulesoft.org/schema/mule/ftp/
             </catch-exception-strategy>
         </choice-exception-strategy>
     </flow>
+    
     <flow name="dbConverter">
         <file:inbound-endpoint path="C:\eolic\dbFiles" moveToDirectory="C:\eolic\archive" connector-ref="File" responseTimeout="10000" doc:name=".DB files receiver" metadata:id="64b79b7b-ae0a-450e-a5f2-db24a834bd51" />
         <file:file-to-string-transformer doc:name="File to String"/>
         <component doc:name="toExcel" class="transformer.dbConverter">
         </component>
     </flow>
-	
+    
+    <flow name="utilizarmysqlFlow">
+        <quartz:inbound-endpoint jobName="trigger" repeatInterval="30000" responseTimeout="10000" doc:name="Quartz">
+            <quartz:event-generator-job/>
+        </quartz:inbound-endpoint>
+        <db:insert config-ref="MySQL_Configuration" doc:name="Database">
+            <db:parameterized-query><![CDATA[insert into alertas () values (1, "holaaa");]]></db:parameterized-query>
+        </db:insert>
+    </flow>
        
 </mule>

@@ -2,22 +2,6 @@
 <classpath>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry exported="true" kind="con" path="MULE_RUNTIME/org.mule.tooling.server.3.9.0"/>
-	<classpathentry kind="lib" path="C:/Users/Kike Brazález/eclipse-workspace/HomeAutomationSimulator/lib/commons-cli-1.2.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Kike Brazález/eclipse-workspace/HomeAutomationSimulator/lib/dom4j-1.6.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Kike Brazález/eclipse-workspace/HomeAutomationSimulator/lib/dom4j-1.6.1-sources.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Kike Brazález/eclipse-workspace/HomeAutomationSimulator/lib/esper-4.11.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Kike Brazález/eclipse-workspace/HomeAutomationSimulator/lib/gson-2.2.4.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Kike Brazález/eclipse-workspace/HomeAutomationSimulator/lib/log4j.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Kike Brazález/eclipse-workspace/HomeAutomationSimulator/lib/opencsv-2.3.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Kike Brazález/eclipse-workspace/HomeAutomationSimulator/lib/poi-3.10-FINAL-20140208.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Kike Brazález/eclipse-workspace/HomeAutomationSimulator/lib/poi-examples-3.10-FINAL-20140208.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Kike Brazález/eclipse-workspace/HomeAutomationSimulator/lib/poi-excelant-3.10-FINAL-20140208.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Kike Brazález/eclipse-workspace/HomeAutomationSimulator/lib/poi-ooxml-3.10-FINAL-20140208.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Kike Brazález/eclipse-workspace/HomeAutomationSimulator/lib/poi-ooxml-schemas-3.10-FINAL-20140208.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Kike Brazález/eclipse-workspace/HomeAutomationSimulator/lib/poi-scratchpad-3.10-FINAL-20140208.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Kike Brazález/eclipse-workspace/HomeAutomationSimulator/lib/thingspeak-1.1.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Kike Brazález/eclipse-workspace/HomeAutomationSimulator/lib/unirest-java-1.3.4-SNAPSHOT-jar-with-dependencies.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Kike Brazález/eclipse-workspace/HomeAutomationSimulator/lib/xmlbeans-2.3.0.jar"/>
 	<classpathentry kind="src" path="src/main/app"/>
 	<classpathentry kind="src" path="src/main/java"/>
 	<classpathentry kind="src" path="src/main/resources"/>
@@ -26,5 +10,33 @@
 	<classpathentry kind="src" path="src/main/api"/>
 	<classpathentry kind="src" path="src/main/wsdl"/>
 	<classpathentry kind="src" path="src/test/munit"/>
+	<classpathentry kind="lib" path="C:/Users/Kike Brazález/git/EolicSimulatorCEP/lib/mysql-connector-java-5.1.45-bin.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Kike Brazález/git/EolicSimulatorCEP/lib/commons-cli-1.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Kike Brazález/git/EolicSimulatorCEP/lib/dom4j-1.6.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Kike Brazález/git/EolicSimulatorCEP/lib/dom4j-1.6.1-sources.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Kike Brazález/git/EolicSimulatorCEP/lib/esper-4.11.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Kike Brazález/git/EolicSimulatorCEP/lib/gson-2.2.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Kike Brazález/git/EolicSimulatorCEP/lib/hamcrest-core-1.3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Kike Brazález/git/EolicSimulatorCEP/lib/jcommon-1.0.23.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Kike Brazález/git/EolicSimulatorCEP/lib/jfreechart-1.0.19.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Kike Brazález/git/EolicSimulatorCEP/lib/jfreechart-1.0.19-experimental.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Kike Brazález/git/EolicSimulatorCEP/lib/jfreechart-1.0.19-swt.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Kike Brazález/git/EolicSimulatorCEP/lib/jfreesvg-2.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Kike Brazález/git/EolicSimulatorCEP/lib/junit-4.11.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Kike Brazález/git/EolicSimulatorCEP/lib/log4j.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Kike Brazález/git/EolicSimulatorCEP/lib/opencsv-2.3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Kike Brazález/git/EolicSimulatorCEP/lib/orsoncharts-1.4-eval-nofx.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Kike Brazález/git/EolicSimulatorCEP/lib/orsonpdf-1.6-eval.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Kike Brazález/git/EolicSimulatorCEP/lib/poi-3.10-FINAL-20140208.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Kike Brazález/git/EolicSimulatorCEP/lib/poi-examples-3.10-FINAL-20140208.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Kike Brazález/git/EolicSimulatorCEP/lib/poi-excelant-3.10-FINAL-20140208.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Kike Brazález/git/EolicSimulatorCEP/lib/poi-ooxml-3.10-FINAL-20140208.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Kike Brazález/git/EolicSimulatorCEP/lib/poi-ooxml-schemas-3.10-FINAL-20140208.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Kike Brazález/git/EolicSimulatorCEP/lib/poi-scratchpad-3.10-FINAL-20140208.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Kike Brazález/git/EolicSimulatorCEP/lib/servlet.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Kike Brazález/git/EolicSimulatorCEP/lib/swtgraphics2d.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Kike Brazález/git/EolicSimulatorCEP/lib/thingspeak-1.1.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Kike Brazález/git/EolicSimulatorCEP/lib/unirest-java-1.3.4-SNAPSHOT-jar-with-dependencies.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Kike Brazález/git/EolicSimulatorCEP/lib/xmlbeans-2.3.0.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

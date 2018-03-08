@@ -1,0 +1,15 @@
+@Name("Transicion")
+INSERT INTO Transicion
+SELECT a4.systemNumber as primero,
+(case 	when a4.systemNumber= a1.systemNumber then 0 
+    	when a4.systemNumber= a2.systemNumber then 1 
+    	else 2 end) as subida1,
+a5.systemNumber as segundo,
+(case 	when a5.systemNumber= a1.systemNumber then -1 
+    	when a5.systemNumber= a2.systemNumber then 0
+    	else 1 end) as subida2,
+a6.systemNumber as tercero,
+(case 	when a6.systemNumber= a1.systemNumber then -2
+    	when a6.systemNumber= a2.systemNumber then -1
+    	else 0 end) as subida3
+FROM CambioInicio
