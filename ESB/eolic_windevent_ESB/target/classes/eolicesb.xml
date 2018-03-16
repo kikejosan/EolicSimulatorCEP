@@ -58,7 +58,7 @@ http://www.mulesoft.org/schema/mule/ftp http://www.mulesoft.org/schema/mule/ftp/
             </processor-chain>
             <logger message="***SOY EL LOGGER Complex Event: #[payload.systemNumber]" level="INFO" doc:name="Logger"/>
             <db:insert config-ref="MySQL_Configuration" doc:name="Database">
-                <db:parameterized-query><![CDATA[insert into prueba (systemNumber,time,suma,productividad,events) values (#[payload["RankingProd"]["systemNumber"]],
+                <db:parameterized-query><![CDATA[insert into rankingprod(systemNumber,time,suma,productividad,events) values (#[payload["RankingProd"]["systemNumber"]],
 #[payload["RankingProd"]["time"]],
 #[payload["RankingProd"]["suma"]],
 #[payload["RankingProd"]["productividad"]],
@@ -89,15 +89,6 @@ http://www.mulesoft.org/schema/mule/ftp http://www.mulesoft.org/schema/mule/ftp/
         <file:file-to-string-transformer doc:name="File to String"/>
         <component doc:name="toExcel" class="transformer.dbConverter">
         </component>
-    </flow>
-    
-    <flow name="utilizarmysqlFlow">
-        <quartz:inbound-endpoint jobName="trigger" repeatInterval="30000" responseTimeout="10000" doc:name="Quartz">
-            <quartz:event-generator-job/>
-        </quartz:inbound-endpoint>
-        <db:insert config-ref="MySQL_Configuration" doc:name="Database">
-            <db:parameterized-query><![CDATA[insert into alertas () values (1, "holaaa");]]></db:parameterized-query>
-        </db:insert>
     </flow>
        
 </mule>
