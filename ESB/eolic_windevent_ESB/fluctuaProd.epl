@@ -1,4 +1,4 @@
 @Name("fluctuaProd")
 INSERT INTO fluctuaProd
-SELECT *
+SELECT aero1,subida1,aero2,subida2,aero3,subida3
 FROM PATTERN[every (a1 = Transicion(a1.subida1=-2 OR a1.subida2=-2 OR a1.subida3=-2))]

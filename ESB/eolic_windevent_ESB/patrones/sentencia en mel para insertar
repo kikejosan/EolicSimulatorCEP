@@ -1,0 +1,53 @@
+if(#[payload["EventPatternName"]]=="RankingProd"){
+	insert into rankingprod(systemNumber,time,suma,productividad,events) values (
+		#[payload["RankingProd"]["systemNumber"]],
+		#[payload["RankingProd"]["time"]],
+		#[payload["RankingProd"]["suma"]],
+		#[payload["RankingProd"]["productividad"]],
+		#[payload["RankingProd"]["events"]]
+	);
+}else{
+	if(#[payload["EventPatternName"]]=="CambioInicio"){
+		insert into cambioinicio(a1.systemNumber,a2.systemNumber,a3.systemNumber,a4.systemNumber,a5.systemNumber,a6.systemNumber) values (
+			#[payload["CambioInicio"]["a1.systemNumber"]],
+			#[payload["CambioInicio"]["a2.systemNumber"]],
+			#[payload["CambioInicio"]["a3.systemNumber"]],
+			#[payload["CambioInicio"]["a4.systemNumber"]],
+			#[payload["CambioInicio"]["a5.systemNumber"]],
+			#[payload["CambioInicio"]["a6.systemNumber"]]
+		);
+	}else{
+		if(#[payload["EventPatternName"]]=="CambioSegundo"){
+			insert into cambioinicio(a1.systemNumber,a2.systemNumber,a3.systemNumber,a4.systemNumber,a5.systemNumber,a6.systemNumber) values (
+				#[payload["CambioSegundo"]["a1.systemNumber"]],
+				#[payload["CambioSegundo"]["a2.systemNumber"]],
+				#[payload["CambioSegundo"]["a3.systemNumber"]],
+				#[payload["CambioSegundo"]["a4.systemNumber"]],
+				#[payload["CambioSegundo"]["a5.systemNumber"]],
+				#[payload["CambioSegundo"]["a6.systemNumber"]]
+			);
+		}else{
+			if(#[payload["EventPatternName"]]=="Transicion"){
+				insert into transicion(aero1,subida1,aero2,subida2,aero3,subida3) values (
+					#[payload["Transicion"]["aero1"]],
+					#[payload["Transicion"]["subida1"]],
+					#[payload["Transicion"]["aero2"]],
+					#[payload["Transicion"]["subida2"]],
+					#[payload["Transicion"]["aero3"]],
+					#[payload["Transicion"]["subida3"]]
+				);
+			}else{
+				if(#[payload["EventPatternName"]]=="FluctuaProd"){
+					insert into fluctuaprod(aero1,subida1,aero2,subida2,aero3,subida3) values (
+						#[payload["Transicion"]["aero1"]],
+						#[payload["Transicion"]["subida1"]],
+						#[payload["Transicion"]["aero2"]],
+						#[payload["Transicion"]["subida2"]],
+						#[payload["Transicion"]["aero3"]],
+						#[payload["Transicion"]["subida3"]]
+					);
+				}
+			}
+		}
+	}
+}

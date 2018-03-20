@@ -37,7 +37,7 @@ http://www.mulesoft.org/schema/mule/ftp http://www.mulesoft.org/schema/mule/ftp/
    	
    	
    	<flow name="eolic_windeventFlow">
-        <file:inbound-endpoint path="${file.input}" moveToDirectory="${file.archive}" connector-ref="File" responseTimeout="10000" doc:name="Poll Product Catalog" metadata:id="13b73b5c-6466-4b22-8729-273d9a4cd6b3"/>
+        <file:inbound-endpoint path="${file.input}" moveToDirectory="${file.resources}" connector-ref="File" responseTimeout="10000" doc:name="Pulling CSV" metadata:id="13b73b5c-6466-4b22-8729-273d9a4cd6b3"/>
 			<object-to-string-transformer doc:name="Object to String"/>
 			<splitter expression="#[StringUtils.split(message.payload, '\n\r')]" doc:name="Splitter" />
          	<custom-transformer class="transformer.JsonToWindEventTransformer" doc:name="JsonToWindEventTransformer"/>
@@ -52,25 +52,86 @@ http://www.mulesoft.org/schema/mule/ftp http://www.mulesoft.org/schema/mule/ftp/
     <flow name="ReceptionAndDecisionMaking">
        	<vm:inbound-endpoint exchange-pattern="one-way"  doc:name="ComplexEvent Consumer" ref="ComplexEventConsumerGlobalVM"/>
         <scatter-gather doc:name="Scatter-Gather">
-            <processor-chain>
+             <!--  <processor-chain>
                 <set-payload value="Detected Alert '#[message.inboundProperties['eventPatternName']]': #[payload]" doc:name="Set Alert Payload"/>
                 <smtps:outbound-endpoint host="smtp.gmail.com" port="465" user="${email.username}" password="${email.password}" to="${emailto}" from="${emailfrom}" subject="ALERTA DE TU MOTOR CEP" responseTimeout="10000" doc:name="Send Alert by Email"/>
-            </processor-chain>
-            <logger message="***SOY EL LOGGER Complex Event: #[payload.systemNumber]" level="INFO" doc:name="Logger"/>
-            <db:insert config-ref="MySQL_Configuration" doc:name="Database">
-                <db:parameterized-query><![CDATA[insert into rankingprod(systemNumber,time,suma,productividad,events) values (#[payload["RankingProd"]["systemNumber"]],
-#[payload["RankingProd"]["time"]],
-#[payload["RankingProd"]["suma"]],
-#[payload["RankingProd"]["productividad"]],
-#[payload["RankingProd"]["events"]]);]]></db:parameterized-query>
-            </db:insert>
+            </processor-chain> --> 
+            <logger message="***SOY EL LOGGER Complex Event: #[message.inboundProperties['eventPatternName']]" level="INFO" doc:name="Logger"/>
+            <component doc:name="Watcher">
+               <singleton-object class="esper.Watcher"/>
+            </component>
+            <choice doc:name="Choice">
+                <when expression="#[message.inboundProperties['eventPatternName'] ==&quot;RankingProd&quot;]">
+                    <db:insert config-ref="MySQL_Configuration" doc:name="RankingProd">
+                        <db:parameterized-query><![CDATA[insert into rankingprod(systemNumber,time,suma,productividad,events,tipo) values (
+		#[payload["RankingProd"]["systemNumber"]],
+		#[payload["RankingProd"]["time"]],
+		#[payload["RankingProd"]["suma"]],
+		#[payload["RankingProd"]["productividad"]],
+		#[payload["RankingProd"]["events"]],
+		"RankingProd"
+	);]]></db:parameterized-query>
+                    </db:insert>
+                </when>
+                 <when expression="#[message.inboundProperties['eventPatternName'] ==&quot;CambioInicio&quot;]">
+                    <db:insert config-ref="MySQL_Configuration" doc:name="CambioInicio">
+                        <db:parameterized-query><![CDATA[insert into cambioinicio values (
+		#[payload["CambioInicio"]["a1.systemNumber"]],
+		#[payload["CambioInicio"]["a2.systemNumber"]],
+		#[payload["CambioInicio"]["a3.systemNumber"]],
+		#[payload["CambioInicio"]["a4.systemNumber"]],
+		#[payload["CambioInicio"]["a5.systemNumber"]],
+		#[payload["CambioInicio"]["a6.systemNumber"]]
+	);]]></db:parameterized-query>
+                    </db:insert>
+                </when>
+                <when expression="#[message.inboundProperties['eventPatternName'] ==&quot;CambioSegundo&quot;]">
+                    <db:insert config-ref="MySQL_Configuration" doc:name="CambioSegundo">
+                        <db:parameterized-query><![CDATA[insert into cambiosegundo values (
+		#[payload["CambioSegundo"]["a1.systemNumber"]],
+		#[payload["CambioSegundo"]["a2.systemNumber"]],
+		#[payload["CambioSegundo"]["a3.systemNumber"]],
+		#[payload["CambioSegundo"]["a4.systemNumber"]],
+		#[payload["CambioSegundo"]["a5.systemNumber"]],
+		#[payload["CambioSegundo"]["a6.systemNumber"]]
+	);]]></db:parameterized-query>
+                    </db:insert>
+                </when>
+                <when expression="#[message.inboundProperties['eventPatternName'] ==&quot;Transicion&quot;]">
+                    <db:insert config-ref="MySQL_Configuration" doc:name="Transicion">
+                        <db:parameterized-query><![CDATA[insert into transicion values (
+		#[payload["Transicion"]["aero1"]],
+		#[payload["Transicion"]["subida1"]],
+		#[payload["Transicion"]["aero2"]],
+		#[payload["Transicion"]["subida2"]],
+		#[payload["Transicion"]["aero3"]],
+		#[payload["Transicion"]["subida3"]]
+	);]]></db:parameterized-query>
+                    </db:insert>
+                </when>
+                <when expression="#[message.inboundProperties['eventPatternName'] ==&quot;FluctuaProd&quot;]">
+                    <db:insert config-ref="MySQL_Configuration" doc:name="FluctuaProd">
+                        <db:parameterized-query><![CDATA[insert into fluctuaprod values (
+		#[payload["FluctuaProd"]["aero1"]],
+		#[payload["FluctuaProd"]["subida1"]],
+		#[payload["FluctuaProd"]["aero2"]],
+		#[payload["FluctuaProd"]["subida2"]],
+		#[payload["FluctuaProd"]["aero3"]],
+		#[payload["FluctuaProd"]["subida3"]]
+	);]]></db:parameterized-query>
+                    </db:insert>
+                </when>
+                <otherwise>
+                    <logger message="ERROR ---&gt;  #[payload]" level="ERROR" doc:name="Logger"/>
+                </otherwise>
+            </choice>
         </scatter-gather>
     </flow>
     
     
     
     <flow name="EventPatternAdditionToEsper">
-        <file:inbound-endpoint path="new-eventpattern" responseTimeout="10000" doc:name="New EPL EventPattern" moveToDirectory="deployed-eventpattern">
+        <file:inbound-endpoint path="${file.new}" responseTimeout="10000" doc:name="New EPL EventPattern" moveToDirectory="${file.resources}">
         </file:inbound-endpoint>
         
         <file:file-to-string-transformer doc:name="File to String"/>
