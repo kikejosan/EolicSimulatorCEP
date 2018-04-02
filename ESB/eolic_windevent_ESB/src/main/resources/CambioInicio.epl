@@ -8,7 +8,7 @@ SELECT a1.systemNumber,
 		a6.systemNumber
 FROM PATTERN [ every  (a1 = RankingProd()->
 	a2 = RankingProd() ->
-	a3 = RankingProd() ->timer:interval(10 sec) ->
+	a3 = RankingProd() ->timer:interval(5 sec) ->
 	a4 = RankingProd() ->
 	a5 = RankingProd() ->
 	a6 = RankingProd())
