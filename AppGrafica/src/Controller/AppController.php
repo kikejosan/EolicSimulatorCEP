@@ -16,6 +16,7 @@ namespace App\Controller;
 
 use Cake\Controller\Controller;
 use Cake\Event\Event;
+use Cake\Core\Configure;
 
 /**
  * Application Controller
@@ -51,4 +52,11 @@ class AppController extends Controller
         //$this->loadComponent('Security');
         //$this->loadComponent('Csrf');
     }
+    public function beforeRender(Event $event){
+        $this->viewBuilder()->theme('AdminLTE');
+        $this->set('theme',Configure::read('Theme'));
+        
+        
+    }
+    
 }
