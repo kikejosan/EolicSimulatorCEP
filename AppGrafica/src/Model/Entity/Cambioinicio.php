@@ -7,12 +7,12 @@ use Cake\ORM\Entity;
  * Cambioinicio Entity
  *
  * @property int $id
- * @property int $a1.systemNumber
- * @property int $a2.systemNumber
- * @property int $a3.systemNumber
- * @property int $a4.systemNumber
- * @property int $a5.systemNumber
- * @property int $a6.systemNumber
+ * @property int $aero1
+ * @property int $aero2
+ * @property int $aero3
+ * @property int $aero4
+ * @property int $aero5
+ * @property int $aero6
  */
 class Cambioinicio extends Entity
 {
@@ -27,11 +27,11 @@ class Cambioinicio extends Entity
      * @var array
      */
     protected $_accessible = [
-        'a1.systemNumber' => true,
-        'a2.systemNumber' => true,
-        'a3.systemNumber' => true,
-        'a4.systemNumber' => true,
-        'a5.systemNumber' => true,
-        'a6.systemNumber' => true
+        'aero1' => true,
+        'aero2' => true,
+        'aero3' => true,
+        'aero4' => true,
+        'aero5' => true,
+        'aero6' => true
     ];
 }

@@ -22,6 +22,11 @@ class AerosFixture extends TestFixture
         'fila' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
         'columna' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
         'idIngeboards' => ['type' => 'string', 'length' => 11, 'null' => false, 'default' => null, 'collate' => 'utf8_spanish_ci', 'comment' => '', 'precision' => null, 'fixed' => null],
+        'id_parque' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
+        '_indexes' => [
+            'id_parque' => ['type' => 'index', 'columns' => ['id_parque'], 'length' => []],
+            'id_parque_2' => ['type' => 'index', 'columns' => ['id_parque'], 'length' => []],
+        ],
         '_constraints' => [
             'primary' => ['type' => 'primary', 'columns' => ['id'], 'length' => []],
         ],
@@ -43,7 +48,8 @@ class AerosFixture extends TestFixture
             'SystemNumber' => 1,
             'fila' => 1,
             'columna' => 1,
-            'idIngeboards' => 'Lorem ips'
+            'idIngeboards' => 'Lorem ips',
+            'id_parque' => 1
         ],
     ];
 }

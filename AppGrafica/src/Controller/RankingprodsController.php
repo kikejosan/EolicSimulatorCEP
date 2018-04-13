@@ -2,6 +2,8 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\ORM\TableRegistry;
+
 
 /**
  * Rankingprods Controller
@@ -103,5 +105,62 @@ class RankingprodsController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
+    }
+    
+    public function introduccion(){
+        $this->loadModel('Parques');
+        $parques = $this->Parques->find('all');
+        $this -> set('parques',$parques);
+    }
+    public function muestroRankingParque(){
+//        $rankingprod = $this->Rankingprods->get($id, [
+//            'contain' => []
+//        ]);
+//
+//        $this->set('rankingprod', $rankingprod);
+        /*
+            Información que hace falta:
+         * - Sacar la lista de todos los aeros
+         * - Sacar la información del primer aerogenerador
+         * - Sacar los rankings de los últimos 5 días
+         * - Inhabilitar los días de los calendarios que no se puede sacar el ranking
+         *          */
+        //$this -> set(compact("aeros"));
+        
+       $this->loadModel('Aeros');
+       $aeros = $this->Aeros->find('all');
+       $this -> set('aeros',$aeros);
+       
+       $this->loadModel('Parques');
+       $parques = $this->Parques->find('all');
+       $this -> set('parques',$parques);
+       
+       
+    }
+    
+    public function pruebahigh($fd){
+//        $rankingprod = $this->Rankingprods->get($id, [
+//            'contain' => []
+//        ]);
+//
+//        $this->set('rankingprod', $rankingprod);
+        /*
+            Información que hace falta:
+         * - Sacar la lista de todos los aeros
+         * - Sacar la información del primer aerogenerador
+         * - Sacar los rankings de los últimos 5 días
+         * - Inhabilitar los días de los calendarios que no se puede sacar el ranking
+         *          */
+        //$this -> set(compact("aeros"));
+        
+       $this->loadModel('Aeros');
+       $aeros = $this->Aeros->find('all');
+       $this -> set('aeros',$aeros);
+       
+       $this->loadModel('Parques');
+       $parques = $this->Parques->find('all');
+       $this -> set('parques',$parques);
+       
+       
     }
 }

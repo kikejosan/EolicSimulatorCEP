@@ -17,12 +17,12 @@
             <thead>
                 <tr>
                     <th scope="col"><?= $this->Paginator->sort('id') ?></th>
-                    <th scope="col"><?= $this->Paginator->sort('a1.systemNumber') ?></th>
-                    <th scope="col"><?= $this->Paginator->sort('a2.systemNumber') ?></th>
-                    <th scope="col"><?= $this->Paginator->sort('a3.systemNumber') ?></th>
-                    <th scope="col"><?= $this->Paginator->sort('a4.systemNumber') ?></th>
-                    <th scope="col"><?= $this->Paginator->sort('a5.systemNumber') ?></th>
-                    <th scope="col"><?= $this->Paginator->sort('a6.systemNumber') ?></th>
+                    <th scope="col"><?= $this->Paginator->sort('aero1') ?></th>
+                    <th scope="col"><?= $this->Paginator->sort('aero2') ?></th>
+                    <th scope="col"><?= $this->Paginator->sort('aero3') ?></th>
+                    <th scope="col"><?= $this->Paginator->sort('aero4') ?></th>
+                    <th scope="col"><?= $this->Paginator->sort('aero5') ?></th>
+                    <th scope="col"><?= $this->Paginator->sort('aero6') ?></th>
                     <th scope="col" class="actions"><?= __('Actions') ?></th>
                 </tr>
             </thead>
@@ -30,12 +30,12 @@
                 <?php foreach ($cambioinicios as $cambioinicio): ?>
                 <tr>
                     <td><?= $this->Number->format($cambioinicio->id) ?></td>
-                    <td><?= $this->Number->format($cambioinicio->a1.systemNumber) ?></td>
-                    <td><?= $this->Number->format($cambioinicio->a2.systemNumber) ?></td>
-                    <td><?= $this->Number->format($cambioinicio->a3.systemNumber) ?></td>
-                    <td><?= $this->Number->format($cambioinicio->a4.systemNumber) ?></td>
-                    <td><?= $this->Number->format($cambioinicio->a5.systemNumber) ?></td>
-                    <td><?= $this->Number->format($cambioinicio->a6.systemNumber) ?></td>
+                    <td><?= $this->Number->format($cambioinicio->aero1) ?></td>
+                    <td><?= $this->Number->format($cambioinicio->aero2) ?></td>
+                    <td><?= $this->Number->format($cambioinicio->aero3) ?></td>
+                    <td><?= $this->Number->format($cambioinicio->aero4) ?></td>
+                    <td><?= $this->Number->format($cambioinicio->aero5) ?></td>
+                    <td><?= $this->Number->format($cambioinicio->aero6) ?></td>
                     <td class="actions">
                         <?= $this->Html->link(__('View'), ['action' => 'view', $cambioinicio->id], array('class'=>'btn btn-sm btn-default')) ?>
                         <?= $this->Html->link(__('Edit'), ['action' => 'edit', $cambioinicio->id], array('class'=>'btn btn-sm btn-default')) ?>

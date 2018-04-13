@@ -7,4 +7,4 @@ MAX(time) as time,
 SUM(power)/count(systemNumber) as productividad
 FROM  WindEvent.win:time_batch(5 sec) t
 GROUP BY systemNumber
-ORDER BY productividad ASC
+ORDER BY productividad DESC

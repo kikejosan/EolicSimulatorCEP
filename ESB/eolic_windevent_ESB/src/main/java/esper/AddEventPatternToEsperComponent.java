@@ -18,10 +18,7 @@ import com.espertech.esper.client.StatementAwareUpdateListener;
 import com.espertech.esper.client.EPServiceProvider;
 
 
-/**
- * @author Juan Boubeta-Puig <juan.boubeta@uca.es>
- *
- */
+
 public class AddEventPatternToEsperComponent implements Callable { 
 	
 	@Override
@@ -35,14 +32,8 @@ public class AddEventPatternToEsperComponent implements Callable {
 			@Override
 			public void update(EventBean[] newComplexEvents, EventBean[] oldComplexEvents, 
 					EPStatement detectedEventPattern, EPServiceProvider serviceProvider) {
-				System.out.println();
-				System.out.println();
-				System.out.println();
-				System.out.println();
-				System.out.println();
-				System.out.println();
-				System.out.println();
-				System.out.println();
+				System.out.println("/n/n/n/n/n/n/n/n/n/n");
+				
 				System.out.println("	ATENCION!: HE DETECTADO UN EVENTO COMPLEJO ESTOY MANDANDO UN AVISO A TU CORREO");
 				if (newComplexEvents != null) {	
 					

@@ -28,7 +28,7 @@ public class SendEventToEsperComponent {
 		
 		
 		System.out.println("					===eventPayloadTypeMap: " + eventPayloadTypeMap);
-		/* VALE YA HE CREADO EL EVENdTO PARA MANDARLO AL MOTOR*/
+		/* VALE YA HE CREADO EL EVENTO PARA MANDARLO AL MOTOR*/
 		System.out.println("	@@System: MANDANDO EL TIPO DE EVENTO AL MOTOR ESPER");
 		if (!EsperUtils.eventTypeExists(eventTypeName)) {
 			EsperUtils.addNewEventType(eventTypeName, eventPayloadTypeMap);

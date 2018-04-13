@@ -48,34 +48,33 @@ class CambioiniciosTable extends Table
             ->allowEmpty('id', 'create');
 
         $validator
-            ->integer('a1.systemNumber')
-            ->requirePresence('a1.systemNumber', 'create')
-            ->notEmpty('a1.systemNumber');
+            ->integer('aero1')
+            ->requirePresence('aero1', 'create')
+            ->notEmpty('aero1');
 
         $validator
-            ->integer('a2.systemNumber')
-            ->requirePresence('a2.systemNumber', 'create')
-            ->notEmpty('a2.systemNumber');
+            ->integer('aero2')
+            ->requirePresence('aero2', 'create')
+            ->notEmpty('aero2');
 
         $validator
-            ->integer('a3.systemNumber')
-            ->requirePresence('a3.systemNumber', 'create')
-            ->notEmpty('a3.systemNumber');
+            ->integer('aero3')
+            ->requirePresence('aero3', 'create')
+            ->notEmpty('aero3');
 
         $validator
-            ->integer('a4.systemNumber')
-            ->requirePresence('a4.systemNumber', 'create')
-            ->notEmpty('a4.systemNumber');
+            ->integer('aero4')
+            ->requirePresence('aero4', 'create')
+            ->notEmpty('aero4');
 
         $validator
-            ->integer('a5.systemNumber')
-            ->requirePresence('a5.systemNumber', 'create')
-            ->notEmpty('a5.systemNumber');
+            ->integer('aero5')
+            ->requirePresence('aero5', 'create')
+            ->notEmpty('aero5');
 
         $validator
-            ->integer('a6.systemNumber')
-            ->requirePresence('a6.systemNumber', 'create')
-            ->notEmpty('a6.systemNumber');
+            ->integer('aero6')
+            ->allowEmpty('aero6');
 
         return $validator;
     }

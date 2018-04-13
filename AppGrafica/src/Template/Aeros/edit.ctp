@@ -25,6 +25,7 @@
             echo $this->Form->control('fila');
             echo $this->Form->control('columna');
             echo $this->Form->control('idIngeboards');
+            echo $this->Form->control('id_parque');
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>

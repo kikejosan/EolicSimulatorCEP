@@ -11,6 +11,7 @@ use Cake\ORM\Entity;
  * @property int $fila
  * @property int $columna
  * @property string $idIngeboards
+ * @property int $id_parque
  */
 class Aero extends Entity
 {
@@ -28,6 +29,7 @@ class Aero extends Entity
         'SystemNumber' => true,
         'fila' => true,
         'columna' => true,
-        'idIngeboards' => true
+        'idIngeboards' => true,
+        'id_parque' => true
     ];
 }

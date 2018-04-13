@@ -1,0 +1,18 @@
+/*   VERSION FINALIZADA  ATENCION INICIALIZAR EL TIME STAMP A "2001-01-01 01:00:00.000" */
+
+/*Se que sería añadir algo en la claúsula SELECT para poder ponerle una columna mas, sin embargo no se ni he encontrado 
+que es lo que le hace falta*/
+
+create schema WindEvent(systemNumber int, time Date, windSpeed double, power double);
+
+
+@Name("RankingProd")
+INSERT INTO RankingProd
+SELECT SUM(power) as suma, 
+count(systemNumber) as events,
+systemNumber,
+MAX(time) as time,
+SUM(power)/count(systemNumber) as productividad
+FROM  WindEvent.win:time_batch(2 hours) t
+GROUP BY systemNumber
+ORDER BY productividad DESC;

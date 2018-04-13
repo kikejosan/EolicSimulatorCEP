@@ -68,6 +68,11 @@ class AerosTable extends Table
             ->requirePresence('idIngeboards', 'create')
             ->notEmpty('idIngeboards');
 
+        $validator
+            ->integer('id_parque')
+            ->requirePresence('id_parque', 'create')
+            ->notEmpty('id_parque');
+
         return $validator;
     }
 }

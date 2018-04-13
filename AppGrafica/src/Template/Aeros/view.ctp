@@ -36,5 +36,9 @@
             <th scope="row"><?= __('Columna') ?></th>
             <td><?= $this->Number->format($aero->columna) ?></td>
         </tr>
+        <tr>
+            <th scope="row"><?= __('Id Parque') ?></th>
+            <td><?= $this->Number->format($aero->id_parque) ?></td>
+        </tr>
     </table>
 </div>

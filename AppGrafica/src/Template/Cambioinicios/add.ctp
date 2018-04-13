@@ -15,12 +15,12 @@
     <fieldset>
         <legend><?= __('Add Cambioinicio') ?></legend>
         <?php
-            echo $this->Form->control('a1.systemNumber');
-            echo $this->Form->control('a2.systemNumber');
-            echo $this->Form->control('a3.systemNumber');
-            echo $this->Form->control('a4.systemNumber');
-            echo $this->Form->control('a5.systemNumber');
-            echo $this->Form->control('a6.systemNumber');
+            echo $this->Form->control('aero1');
+            echo $this->Form->control('aero2');
+            echo $this->Form->control('aero3');
+            echo $this->Form->control('aero4');
+            echo $this->Form->control('aero5');
+            echo $this->Form->control('aero6');
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>

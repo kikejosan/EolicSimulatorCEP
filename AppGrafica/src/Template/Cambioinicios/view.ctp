@@ -21,28 +21,28 @@
             <td><?= $this->Number->format($cambioinicio->id) ?></td>
         </tr>
         <tr>
-            <th scope="row"><?= __('A1.systemNumber') ?></th>
-            <td><?= $this->Number->format($cambioinicio->a1.systemNumber) ?></td>
+            <th scope="row"><?= __('Aero1') ?></th>
+            <td><?= $this->Number->format($cambioinicio->aero1) ?></td>
         </tr>
         <tr>
-            <th scope="row"><?= __('A2.systemNumber') ?></th>
-            <td><?= $this->Number->format($cambioinicio->a2.systemNumber) ?></td>
+            <th scope="row"><?= __('Aero2') ?></th>
+            <td><?= $this->Number->format($cambioinicio->aero2) ?></td>
         </tr>
         <tr>
-            <th scope="row"><?= __('A3.systemNumber') ?></th>
-            <td><?= $this->Number->format($cambioinicio->a3.systemNumber) ?></td>
+            <th scope="row"><?= __('Aero3') ?></th>
+            <td><?= $this->Number->format($cambioinicio->aero3) ?></td>
         </tr>
         <tr>
-            <th scope="row"><?= __('A4.systemNumber') ?></th>
-            <td><?= $this->Number->format($cambioinicio->a4.systemNumber) ?></td>
+            <th scope="row"><?= __('Aero4') ?></th>
+            <td><?= $this->Number->format($cambioinicio->aero4) ?></td>
         </tr>
         <tr>
-            <th scope="row"><?= __('A5.systemNumber') ?></th>
-            <td><?= $this->Number->format($cambioinicio->a5.systemNumber) ?></td>
+            <th scope="row"><?= __('Aero5') ?></th>
+            <td><?= $this->Number->format($cambioinicio->aero5) ?></td>
         </tr>
         <tr>
-            <th scope="row"><?= __('A6.systemNumber') ?></th>
-            <td><?= $this->Number->format($cambioinicio->a6.systemNumber) ?></td>
+            <th scope="row"><?= __('Aero6') ?></th>
+            <td><?= $this->Number->format($cambioinicio->aero6) ?></td>
         </tr>
     </table>
 </div>
