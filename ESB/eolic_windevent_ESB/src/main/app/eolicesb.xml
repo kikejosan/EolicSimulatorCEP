@@ -63,13 +63,14 @@ http://www.mulesoft.org/schema/mule/ftp http://www.mulesoft.org/schema/mule/ftp/
             <choice doc:name="Choice">
                 <when expression="#[message.inboundProperties['eventPatternName'] ==&quot;RankingProd&quot;]">
                     <db:insert config-ref="MySQL_Configuration" doc:name="RankingProd">
-                        <db:parameterized-query><![CDATA[insert into rankingprods(systemNumber,time,suma,productividad,events,tipo) values (
+                        <db:parameterized-query><![CDATA[insert into rankingprods(systemNumber,time,suma,productividad,events,tipo,fecha) values (
 		#[payload["RankingProd"]["systemNumber"]],
 		#[payload["RankingProd"]["time"]],
 		#[payload["RankingProd"]["suma"]],
 		#[payload["RankingProd"]["productividad"]],
 		#[payload["RankingProd"]["events"]],
-		"RankingProd"
+		"RankingProd",
+		#[payload["RankingProd"]["fecha"]]
 	);]]></db:parameterized-query>
                     </db:insert>
                 </when>

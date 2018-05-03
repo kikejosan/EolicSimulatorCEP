@@ -8,12 +8,11 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property int $systemNumber
- * @property \Cake\I18n\FrozenTime $time
+ * @property \Cake\I18n\FrozenDate $time
  * @property float $suma
  * @property float $productividad
  * @property int $events
  * @property string $tipo
- * @property string $fecha
  */
 class Rankingprod extends Entity
 {
@@ -33,7 +32,6 @@ class Rankingprod extends Entity
         'suma' => true,
         'productividad' => true,
         'events' => true,
-        'tipo' => true,
-        'fecha' => true
+        'tipo' => true
     ];
 }

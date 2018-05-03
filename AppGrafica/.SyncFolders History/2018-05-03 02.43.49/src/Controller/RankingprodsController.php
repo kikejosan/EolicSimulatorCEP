@@ -3,7 +3,7 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 use Cake\ORM\TableRegistry;
-use \Cake\Routing\Router;
+
 
 /**
  * Rankingprods Controller
@@ -23,6 +23,7 @@ class RankingprodsController extends AppController
     public function index()
     {
         $rankingprods = $this->paginate($this->Rankingprods);
+
         $this->set(compact('rankingprods'));
     }
 
@@ -84,7 +85,6 @@ class RankingprodsController extends AppController
             $this->Flash->error(__('The rankingprod could not be saved. Please, try again.'));
         }
         $this->set(compact('rankingprod'));
-        
     }
 
     /**
@@ -112,41 +112,7 @@ class RankingprodsController extends AppController
         $parques = $this->Parques->find('all');
         $this -> set('parques',$parques);
     }
-    public function muestrorankingparque(){
-//        $rankingprod = $this->Rankingprods->get($id, [
-//            'contain' => []
-//        ]);
-//
-//        $this->set('rankingprod', $rankingprod);
-        /*
-            Información que hace falta:
-         * - Sacar la lista de todos los aeros
-         * - Sacar la información del primer aerogenerador
-         * - Sacar los rankings de los últimos 5 días
-         * - Inhabilitar los días de los calendarios que no se puede sacar el ranking
-         *          */
-        //$this -> set(compact("aeros"));
-        /*$formulario = $this->request->getData();
-        $this->set('formulario',$formulario);*/
-        $dateTaken = $this->request->getData();
-        
-//        $dateTaken = explode('/', $dateTaken);
-//        $dateTaken=$dateTaken[2]."-".$dateTaken[0]."-".$dateTaken[1];
-//        $dateTaken = $this->Rankingprods->find('all')->where(['Rankingprods.fecha =' =>$dateTaken]);
-        
-        
-        
-        $fecha = explode('/', $dateTaken["fecha"]);
-        $fechaFormateado=$fecha[2]."-".$fecha[0]."-".$fecha[1];
-        $rankingPrimero = $this->Rankingprods->find('all')->where(['Rankingprods.fecha =' =>$fechaFormateado]);
-        $this -> set('rankingAux',$rankingPrimero);
-        $this -> set('fechaAux',$fechaFormateado);
-
-       
-       
-    }
-    
-    public function getProductividad(){
+    public function muestroRankingParque(){
 //        $rankingprod = $this->Rankingprods->get($id, [
 //            'contain' => []
 //        ]);
@@ -161,53 +127,40 @@ class RankingprodsController extends AppController
          *          */
         //$this -> set(compact("aeros"));
         
-        
-        $formulario = $this->request->getData();
-        $this->set('formulario',$formulario);
-        
-        $this->loadModel('Aeros');
-        $this->loadModel('Parques');
-
-        $aeros = $this->Aeros->find('all');
-        
-        $this -> set('aeros',$aeros);
-
-        //$idParque = $this->find('all',array('conditions' =>array('Parques.Nombre'==$formulario['parque1']),'fields' => 'User.id'));
-        
-        //$idParque = $this -> Parques ->find('all',array('conditions' =>array('Parques.Nombre ==' =>$formulario["parque1"])));
-        
-        $this->loadModel('Parques');
-        $parques = $this->Parques->find('all');
-        $this -> set('parques',$parques);
-        //$cadenaFecha = split(",",$formulario["datepickerI"]);
-        
-       /*orden para sacar los ranking de ese dia*/
-        $fecha = explode('/', $formulario["datepickerI"]);
-        $fechaFormateado=$fecha[2]."-".$fecha[0]."-".$fecha[1];
-        /*$rankingPrimero = $this->Rankingprods->find('all')->where(['Rankingprods.fecha =' =>$fechaFormateado]);
-        $this -> set('rankingPrimero',$rankingPrimero);*/
-        
-        $rankings = $this->Rankingprods->find('all')->where(['Rankingprods.fecha =' =>$fechaFormateado]);
-        $this -> set('rankings',$rankings);
-        $this -> set('fechaFormateado',$fechaFormateado);
-        
-        
-        $rankings2 = $this->Rankingprods->find('all')->where(['Rankingprods.fecha =' =>$fechaFormateado]);
-        $rankingPrimero = $rankings2->first();
-        $this->set("rankingPrimero",$rankingPrimero["systemNumber"]);
-        $miAero = $this->Aeros->find('all')->where(['Aeros.SystemNumber =' => $rankingPrimero["systemNumber"]]);
-        
-        $this -> set('miAero',$miAero->first());
-
-        //$rankingSegundo = $this->Rankingprods->query("SELECT Rankingprods.id AS `Rankingprods__id`, Rankingprods.systemNumber AS `Rankingprods__systemNumber`, Rankingprods.time AS `Rankingprods__time`, Rankingprods.suma AS `Rankingprods__suma`, Rankingprods.productividad AS `Rankingprods__productividad`, Rankingprods.events AS `Rankingprods__events`, Rankingprods.tipo AS `Rankingprods__tipo` FROM rankingprods Rankingprods WHERE Rankingprods.id =4");
-        //$this -> set('rankingSegundo',$rankingSegundo);
-
+       $this->loadModel('Aeros');
+       $aeros = $this->Aeros->find('all');
+       $this -> set('aeros',$aeros);
+       
+       $this->loadModel('Parques');
+       $parques = $this->Parques->find('all');
+       $this -> set('parques',$parques);
+       
+       
     }
     
-    public function getRankings(){
-        /*$dateTaken = $this->request->getData();    */ 
+    public function pruebahigh($fd){
+//        $rankingprod = $this->Rankingprods->get($id, [
+//            'contain' => []
+//        ]);
+//
+//        $this->set('rankingprod', $rankingprod);
+        /*
+            Información que hace falta:
+         * - Sacar la lista de todos los aeros
+         * - Sacar la información del primer aerogenerador
+         * - Sacar los rankings de los últimos 5 días
+         * - Inhabilitar los días de los calendarios que no se puede sacar el ranking
+         *          */
+        //$this -> set(compact("aeros"));
         
-        
+       $this->loadModel('Aeros');
+       $aeros = $this->Aeros->find('all');
+       $this -> set('aeros',$aeros);
+       
+       $this->loadModel('Parques');
+       $parques = $this->Parques->find('all');
+       $this -> set('parques',$parques);
+       
+       
     }
-
 }

@@ -2,7 +2,7 @@
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
 <section class="content-header">
-      <h1 id="titulo">
+      <h1>
         Búsqueda de rankings de productividad
       </h1>
       <ol class="breadcrumb">
@@ -27,53 +27,35 @@
 
             </div>
             <div class="col-md-4"  style="background-color: #08f7db">
-                <form class="form-group" method="post" action="../rankingprods/getProductividad">
-                    <h3>Parque</h3>
-                    <select id="parque1" class="form-control" name="parque1">
+                <div class="form-group">
+                      <h3>Parque</h3>
+                      <select class="form-control">
                         <?php foreach($parques as $parque): ?>
                             <option><?php echo $parque['Nombre']; ?></option>
                         <?php endforeach; ?>
-                    </select>
-                    <br>
-                    <h3>Día del año: </h3>
+                      </select>
+                      <br>
+                      <h3>Día del año: </h3>
                         <div class="input-group date">
                             <div class="input-group-addon">
                                 <i class="fa fa-calendar"></i>
                             </div>
-                            <input required="true" type="text" class="form-control pull-right" id="datepickerI" name="datepickerI">
+                            <input type="text" class="form-control pull-right" id="datepickerI">
                         </div>
-                    <br>
-                    <input type="submit" id="btnIntro" class="btn btn-block btn-primary" value="Seguimiento"/>    
-                </form>
-                <button id="btnIntro2" class="btn btn-block btn-primary"> Pruebas </button>
-                <div id="pruebasContenedor"> </div>
+                </div>
+                <button type="button" class="btn btn-block btn-primary" acti>Seguimiento</button>
                 <br>
 
             </div>
             <div class="col-md-4" id="tablasRank" style="background-color: #FFC600">
+
+
+
             </div>
 
         </div>
     </div>
 </section>
-    <script>
-        $("#btnIntro2").on('click',function(){
-            var parque=$("#parque1").val();
-            var dia=$("#datepickerI").val();
-            console.log(dia);
-            console.log(parque);
-            //$("#titulo").append(dia);
-            $.post('http://localhost/EolicEventConsumer/rankingprods/muestrorankingparque',
-            {parque1: parque, dia1: dia}, 
-            function(data) {
-                variable = data;
-                $("#pruebasContenedor").html(data)
-            });
-
-
-        });
-
-    </script>    
 <?php
 $this->Html->css([
     'AdminLTE./plugins/daterangepicker/daterangepicker',
@@ -136,10 +118,22 @@ $this->Html->script([
     );
 
     //Date picker
-    $('#datepickerI').datepicker({
+    $('#datepicker').datepicker({
       autoclose: true
     });
-    
+    $('#datepicker1').datepicker({
+      autoclose: true
+    });
+    $('#datepicker2').datepicker({
+      autoclose: true
+    });
+    $('#datepicker3').datepicker({
+      autoclose: true
+    });
+    $('#datepicker4').datepicker({
+      autoclose: true
+    });
+
     //iCheck for checkbox and radio inputs
     $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
       checkboxClass: 'icheckbox_minimal-blue',

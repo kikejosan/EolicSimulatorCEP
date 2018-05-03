@@ -52,7 +52,7 @@ class RankingprodsTable extends Table
             ->allowEmpty('systemNumber');
 
         $validator
-            ->dateTime('time')
+            ->date('time')
             ->allowEmpty('time');
 
         $validator
@@ -71,11 +71,6 @@ class RankingprodsTable extends Table
             ->scalar('tipo')
             ->maxLength('tipo', 22)
             ->allowEmpty('tipo');
-
-        $validator
-            ->scalar('fecha')
-            ->maxLength('fecha', 20)
-            ->allowEmpty('fecha');
 
         return $validator;
     }

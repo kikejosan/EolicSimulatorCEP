@@ -1,7 +1,6 @@
 /*   VERSION FINALIZADA  ATENCION INICIALIZAR EL TIME STAMP A "2001-01-01 01:00:00.000" */
-create schema WindEvent(systemNumber int, time Date, windSpeed double, power double);
+<create schema WindEvent(systemNumber int, time Date, windSpeed double, power double);
 
-create schema ss(time Date, palmo int);
 
 @Name("RankingProd")
 INSERT INTO RankingProd
