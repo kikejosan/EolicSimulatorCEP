@@ -252,13 +252,16 @@ public class JsonToWindEventTransformer extends AbstractMessageTransformer{
 			case 2:
 				String miFecha [] = registro[i].split("/");
 				
-				String fechita = miFecha[0]+"/"+miFecha[1]+"/"+miFecha[2];
-				Date curDate = new Date(registro[i]);
-				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-				String DateToStr = format.format(curDate);
+				Date curDate = new Date(miFecha[1]+"/"+miFecha[0]+"/"+miFecha[2]);
+				
+				SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+				String fechaFormatoCorrecto = format.format(curDate);
 				
 				
-				event.put("fecha", curDate);
+				System.out.println("EL FORMATO FECHA SALIDA ES INI"+registro[i]);
+				System.out.println("EL FORMATO FECHA SALIDA ES TRA"+curDate);
+				
+				event.put("fecha", fechaFormatoCorrecto);
 				break;
 			case 3:
 				String miDate [] = registro[2].split("/");

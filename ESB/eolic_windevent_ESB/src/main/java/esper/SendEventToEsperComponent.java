@@ -15,7 +15,7 @@ public class SendEventToEsperComponent {
 
 	@SuppressWarnings("unchecked")
 	public synchronized void sendEventToEsper(@Payload Map<String, Object> eventMap) { 
-		try {Thread.sleep(500);} catch (InterruptedException e) {e.printStackTrace();}
+		//try {Thread.sleep(1000);} catch (InterruptedException e) {e.printStackTrace();}
 		System.out.println("			------> ENVIANDO EVENT TO ESPER");
 		String eventTypeName = (String) eventMap.keySet().toArray()[0];
 		System.out.println("===eventTypeName: " + eventTypeName);

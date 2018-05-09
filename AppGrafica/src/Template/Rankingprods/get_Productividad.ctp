@@ -181,8 +181,14 @@
 
 
 <script>
+    
     $("#aeroSeguir").on("change",function(){
-        console.log();
+        seguimiento();
+    });
+    
+    
+    function seguimiento(){
+        alert("han llamado a seguimiento");
         $("#tabla1 td").each(function(){
            if($(this).text()==$("#aeroSeguir").val()){
                console.log("ENCONTRADO");
@@ -222,11 +228,9 @@
 
            }
         });
-    });
+    }
     
-</script>
 
-<script>
     /*$("#datepicker2").change(function(){alert("dfdf");});
     $("#boton1").on("click",function(){
         $.post('http://localhost/EolicEventConsumer/rankingprods/muestrorankingparque',
@@ -242,7 +246,8 @@
             {fecha : $("#datepicker1").val()}, 
             function(data) {
                 variable = data;
-                $("#bodyRanking1").html(data)
+                $("#bodyRanking1").html(data);
+                
             });
        
         
@@ -295,20 +300,26 @@
   $(function () {
    
     $('#datepicker').datepicker({
+      format: 'dd/mm/yyyy',
       autoclose: true
     });
     $('#datepicker1').datepicker({
+      format: 'dd/mm/yyyy',
       autoclose: true
     });
     $('#datepicker2').datepicker({
+      format: 'dd/mm/yyyy',
       autoclose: true
     });
     $('#datepicker3').datepicker({
+      format: 'dd/mm/yyyy',      
       autoclose: true
     });
     $('#datepicker4').datepicker({
+      format: 'dd/mm/yyyy',
       autoclose: true
     });
+    
 
 
   });

@@ -135,12 +135,9 @@ class RankingprodsController extends AppController
 //        $dateTaken = $this->Rankingprods->find('all')->where(['Rankingprods.fecha =' =>$dateTaken]);
         
         
-        
-        $fecha = explode('/', $dateTaken["fecha"]);
-        $fechaFormateado=$fecha[2]."-".$fecha[0]."-".$fecha[1];
-        $rankingPrimero = $this->Rankingprods->find('all')->where(['Rankingprods.fecha =' =>$fechaFormateado]);
+        $rankingPrimero = $this->Rankingprods->find('all')->where(['Rankingprods.fecha =' => ($this->getFormatoFecha($dateTaken["fecha"]))])->order(['Rankingprods.productividad' => 'DESC']);
         $this -> set('rankingAux',$rankingPrimero);
-        $this -> set('fechaAux',$fechaFormateado);
+        $this -> set('fechaAux',$dateTaken["fecha"]);
 
        
        
@@ -182,17 +179,16 @@ class RankingprodsController extends AppController
         //$cadenaFecha = split(",",$formulario["datepickerI"]);
         
        /*orden para sacar los ranking de ese dia*/
-        $fecha = explode('/', $formulario["datepickerI"]);
-        $fechaFormateado=$fecha[2]."-".$fecha[0]."-".$fecha[1];
+    
         /*$rankingPrimero = $this->Rankingprods->find('all')->where(['Rankingprods.fecha =' =>$fechaFormateado]);
         $this -> set('rankingPrimero',$rankingPrimero);*/
         
-        $rankings = $this->Rankingprods->find('all')->where(['Rankingprods.fecha =' =>$fechaFormateado]);
+        $rankings = $this->Rankingprods->find('all')->where(['Rankingprods.fecha =' => ($this->getFormatoFecha($formulario["datepickerI"]))])->order(['Rankingprods.productividad' => 'DESC']);
         $this -> set('rankings',$rankings);
-        $this -> set('fechaFormateado',$fechaFormateado);
+        $this -> set('fechaFormateado',$formulario["datepickerI"]);
         
         
-        $rankings2 = $this->Rankingprods->find('all')->where(['Rankingprods.fecha =' =>$fechaFormateado]);
+        $rankings2 = $this->Rankingprods->find('all')->where(['Rankingprods.fecha =' => ($this->getFormatoFecha($formulario["datepickerI"]))]);
         $rankingPrimero = $rankings2->first();
         $this->set("rankingPrimero",$rankingPrimero["systemNumber"]);
         $miAero = $this->Aeros->find('all')->where(['Aeros.SystemNumber =' => $rankingPrimero["systemNumber"]]);
@@ -208,6 +204,13 @@ class RankingprodsController extends AppController
         /*$dateTaken = $this->request->getData();    */ 
         
         
+    }
+    
+    public function getFormatoFecha($miFecha){
+        $miFecha = explode('/', $miFecha);
+        $miFecha=$miFecha[2]."-".$miFecha[0]."-".$miFecha[1];
+        
+        return $miFecha;
     }
 
 }

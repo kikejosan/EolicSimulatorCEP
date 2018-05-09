@@ -3,10 +3,9 @@ INSERT INTO RankingProd
 SELECT SUM(power) as suma, 
 count(systemNumber) as events,
 systemNumber,
-MAX(time) as time,
-SUM(power)/count(systemNumber) as productividad,
-fecha
+MAX(time).roundFloor('day') as fecha,
+SUM(power)/count(systemNumber) as productividad
 FROM  WindEvent.win:time_batch(6 sec) t
-GROUP BY systemNumber,fecha
+GROUP BY systemNumber
 HAVING count(systemNumber)>0
 ORDER BY productividad DESC

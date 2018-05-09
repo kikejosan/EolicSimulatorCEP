@@ -73,9 +73,12 @@ class RankingprodsTable extends Table
             ->allowEmpty('tipo');
 
         $validator
-            ->scalar('fecha')
+            /*->scalar('fecha')
             ->maxLength('fecha', 20)
+            ->allowEmpty('fecha');*/
+            ->dateTime('fecha')
             ->allowEmpty('fecha');
+
 
         return $validator;
     }
