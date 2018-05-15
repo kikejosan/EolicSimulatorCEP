@@ -68,7 +68,7 @@
     Highcharts.chart('contenedor', {
         chart: {
             type: 'areaspline',
-            height:600,
+            //height:600,
             zoomType : 'y'
         },
         title: {
@@ -102,7 +102,7 @@
         },
         tooltip: {
             shared: true,
-            valueSuffix: ' units'
+            valueSuffix: ' KW'
         },
         credits: {
             enabled: false

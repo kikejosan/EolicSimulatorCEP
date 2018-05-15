@@ -19,9 +19,8 @@
 
 
     <div class="container-fluid text-center">
-        <br><br><br>
         <div class="row">
-            <div class="col-md-4" id="tablasRank" style="background-color: #FFC600">
+            <div class="col-md-4" id="tablasRank">
 
 
 
@@ -54,7 +53,7 @@
                     
             </div>
             </div>
-            <div class="col-md-4" id="tablasRank" style="background-color: #FFC600">
+            <div class="col-md-4" id="tablasRank">
             </div>
 
         </div>

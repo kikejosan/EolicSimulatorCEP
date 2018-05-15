@@ -3,4 +3,7 @@
         <td><?php echo $rankin['systemNumber']//." | ".$rankin['productividad']?></td>
     </tr>
 <?php endforeach; ?>
-<script> seguimiento();</script>
+    
+    <script>
+        seguimiento($("#globalSeguir").val());
+    </script>

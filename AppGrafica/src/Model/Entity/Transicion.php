@@ -7,12 +7,12 @@ use Cake\ORM\Entity;
  * Transicion Entity
  *
  * @property int $id
- * @property int $aero1
- * @property int $subida1
- * @property int $aero2
- * @property int $subida2
- * @property int $aero3
- * @property int $subida3
+ * @property int $systemNumber
+ * @property int $posicionInicio
+ * @property int $posicionFin
+ * @property int $variacion
+ * @property \Cake\I18n\FrozenDate $inicio
+ * @property \Cake\I18n\FrozenDate $fin
  */
 class Transicion extends Entity
 {
@@ -27,11 +27,11 @@ class Transicion extends Entity
      * @var array
      */
     protected $_accessible = [
-        'aero1' => true,
-        'subida1' => true,
-        'aero2' => true,
-        'subida2' => true,
-        'aero3' => true,
-        'subida3' => true
+        'systemNumber' => true,
+        'posicionInicio' => true,
+        'posicionFin' => true,
+        'variacion' => true,
+        'inicio' => true,
+        'fin' => true
     ];
 }

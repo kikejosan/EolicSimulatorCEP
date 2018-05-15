@@ -15,12 +15,12 @@
     <fieldset>
         <legend><?= __('Add Transicion') ?></legend>
         <?php
-            echo $this->Form->control('aero1');
-            echo $this->Form->control('subida1');
-            echo $this->Form->control('aero2');
-            echo $this->Form->control('subida2');
-            echo $this->Form->control('aero3');
-            echo $this->Form->control('subida3');
+            echo $this->Form->control('systemNumber');
+            echo $this->Form->control('posicionInicio');
+            echo $this->Form->control('posicionFin');
+            echo $this->Form->control('variacion');
+            echo $this->Form->control('inicio', ['empty' => true]);
+            echo $this->Form->control('fin', ['empty' => true]);
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>

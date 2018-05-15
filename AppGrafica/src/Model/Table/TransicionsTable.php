@@ -48,34 +48,28 @@ class TransicionsTable extends Table
             ->allowEmpty('id', 'create');
 
         $validator
-            ->integer('aero1')
-            ->requirePresence('aero1', 'create')
-            ->notEmpty('aero1');
+            ->integer('systemNumber')
+            ->allowEmpty('systemNumber');
 
         $validator
-            ->integer('subida1')
-            ->requirePresence('subida1', 'create')
-            ->notEmpty('subida1');
+            ->integer('posicionInicio')
+            ->allowEmpty('posicionInicio');
 
         $validator
-            ->integer('aero2')
-            ->requirePresence('aero2', 'create')
-            ->notEmpty('aero2');
+            ->integer('posicionFin')
+            ->allowEmpty('posicionFin');
 
         $validator
-            ->integer('subida2')
-            ->requirePresence('subida2', 'create')
-            ->notEmpty('subida2');
+            ->integer('variacion')
+            ->allowEmpty('variacion');
 
         $validator
-            ->integer('aero3')
-            ->requirePresence('aero3', 'create')
-            ->notEmpty('aero3');
+            ->date('inicio')
+            ->allowEmpty('inicio');
 
         $validator
-            ->integer('subida3')
-            ->requirePresence('subida3', 'create')
-            ->notEmpty('subida3');
+            ->date('fin')
+            ->allowEmpty('fin');
 
         return $validator;
     }

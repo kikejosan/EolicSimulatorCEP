@@ -21,28 +21,28 @@
             <td><?= $this->Number->format($transicion->id) ?></td>
         </tr>
         <tr>
-            <th scope="row"><?= __('Aero1') ?></th>
-            <td><?= $this->Number->format($transicion->aero1) ?></td>
+            <th scope="row"><?= __('SystemNumber') ?></th>
+            <td><?= $this->Number->format($transicion->systemNumber) ?></td>
         </tr>
         <tr>
-            <th scope="row"><?= __('Subida1') ?></th>
-            <td><?= $this->Number->format($transicion->subida1) ?></td>
+            <th scope="row"><?= __('PosicionInicio') ?></th>
+            <td><?= $this->Number->format($transicion->posicionInicio) ?></td>
         </tr>
         <tr>
-            <th scope="row"><?= __('Aero2') ?></th>
-            <td><?= $this->Number->format($transicion->aero2) ?></td>
+            <th scope="row"><?= __('PosicionFin') ?></th>
+            <td><?= $this->Number->format($transicion->posicionFin) ?></td>
         </tr>
         <tr>
-            <th scope="row"><?= __('Subida2') ?></th>
-            <td><?= $this->Number->format($transicion->subida2) ?></td>
+            <th scope="row"><?= __('Variacion') ?></th>
+            <td><?= $this->Number->format($transicion->variacion) ?></td>
         </tr>
         <tr>
-            <th scope="row"><?= __('Aero3') ?></th>
-            <td><?= $this->Number->format($transicion->aero3) ?></td>
+            <th scope="row"><?= __('Inicio') ?></th>
+            <td><?= h($transicion->inicio) ?></td>
         </tr>
         <tr>
-            <th scope="row"><?= __('Subida3') ?></th>
-            <td><?= $this->Number->format($transicion->subida3) ?></td>
+            <th scope="row"><?= __('Fin') ?></th>
+            <td><?= h($transicion->fin) ?></td>
         </tr>
     </table>
 </div>

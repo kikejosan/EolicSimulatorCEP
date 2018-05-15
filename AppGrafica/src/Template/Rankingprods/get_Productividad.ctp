@@ -42,7 +42,7 @@ $this->Html->script([
 </section>
 
 
-<section class="content">
+<section class="content">dfd
     <div class="nav-tabs-custom">
         <ul class="nav nav-tabs">
           <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="true">Seleccion de Rankings</a></li>
@@ -89,7 +89,8 @@ $this->Html->script([
                     <h2>Seguimiento de <?php echo $formulario['parque1']; ?>  </h2>
                     <div class="container-fluid" >
                         <div class="col-md-3" id="ranking1">
-                            <table class="table table-bordered" style="border-color:black;" id="tabla1">
+                            
+                            <table class="table table-bordered " style="border-color:black;" id="tabla1">
                                 <thead style="text-align:  center">
                                     <tr>
                                         <div class="form-group">
@@ -122,7 +123,7 @@ $this->Html->script([
                                               <div class="input-group-addon">
                                                 <i class="fa fa-calendar"></i>
                                               </div>
-                                                <input type="text" class="form-control pull-right" id="datepicker2" value="Seleccionar2" >
+                                                <input type="text" class="form-control pull-right" id="datepicker2" value="Seleccionar" >
                                             </div>
                                         </div>
                                     </tr>
@@ -200,7 +201,7 @@ $this->Html->script([
                                 </div>
                                 <div class="form-group">
                                     <label>Aeros seleccionados</label>
-                                    <select id="aerosG" class="form-control select2" multiple="multiple" data-placeholder="Selecciona los aeros" style="width: 100%;">
+                                    <select id="aerosG" class="form-control select2" multiple="multiple" data-placeholder="Seleccionar" style="width: 100%;">
                                        <?php foreach ($rankings as $ranking) :?>
                                         <option>  <?php echo $ranking['systemNumber']?></option>
                                        <?php endforeach; ?>
@@ -229,56 +230,71 @@ $this->Html->script([
         <br>
         
     </div>
+    
 </section>
-
+<input id="globalSeguir" type="hidden" name="opcion" value="">
 
 <script>
-
-    $("#aeroSeguir").on("change",function(){
-        seguimiento();
-    });
-    
+    seguimiento();
     
     function seguimiento(idASeguir){
-        $("#tabla1 td").each(function(){
-           if($(this).text().includes(idASeguir)){
-               console.log("ENCONTRADO");
-               $(this).attr("bgcolor","#F99090");
-           }else{
-                $(this).attr("bgcolor","#80c1ff");
+        if($("#globalSeguir").val()=="" && idASeguir==""){
+            $("#globalSeguir").val(idASeguir);
+            $("#tabla1 td").each(function(){
+                $(this).attr("bgcolor","#ccccff");
+            });
+            $("#tabla2 td").each(function(){
+                $(this).attr("bgcolor","#ccccff");
+            });
+            $("#tabla3 td").each(function(){
+                $(this).attr("bgcolor","#ccccff");
+            });
+            $("#tabla4 td").each(function(){
+                $(this).attr("bgcolor","#ccccff");
+            });
+        }else{ 
+            $("#globalSeguir").val(idASeguir);
+            $("#tabla1 td").each(function(){
+               if($(this).text().includes(idASeguir)){
+                   console.log("ENCONTRADO");
+                   $(this).attr("bgcolor","#F99090");
+               }else{
+                    $(this).attr("bgcolor","#ccccff");
 
-           }
-        });
+               }
+            });
+
+            $("#tabla2 td").each(function(){
+               if($(this).text().includes(idASeguir)){
+                   console.log("ENCONTRADO");
+                   $(this).attr("bgcolor","#F99090");
+               }else{
+                    $(this).attr("bgcolor","#ccccff");
+
+               }
+            });
+
+            $("#tabla3 td").each(function(){
+               if($(this).text().includes(idASeguir)){
+                   console.log("ENCONTRADO");
+                   $(this).attr("bgcolor","#F99090");
+               }else{
+                    $(this).attr("bgcolor","#ccccff");
+
+               }
+            });
+
+            $("#tabla4 td").each(function(){
+               if($(this).text().includes(idASeguir)){
+                   console.log("ENCONTRADO");
+                   $(this).attr("bgcolor","#F99090");
+               }else{
+                    $(this).attr("bgcolor","#ccccff");
+
+               }
+            });
+        }
         
-        $("#tabla2 td").each(function(){
-           if($(this).text().includes(idASeguir)){
-               console.log("ENCONTRADO");
-               $(this).attr("bgcolor","#F99090");
-           }else{
-                $(this).attr("bgcolor","#80c1ff");
-
-           }
-        });
-        
-        $("#tabla3 td").each(function(){
-           if($(this).text().includes(idASeguir)){
-               console.log("ENCONTRADO");
-               $(this).attr("bgcolor","#F99090");
-           }else{
-                $(this).attr("bgcolor","#80c1ff");
-
-           }
-        });
-        
-        $("#tabla4 td").each(function(){
-           if($(this).text().includes(idASeguir)){
-               console.log("ENCONTRADO");
-               $(this).attr("bgcolor","#F99090");
-           }else{
-                $(this).attr("bgcolor","#80c1ff");
-
-           }
-        });
     }
     
 

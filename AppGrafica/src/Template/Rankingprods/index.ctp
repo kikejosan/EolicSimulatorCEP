@@ -24,6 +24,8 @@
                     <th scope="col"><?= $this->Paginator->sort('events') ?></th>
                     <th scope="col"><?= $this->Paginator->sort('tipo') ?></th>
                     <th scope="col"><?= $this->Paginator->sort('fecha') ?></th>
+                    <th scope="col"><?= $this->Paginator->sort('numAeros') ?></th>
+
                     <th scope="col" class="actions"><?= __('Actions') ?></th>
                 </tr>
             </thead>
@@ -38,6 +40,8 @@
                     <td><?= $this->Number->format($rankingprod->events) ?></td>
                     <td><?= h($rankingprod->tipo) ?></td>
                     <td><?= h($rankingprod->fecha) ?></td>
+                    <td><?= $this->Number->format($rankingprod->numAeros) ?></td>
+
 
                     <td class="actions">
                         <?= $this->Html->link(__('View'), ['action' => 'view', $rankingprod->id] , array('class'=>'btn btn-sm btn-default')) ?>

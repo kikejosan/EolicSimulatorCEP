@@ -34,6 +34,7 @@ class Rankingprod extends Entity
         'productividad' => true,
         'events' => true,
         'tipo' => true,
-        'fecha' => true
+        'fecha' => true,
+        'numAeros' => true
     ];
 }

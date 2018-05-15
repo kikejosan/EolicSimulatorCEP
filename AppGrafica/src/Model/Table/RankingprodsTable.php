@@ -78,6 +78,9 @@ class RankingprodsTable extends Table
             ->allowEmpty('fecha');*/
             ->dateTime('fecha')
             ->allowEmpty('fecha');
+        $validator
+            ->integer('numAeros')
+            ->allowEmpty('numAeros');
 
 
         return $validator;
