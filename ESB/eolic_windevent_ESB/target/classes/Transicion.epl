@@ -1,15 +1,11 @@
 @Name("Transicion")
 INSERT INTO Transicion
-SELECT a4.systemNumber as aero1,
-(case 	when a4.systemNumber= a1.systemNumber then 0 
-    	when a4.systemNumber= a2.systemNumber then 1 
-    	else 2 end) as subida1,
-a5.systemNumber as aero2,
-(case 	when a5.systemNumber= a1.systemNumber then -1 
-    	when a5.systemNumber= a2.systemNumber then 0
-    	else 1 end) as subida2,
-a6.systemNumber as aero3,
-(case 	when a6.systemNumber= a1.systemNumber then -2
-    	when a6.systemNumber= a2.systemNumber then -1
-    	else 0 end) as subida3
-FROM CambioInicio
+SELECT a1.systemNumber as systemNumber,
+		a1.posicion as posicionInicio,
+		a2.posicion as posicionFin,
+		a1.posicion - a2.posicion as variacion,
+		a1.fecha as inicio,
+		a2.fecha as fin
+FROM PATTERN [every  a1 = Escala() ->
+						a2 = Escala(a1.systemNumber = a2.systemNumber)
+]

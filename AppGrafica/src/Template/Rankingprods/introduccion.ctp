@@ -26,7 +26,10 @@
 
 
             </div>
-            <div class="col-md-4"  style="background-color: #08f7db">
+            <div class="col-md-4">
+                                    <br>
+
+                <div class="box box-primary" style="background-color: #e6f3ff">
                 <form class="form-group" method="post" action="../rankingprods/getProductividad">
                     <h3>Parque</h3>
                     <select id="parque1" class="form-control" name="parque1">
@@ -48,7 +51,8 @@
                <!-- <button id="btnIntro2" class="btn btn-block btn-primary"> Pruebas </button>-->
                 <div id="pruebasContenedor"> </div>
                 <br>
-
+                    
+            </div>
             </div>
             <div class="col-md-4" id="tablasRank" style="background-color: #FFC600">
             </div>
@@ -102,16 +106,10 @@ $this->Html->script([
 <?php $this->start('scriptBottom'); ?>
 <script>
   $(function () {
-    //Initialize Select2 Elements
-
-    
-
-    //Date picker
     $('#datepickerI').datepicker({
         format: 'dd/mm/yyyy',
         autoclose: true
     });
-    alert("s");
   });
 </script>
 <?php $this->end(); ?>

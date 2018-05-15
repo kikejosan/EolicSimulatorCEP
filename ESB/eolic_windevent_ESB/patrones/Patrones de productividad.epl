@@ -1,7 +1,44 @@
 /*   VERSION FINALIZADA  ATENCION INICIALIZAR EL TIME STAMP A "2001-01-01 01:00:00.000" */
 create schema WindEvent(systemNumber int, time Date, windSpeed double, power double);
 
+@Name("WindEventP")
+INSERT INTO WindEventP
+SELECT COUNT(DISTINCT systemNumber) as numAeros,*
+WindEvent.win:length_batch(4438) t;
 
+@Name("RankingProd")
+INSERT INTO RankingProd
+SELECT SUM(power) as suma, 
+count(systemNumber) as events,
+systemNumber,
+MAX(time).roundFloor('day') as fecha,
+SUM(power)/count(systemNumber) as productividad,
+numAeros
+FROM  WindEventP.win:time_batch(1 sec) t
+GROUP BY systemNumber,numAeros
+HAVING count(systemNumber)>0
+ORDER BY productividad DESC;
+
+@Name("Escala")
+INSERT INTO Escala
+SELECT systemNumber as systemNumber,
+count(suma) % numAeros+1 as posicion,
+current_timestamp() as timestamp
+FROM  RankingProd;
+
+@Name("Efecto transicion")
+INSERT INTO Transicion
+SELECT a1.systemNumber as systemNumber,
+		a1.posicion as posicion1,
+		a2.posicion as posicion2,
+		a1.posicion - a2.posicion as fluctuacion,
+		a1.timestamp as inicio,
+		a2.timestamp as fin
+FROM PATTERN [every  a1 = Escala() ->
+						a2 = Escala(a1.systemNumber = a2.systemNumber)
+];
+
+---------*--------
 @Name("RankingProd")
 INSERT INTO RankingProd
 SELECT SUM(power) as suma, 
@@ -73,7 +110,15 @@ INSERT INTO fluctuaProd
 SELECT *
 FROM PATTERN[every (a1 = Transicion(a1.subida1=-2 OR a1.subida2=-2 OR a1.subida3=-2))];
 
-
+@Name("Efecto transicion")
+INSERT INTO Transicion
+SELECT a1.systemNumber,
+		a1.posicion as posicion1,
+		a2.posicion as posicion2,
+		a1.posicion - a2.posicion as fluctuacion
+FROM PATTERN [every  (a1 = Escala() ->
+						a2 = Escala(a1.systemNumber = a2.systemNumber)
+)];
 /************************************************************************************************/
 /*EXTRAS      NO HACER CASO*/
 @Name("Largo")

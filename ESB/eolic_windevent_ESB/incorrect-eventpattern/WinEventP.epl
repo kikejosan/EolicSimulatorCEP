@@ -1,0 +1,8 @@
+@Name("hola")
+INSERT INTO hola
+SELECT COUNT(DISTINCT systemNumber) as numAeros,
+systemNumber,
+time,
+systemNumber,
+power
+FROM WindEvent.win:length_batch(4438) t

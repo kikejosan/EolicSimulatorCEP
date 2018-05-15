@@ -63,67 +63,41 @@ http://www.mulesoft.org/schema/mule/ftp http://www.mulesoft.org/schema/mule/ftp/
             <choice doc:name="Choice">
                 <when expression="#[message.inboundProperties['eventPatternName'] ==&quot;RankingProd&quot;]">
                     <db:insert config-ref="MySQL_Configuration" doc:name="RankingProd">
-                        <db:parameterized-query><![CDATA[insert into rankingprods(systemNumber,time,suma,productividad,events,tipo,fecha) values (
+                        <db:parameterized-query><![CDATA[insert into rankingprods(systemNumber,time,suma,productividad,events,tipo,fecha,numAeros) values (
 		#[payload["RankingProd"]["systemNumber"]],
 		#[payload["RankingProd"]["time"]],
 		#[payload["RankingProd"]["suma"]],
 		#[payload["RankingProd"]["productividad"]],
 		#[payload["RankingProd"]["events"]],
 		"RankingProd",
-		#[payload["RankingProd"]["fecha"]]
-	);]]></db:parameterized-query>
-                    </db:insert>
-                </when>
-                 <when expression="#[message.inboundProperties['eventPatternName'] ==&quot;CambioInicio&quot;]">
-                    <db:insert config-ref="MySQL_Configuration" doc:name="CambioInicio">
-                        <db:parameterized-query><![CDATA[insert into cambioinicios (aero1,aero2,aero3,aero4,aero5,aero6)values (
-		#[payload["CambioInicio"]["a1.systemNumber"]],
-		#[payload["CambioInicio"]["a2.systemNumber"]],
-		#[payload["CambioInicio"]["a3.systemNumber"]],
-		#[payload["CambioInicio"]["a4.systemNumber"]],
-		#[payload["CambioInicio"]["a5.systemNumber"]],
-		#[payload["CambioInicio"]["a6.systemNumber"]]
-	);]]></db:parameterized-query>
-                    </db:insert>
-                </when>
-                <when expression="#[message.inboundProperties['eventPatternName'] ==&quot;CambioSegundo&quot;]">
-                    <db:insert config-ref="MySQL_Configuration" doc:name="CambioSegundo">
-                        <db:parameterized-query><![CDATA[insert into cambioinicios (aero1,aero2,aero3,aero4,aero5,aero6) values (
-		#[payload["CambioSegundo"]["a1.systemNumber"]],
-		#[payload["CambioSegundo"]["a2.systemNumber"]],
-		#[payload["CambioSegundo"]["a3.systemNumber"]],
-		#[payload["CambioSegundo"]["a4.systemNumber"]],
-		#[payload["CambioSegundo"]["a5.systemNumber"]],
-		#[payload["CambioSegundo"]["a6.systemNumber"]]
+		#[payload["RankingProd"]["fecha"]],
+		#[payload["RankingProd"]["numAeros"]]
 	);]]></db:parameterized-query>
                     </db:insert>
                 </when>
                 <when expression="#[message.inboundProperties['eventPatternName'] ==&quot;Transicion&quot;]">
-                    <db:insert config-ref="MySQL_Configuration" doc:name="Transicion">
-                        <db:parameterized-query><![CDATA[insert into transicions (aero1,subida1,aero2,subida2,aero3,subida3) values (
-		#[payload["Transicion"]["aero1"]],
-		#[payload["Transicion"]["subida1"]],
-		#[payload["Transicion"]["aero2"]],
-		#[payload["Transicion"]["subida2"]],
-		#[payload["Transicion"]["aero3"]],
-		#[payload["Transicion"]["subida3"]]
+                    <db:insert config-ref="MySQL_Configuration" doc:name="Transicions">
+                        <db:parameterized-query><![CDATA[insert into transicions (systemNumber,posicionInicio,posicionFin,variacion,inicio,fin) values (
+		#[payload["Transicion"]["systemNumber"]],
+		#[payload["Transicion"]["posicionInicio"]],
+		#[payload["Transicion"]["posicionFin"]],
+		#[payload["Transicion"]["variacion"]],
+		#[payload["Transicion"]["inicio"]],
+		#[payload["Transicion"]["fin"]]
 	);]]></db:parameterized-query>
                     </db:insert>
                 </when>
-                <when expression="#[message.inboundProperties['eventPatternName'] ==&quot;FluctuaProd&quot;]">
-                    <db:insert config-ref="MySQL_Configuration" doc:name="FluctuaProd">
-                        <db:parameterized-query><![CDATA[insert into fluctuaprods (aero1,subida1,aero2,subida2,aero3,subida3) values (
-		#[payload["FluctuaProd"]["aero1"]],
-		#[payload["FluctuaProd"]["subida1"]],
-		#[payload["FluctuaProd"]["aero2"]],
-		#[payload["FluctuaProd"]["subida2"]],
-		#[payload["FluctuaProd"]["aero3"]],
-		#[payload["FluctuaProd"]["subida3"]]
+                <when expression="#[message.inboundProperties['eventPatternName'] ==&quot;Escala&quot;]">
+                    <db:insert config-ref="MySQL_Configuration" doc:name="Escalas">
+                        <db:parameterized-query><![CDATA[insert into escalas (systemNumber,posicion,fecha) values (
+		#[payload["Escala"]["systemNumber"]],
+		#[payload["Escala"]["posicion"]],
+		#[payload["Escala"]["fecha"]]
 	);]]></db:parameterized-query>
                     </db:insert>
                 </when>
                 <otherwise>
-                    <logger message="ERROR ---&gt;  #[payload]" level="ERROR" doc:name="Logger"/>
+                    <logger message="WARN ---&gt;  #[payload]" level="WARN" doc:name="Logger"/>
                 </otherwise>
             </choice>
         </scatter-gather>
