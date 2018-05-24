@@ -24,6 +24,9 @@
             echo $this->Form->control('systemNumber');
             echo $this->Form->control('vecesFuera');
             echo $this->Form->control('viento');
+            echo $this->Form->control('media');
+            echo $this->Form->control('desviacion');
+            echo $this->Form->control('fecha', ['empty' => true]);
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>

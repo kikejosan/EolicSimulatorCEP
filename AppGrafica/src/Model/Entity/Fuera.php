@@ -9,7 +9,10 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property int $systemNumber
  * @property int $vecesFuera
- * @property int $viento
+ * @property float $viento
+ * @property float $media
+ * @property float $desviacion
+ * @property \Cake\I18n\FrozenDate $fecha
  */
 class Fuera extends Entity
 {
@@ -26,6 +29,9 @@ class Fuera extends Entity
     protected $_accessible = [
         'systemNumber' => true,
         'vecesFuera' => true,
-        'viento' => true
+        'viento' => true,
+        'media' => true,
+        'desviacion' => true,
+        'fecha' => true
     ];
 }

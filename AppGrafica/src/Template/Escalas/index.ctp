@@ -28,7 +28,7 @@
                 <td><?= $this->Number->format($escala->id) ?></td>
                 <td><?= $this->Number->format($escala->systemNumber) ?></td>
                 <td><?= $this->Number->format($escala->posicion) ?></td>
-                <td><?= $this->Number->format($escala->fecha) ?></td>
+                <td><?= h($escala->fecha) ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $escala->id]) ?>
                     <?= $this->Html->link(__('Edit'), ['action' => 'edit', $escala->id]) ?>

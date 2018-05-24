@@ -194,6 +194,10 @@ class RankingprodsController extends AppController
         $miAero = $this->Aeros->find('all')->where(['Aeros.SystemNumber =' => $rankingPrimero["systemNumber"]]);
         
         $this -> set('miAero',$miAero->first());
+        
+        $this->loadModel('Transicions');
+        $transiciones = $this->Transicions->find('all');
+        $this -> set('transiciones',$transiciones);
 
         //$rankingSegundo = $this->Rankingprods->query("SELECT Rankingprods.id AS `Rankingprods__id`, Rankingprods.systemNumber AS `Rankingprods__systemNumber`, Rankingprods.time AS `Rankingprods__time`, Rankingprods.suma AS `Rankingprods__suma`, Rankingprods.productividad AS `Rankingprods__productividad`, Rankingprods.events AS `Rankingprods__events`, Rankingprods.tipo AS `Rankingprods__tipo` FROM rankingprods Rankingprods WHERE Rankingprods.id =4");
         //$this -> set('rankingSegundo',$rankingSegundo);
@@ -273,7 +277,7 @@ class RankingprodsController extends AppController
     
     public function getFormatoFecha($miFecha){
         $miFecha = explode('/', $miFecha);
-        $miFecha=$miFecha[2]."-".$miFecha[0]."-".$miFecha[1];
+        $miFecha=$miFecha[2]."-".$miFecha[1]."-".$miFecha[0];
         
         return $miFecha;
     }

@@ -1,0 +1,16 @@
+@Name("BajadaDeRendimiento")
+INSERT INTO BajadaDeRendimiento
+SELECT a1.systemNumber as systemNumber1,
+a1.media as media1,
+a1.fecha as fecha1, 
+a1.viento as viento1,
+a2.systemNumber as systemNumber2, 
+a2.media as media2,
+a2.fecha as fecha2,
+a2.viento as viento2
+FROM PATTERN[
+	every a1=EstadisticoDiario() -> a2=EstadisticoDiario(a1.systemNumber=a2.systemNumber AND 
+											a1.viento = a2.viento AND
+											a1.media*0.9 > a2.media)
+]
+order by a1.fecha

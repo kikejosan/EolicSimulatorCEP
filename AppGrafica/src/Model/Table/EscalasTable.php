@@ -56,7 +56,7 @@ class EscalasTable extends Table
             ->allowEmpty('posicion');
 
         $validator
-            ->integer('fecha')
+            ->date('fecha')
             ->allowEmpty('fecha');
 
         return $validator;

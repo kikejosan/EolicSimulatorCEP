@@ -12,34 +12,38 @@
 </nav>
 <div class="fueras index large-9 medium-8 columns content">
     <h3><?= __('Fueras') ?></h3>
-    <div class="col-md-12" >
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th scope="col"><?= $this->Paginator->sort('id') ?></th>
-                    <th scope="col"><?= $this->Paginator->sort('systemNumber') ?></th>
-                    <th scope="col"><?= $this->Paginator->sort('vecesFuera') ?></th>
-                    <th scope="col"><?= $this->Paginator->sort('viento') ?></th>
-                    <th scope="col" class="actions"><?= __('Actions') ?></th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($fueras as $fuera): ?>
-                <tr>
-                    <td><?= $this->Number->format($fuera->id) ?></td>
-                    <td><?= $this->Number->format($fuera->systemNumber) ?></td>
-                    <td><?= $this->Number->format($fuera->vecesFuera) ?></td>
-                    <td><?= $this->Number->format($fuera->viento) ?></td>
-                    <td class="actions">
-                        <?= $this->Html->link(__('View'), ['action' => 'view', $fuera->id] , array('class'=>'btn btn-sm btn-default')) ?>
-                        <?= $this->Html->link(__('Edit'), ['action' => 'edit', $fuera->id] , array('class'=>'btn btn-sm btn-default')) ?>
-                        <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $fuera->id] , array('class'=>'btn btn-sm btn-default'), ['confirm' => __('Are you sure you want to delete # {0}?', $fuera->id)]) ?>
-                    </td>
-                </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    </div>
+    <table cellpadding="0" cellspacing="0">
+        <thead>
+            <tr>
+                <th scope="col"><?= $this->Paginator->sort('id') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('systemNumber') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('vecesFuera') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('viento') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('media') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('desviacion') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('fecha') ?></th>
+                <th scope="col" class="actions"><?= __('Actions') ?></th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($fueras as $fuera): ?>
+            <tr>
+                <td><?= $this->Number->format($fuera->id) ?></td>
+                <td><?= $this->Number->format($fuera->systemNumber) ?></td>
+                <td><?= $this->Number->format($fuera->vecesFuera) ?></td>
+                <td><?= $this->Number->format($fuera->viento) ?></td>
+                <td><?= $this->Number->format($fuera->media) ?></td>
+                <td><?= $this->Number->format($fuera->desviacion) ?></td>
+                <td><?= h($fuera->fecha) ?></td>
+                <td class="actions">
+                    <?= $this->Html->link(__('View'), ['action' => 'view', $fuera->id]) ?>
+                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $fuera->id]) ?>
+                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $fuera->id], ['confirm' => __('Are you sure you want to delete # {0}?', $fuera->id)]) ?>
+                </td>
+            </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
     <div class="paginator">
         <ul class="pagination">
             <?= $this->Paginator->first('<< ' . __('first')) ?>

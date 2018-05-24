@@ -17,7 +17,7 @@
         <?php
             echo $this->Form->control('systemNumber');
             echo $this->Form->control('posicion');
-            echo $this->Form->control('fecha');
+            echo $this->Form->control('fecha', ['empty' => true]);
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>

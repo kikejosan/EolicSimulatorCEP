@@ -56,8 +56,20 @@ class FuerasTable extends Table
             ->allowEmpty('vecesFuera');
 
         $validator
-            ->integer('viento')
+            ->numeric('viento')
             ->allowEmpty('viento');
+
+        $validator
+            ->numeric('media')
+            ->allowEmpty('media');
+
+        $validator
+            ->numeric('desviacion')
+            ->allowEmpty('desviacion');
+
+        $validator
+            ->date('fecha')
+            ->allowEmpty('fecha');
 
         return $validator;
     }

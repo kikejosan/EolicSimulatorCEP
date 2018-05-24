@@ -11,6 +11,7 @@ $this->Html->css([
     'AdminLTE./plugins/colorpicker/bootstrap-colorpicker.min',
     'AdminLTE./plugins/timepicker/bootstrap-timepicker.min',
     'AdminLTE./plugins/select2/select2.min',
+    
   ],
   ['block' => 'css']);
 
@@ -25,6 +26,8 @@ $this->Html->script([
   'AdminLTE./plugins/colorpicker/bootstrap-colorpicker.min',
   'AdminLTE./plugins/timepicker/bootstrap-timepicker.min',
   'AdminLTE./plugins/iCheck/icheck.min',
+  'AdminLTE./plugins/datatables/jquery.dataTables.min',
+  'AdminLTE./plugins/datatables/dataTables.bootstrap.min',
 ],
 ['block' => 'script']);
 ?>
@@ -32,7 +35,7 @@ $this->Html->script([
 <section class="content-header">
     <h1>
         Análisis de la productividad
-        <small>Version 1.0</small>
+        <small>Version 2.0</small>
     </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -42,7 +45,7 @@ $this->Html->script([
 </section>
 
 
-<section class="content">dfd
+<section class="content" >
     <div class="nav-tabs-custom">
         <ul class="nav nav-tabs">
           <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="true">Seleccion de Rankings</a></li>
@@ -182,40 +185,90 @@ $this->Html->script([
 <!-- ------------------------------FINAL DEL PRIMER PANEL  --------------------------------------------------->
             <div class="tab-pane" id="tab_2">
                 <div class="container-fluid text-center">
-                    
-                    <div class="col-md-12">
-                        <div class="box box-bodestoy y">
-                            <div class="col-md-3" id="formularioG">
-                                <h3>Gráfico de Seguimiento</h3><br>
-                                <div class="form-group">
-                                    <label>Rango de fechas:</label>
+                    <div class="row">
+                    <div class="box box-bodestoy y">
+                        <div class="col-md-3" id="formularioG">
+                            <h3>Gráfico de Seguimiento</h3><br>
+                            <div class="form-group">
+                                <label>Rango de fechas:</label>
 
-                                    <div class="input-group">
-                                      <div class="input-group-addon">
-                                        <i class="fa fa-calendar"></i>
-                                      </div>
-                                      <input type="text" class="form-control pull-right" id="diasG">
-                                    </div>
-
-
-                                </div>
-                                <div class="form-group">
-                                    <label>Aeros seleccionados</label>
-                                    <select id="aerosG" class="form-control select2" multiple="multiple" data-placeholder="Seleccionar" style="width: 100%;">
-                                       <?php foreach ($rankings as $ranking) :?>
-                                        <option>  <?php echo $ranking['systemNumber']?></option>
-                                       <?php endforeach; ?>
-                                    </select>
+                                <div class="input-group">
+                                  <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                  </div>
+                                  <input type="text" class="form-control pull-right" id="diasG">
                                 </div>
 
-                                <button id="btnGrafica" type="button" class="btn btn-block btn-primary btn-lg">Generar gráfico</button>
 
                             </div>
-                            <div class="col-md-9" id="graficaI">
-                                <img src="/EolicEventConsumer/admin_l_t_e/img/O7MEZJ0.jpg" class="img-responsive">
+                            <div class="form-group">
+                                <label>Aeros seleccionados</label>
+                                <select id="aerosG" class="form-control select2" multiple="multiple" data-placeholder="Seleccionar" style="width: 100%;">
+                                   <?php foreach ($rankings as $ranking) :?>
+                                    <option>  <?php echo $ranking['systemNumber']?></option>
+                                   <?php endforeach; ?>
+                                </select>
                             </div>
+
+                            <button id="btnGrafica" type="button" class="btn btn-block btn-primary btn-lg">Generar gráfico</button>
+
+                        </div>
+                        
+                        
+                        <div class="col-md-9" id="graficaI">
+                            <br>
+                            <img src="/EolicEventConsumer/admin_l_t_e/img/6335.jpg"  width="500" height="500">
                         </div>
                     </div>
+                    </div>
+                    <br><br>
+                    <!-- ############################################################################################################################## -->
+                    <div class="row section">
+                        <div class="box">
+                            <div class="box-header">
+                                <h3 class="box-title">Histórico de las Transiciones</h3>
+                            </div>
+            <!-- /.box-header -->
+                            <div class="box-body">
+                              <table id="example1" class="table table-bordered table-striped" >
+                                <thead>
+                                <tr style="background-color: #c2c2bc">
+                                  <th style="text-align: center;">SystemNumber</th>
+                                  <th style="text-align: center;">Inicio</th>
+                                  <th style="text-align: center;">Fin</th>
+                                  <th style="text-align: center;">Posicion Inicio</th>
+                                  <th style="text-align: center;">Posicion Fin</th>
+                                  <th style="text-align: center;">Variacion</th>
+                                </tr>
+                                </thead>
+                                <tbody>                              
+                                    <?php foreach ($transiciones as $transicion) :?>
+                                    <tr>
+                                        <td><?php echo $transicion['systemNumber']?></td>
+                                        <td><?php echo $transicion['inicio']?></td>
+                                        <td><?php echo $transicion['fin']?></td>
+                                        <td><?php echo $transicion['posicionInicio']?></td>
+                                        <td><?php echo $transicion['posicionFin']?></td>
+                                        <td><?php echo $transicion['variacion']?></td>
+                                    </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                  <th style="text-align: center;">SystemNumber</th>
+                                  <th style="text-align: center;">Inicio</th>
+                                  <th style="text-align: center;">Fin</th>
+                                  <th style="text-align: center;">Posicion Inicio</th>
+                                  <th style="text-align: center;">Posicion Fin</th>
+                                  <th style="text-align: center;">Variacion</th>
+                                </tr>
+                                </tfoot>
+                              </table>
+                            </div>
+                        </div>
+                    </div> 
+                    <!-- ############################################################################################################################## -->
+                    
                 </div>
           </div>
           
@@ -394,10 +447,7 @@ $this->Html->script([
       format: 'dd/mm/yyyy',
       autoclose: true
     });
-    $('#datepicker1').datepicker({
-      format: 'dd/mm/yyyy',
-      autoclose: true
-    });
+    
     $('#datepicker2').datepicker({
       format: 'dd/mm/yyyy',
       autoclose: true
@@ -407,6 +457,10 @@ $this->Html->script([
       autoclose: true
     });
     $('#datepicker4').datepicker({
+      format: 'dd/mm/yyyy',
+      autoclose: true
+    });
+    $('#datepicker1').datepicker({
       format: 'dd/mm/yyyy',
       autoclose: true
     });
@@ -420,8 +474,33 @@ $this->Html->script([
             }
         });
     });
+    
+    $('#example1').DataTable({
+        "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
+            if(aData[5]<-5){
+                $('td', nRow).css('background-color', '#F99090');
+            }                   
+        },
+        "language": {
+            "lengthMenu": "Mostrar _MENU_ entradas por pagina",
+            "zeroRecords": "Nada que mostrar - lo siento",
+            "info": "Enseñando página _PAGE_ de _PAGES_",
+            "infoEmpty": "No entradas disponibles",
+            "infoFiltered": "(filtrado de _MAX_ entradas totales)",
+            "search":         "Búsqueda: ",
+            "paginate": {
+                "first":      "Primero",
+                "last":       "Último",
+                "next":       "Siguiente",
+                "previous":   "Anterior"
+            }
+        }
+    });
+     
+
 
   });
 </script>
+
 
 

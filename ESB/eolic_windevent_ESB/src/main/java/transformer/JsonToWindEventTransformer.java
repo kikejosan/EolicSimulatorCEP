@@ -252,8 +252,8 @@ public class JsonToWindEventTransformer extends AbstractMessageTransformer{
 			case 2:
 				String miFecha [] = registro[i].split("/");
 				
-				Date curDate = new Date(miFecha[1]+"/"+miFecha[0]+"/"+miFecha[2]);
-				
+				Date curDate = new Date(miFecha[0]+"/"+miFecha[1]+"/"+miFecha[2]);
+				System.out.println("EL PROGRAMA ME DA UNA FECHA: "+curDate);
 				SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
 				String fechaFormatoCorrecto = format.format(curDate);
 				
@@ -267,7 +267,7 @@ public class JsonToWindEventTransformer extends AbstractMessageTransformer{
 				String miDate [] = registro[2].split("/");
 				String miHora [] = registro[i].split(":");
 				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
-				String dateInString = miDate[2]+"-"+miDate[1]+"-"+miDate[0]+"T"+miHora[0]+":"+miHora[1]+":"+miHora[2]+"Z";
+				String dateInString = miDate[2]+"-"+miDate[0]+"-"+miDate[1]+"T"+miHora[0]+":"+miHora[1]+":"+miHora[2]+"Z";
 				Date laFecha = getDate(formatter,dateInString);
 				event.put("time", laFecha);
 				break;

@@ -4,36 +4,30 @@
 <section class="content-header">
       <h1 id="titulo">
         Búsqueda de rankings de productividad
+                <small>Introducción</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> RankingProds</a></li>
         <li class="active">Búsqueda</li>
       </ol>
-    </section>
-
+</section>
+<br>
     <!-- Main content -->
-<section class="content">
-
-          <!-- Your Page Content Here -->
-
-
-
+<section class="content" height=2222 style="background-image: url('/EolicEventConsumer/admin_l_t_e/img/O7MEZJ0.jpg');   background-position: center center;   background-repeat: no-repeat;    background-size: cover; background-attachment: fixed;  background-color: #464646;">
     <div class="container-fluid text-center">
+        
         <div class="row">
             <div class="col-md-4" id="tablasRank">
-
-
-
+                <br>
             </div>
             <div class="col-md-4">
-                                    <br>
-
-                <div class="box box-primary" style="background-color: #e6f3ff">
+                <br>
+                <div class="box box-primary" style="background-color: #e6f3ff;">
                 <form class="form-group" method="post" action="../rankingprods/getProductividad">
                     <h3>Parque</h3>
                     <select id="parque1" class="form-control" name="parque1">
                         <?php foreach($parques as $parque): ?>
-                            <option><?php echo $parque['Nombre']; ?></option>
+                        <option><?php echo $parque['Nombre']; ?></option>
                         <?php endforeach; ?>
                     </select>
                     <br>
@@ -47,10 +41,7 @@
                     <br>
                     <input type="submit" id="btnIntro" class="btn btn-block btn-primary" value="Seguimiento"/>    
                 </form>
-               <!-- <button id="btnIntro2" class="btn btn-block btn-primary"> Pruebas </button>-->
-                <div id="pruebasContenedor"> </div>
-                <br>
-                    
+              
             </div>
             </div>
             <div class="col-md-4" id="tablasRank">
@@ -58,25 +49,14 @@
 
         </div>
     </div>
+    <br>
+<br>
+<br>
+<br>
+<br>
+
 </section>
-    <script>
-        $("#btnIntro2").on('click',function(){
-            var parque=$("#parque1").val();
-            var dia=$("#datepickerI").val();
-            console.log(dia);
-            console.log(parque);
-            //$("#titulo").append(dia);
-            $.post('http://localhost/EolicEventConsumer/rankingprods/muestrorankingparque',
-            {parque1: parque, dia1: dia}, 
-            function(data) {
-                variable = data;
-                $("#pruebasContenedor").html(data)
-            });
-
-
-        });
-
-    </script>    
+   
 <?php
 $this->Html->css([
     'AdminLTE./plugins/daterangepicker/daterangepicker',

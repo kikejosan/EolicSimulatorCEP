@@ -32,5 +32,17 @@
             <th scope="row"><?= __('Viento') ?></th>
             <td><?= $this->Number->format($fuera->viento) ?></td>
         </tr>
+        <tr>
+            <th scope="row"><?= __('Media') ?></th>
+            <td><?= $this->Number->format($fuera->media) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Desviacion') ?></th>
+            <td><?= $this->Number->format($fuera->desviacion) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Fecha') ?></th>
+            <td><?= h($fuera->fecha) ?></td>
+        </tr>
     </table>
 </div>

@@ -1,0 +1,12 @@
+@Name("WindEventR")
+INSERT INTO WindEventR
+SELECT power,
+systemNumber, 
+AVG(power) as media,
+STDDEV(power) as desviacion,
+windSpeed,
+viento,
+count(systemNumber) as veces,
+MIN(time.roundFloor('day')) as fecha
+FROM  WindEventTr.win:length_batch(4438) ventana
+GROUP BY systemNumber, viento

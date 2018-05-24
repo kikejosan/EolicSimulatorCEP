@@ -69,7 +69,7 @@
         chart: {
             type: 'areaspline',
             //height:600,
-            zoomType : 'y'
+            zoomType : 'xy'
         },
         title: {
             text: 'Productividad de '+categorias[0]+' hasta '+categorias[categorias.length-1]

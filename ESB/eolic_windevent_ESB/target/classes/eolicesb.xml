@@ -96,6 +96,47 @@ http://www.mulesoft.org/schema/mule/ftp http://www.mulesoft.org/schema/mule/ftp/
 	);]]></db:parameterized-query>
                     </db:insert>
                 </when>
+                <when expression="#[message.inboundProperties['eventPatternName'] ==&quot;EstadisticoDiario&quot;]">
+                    <db:insert config-ref="MySQL_Configuration" doc:name="EstadisticoDiario">
+                        <db:parameterized-query><![CDATA[insert into estadisticodiarios(systemNumber,media,desviacion,viento,veces,fecha) values (
+		#[payload["EstadisticoDiario"]["systemNumber"]],
+		#[payload["EstadisticoDiario"]["media"]],
+		#[payload["EstadisticoDiario"]["desviacion"]],
+		#[payload["EstadisticoDiario"]["viento"]],
+		#[payload["EstadisticoDiario"]["veces"]],
+		#[payload["EstadisticoDiario"]["fecha"]]
+	);]]></db:parameterized-query>
+                    </db:insert>
+                </when>
+                
+                <when expression="#[message.inboundProperties['eventPatternName'] ==&quot;Fuera&quot;]">
+                    <db:insert config-ref="MySQL_Configuration" doc:name="Fueras">
+                        <db:parameterized-query><![CDATA[insert into fueras(systemNumber,vecesFuera,viento,media,desviacion,fecha) values (
+		#[payload["Fuera"]["systemNumber"]],
+		#[payload["Fuera"]["vecesFuera"]],
+		#[payload["Fuera"]["viento"]],
+		#[payload["Fuera"]["media"]],
+		#[payload["Fuera"]["desviacion"]],
+		#[payload["Fuera"]["fecha"]]
+	);]]></db:parameterized-query>
+                    </db:insert>
+                </when>
+                
+                <when expression="#[message.inboundProperties['eventPatternName'] ==&quot;BajadaDeRendimiento&quot;]">
+                    <db:insert config-ref="MySQL_Configuration" doc:name="BajadaDeRendimiento">
+                        <db:parameterized-query><![CDATA[insert into bajadaderendimientos(systemNumber1,media1,fecha1,viento1,systemNumber2,media2,fecha2,viento2) values (
+		#[payload["BajadaDeRendimiento"]["systemNumber1"]],
+		#[payload["BajadaDeRendimiento"]["media1"]],
+		#[payload["BajadaDeRendimiento"]["fecha1"]],
+		#[payload["BajadaDeRendimiento"]["viento1"]],
+		#[payload["BajadaDeRendimiento"]["systemNumber2"]],
+		#[payload["BajadaDeRendimiento"]["media2"]],
+		#[payload["BajadaDeRendimiento"]["fecha2"]],
+		#[payload["BajadaDeRendimiento"]["viento2"]]
+		
+);]]></db:parameterized-query>
+                    </db:insert>
+                </when>
                 <otherwise>
                     <logger message="WARN ---&gt;  #[payload]" level="WARN" doc:name="Logger"/>
                 </otherwise>

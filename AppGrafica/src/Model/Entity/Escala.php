@@ -9,7 +9,7 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property int $systemNumber
  * @property int $posicion
- * @property int $fecha
+ * @property \Cake\I18n\FrozenDate $fecha
  */
 class Escala extends Entity
 {

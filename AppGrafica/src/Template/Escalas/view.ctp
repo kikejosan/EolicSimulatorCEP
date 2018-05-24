@@ -30,7 +30,7 @@
         </tr>
         <tr>
             <th scope="row"><?= __('Fecha') ?></th>
-            <td><?= $this->Number->format($escala->fecha) ?></td>
+            <td><?= h($escala->fecha) ?></td>
         </tr>
     </table>
 </div>
