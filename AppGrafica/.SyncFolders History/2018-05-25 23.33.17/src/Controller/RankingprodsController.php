@@ -111,15 +111,6 @@ class RankingprodsController extends AppController
         $this->loadModel('Parques');
         $parques = $this->Parques->find('all');
         $this -> set('parques',$parques);
-        
-        $rankingsFechas = $this->Rankingprods->find('all')->select(['Rankingprods.fecha'])->group(['Rankingprods.fecha'])->order(['Rankingprods.fecha' => 'DESC']);  
-        $fechasLimite = array();
-        array_push($fechasLimite,$rankingsFechas->last()['fecha']);
-        array_push($fechasLimite,$rankingsFechas->first()['fecha']);
-        $this->set('fechasLimite',implode(',',$fechasLimite));
-        
-        
-        
     }
     public function muestroRankingParque(){
 //        $rankingprod = $this->Rankingprods->get($id, [
@@ -166,11 +157,7 @@ class RankingprodsController extends AppController
          * - Inhabilitar los días de los calendarios que no se puede sacar el ranking
          *          */
         //$this -> set(compact("aeros"));
-        $rankingsFechas = $this->Rankingprods->find('all')->select(['Rankingprods.fecha'])->group(['Rankingprods.fecha'])->order(['Rankingprods.fecha' => 'DESC']);  
-        $fechasLimite = array();
-        array_push($fechasLimite,$rankingsFechas->last()['fecha']);
-        array_push($fechasLimite,$rankingsFechas->first()['fecha']);
-        $this->set('fechasLimite',implode(',',$fechasLimite));
+        
         
         $formulario = $this->request->getData();
         $this->set('formulario',$formulario);
@@ -178,6 +165,9 @@ class RankingprodsController extends AppController
         $this->loadModel('Aeros');
         $this->loadModel('Parques');
 
+        $aeros = $this->Aeros->find('all');
+        
+        $this -> set('aeros',$aeros);
 
         //$idParque = $this->find('all',array('conditions' =>array('Parques.Nombre'==$formulario['parque1']),'fields' => 'User.id'));
         
@@ -186,12 +176,6 @@ class RankingprodsController extends AppController
         $this->loadModel('Parques');
         $parques = $this->Parques->find('all');
         $this -> set('parques',$parques);
-        
-        $nombreParque = $formulario['parque1'];
-        $parqueCogido = $this->Parques->find('all')->where(['Parques.nombre =' => $nombreParque]);
-        $aerosParque = $this->Aeros->find('all')->where(['Aeros.id_parque =' => $parqueCogido->first()['id']]);
-        $this -> set('aeros',$aerosParque);
-
         //$cadenaFecha = split(",",$formulario["datepickerI"]);
         
        /*orden para sacar los ranking de ese dia*/
@@ -214,8 +198,6 @@ class RankingprodsController extends AppController
         $this->loadModel('Transicions');
         $transiciones = $this->Transicions->find('all');
         $this -> set('transiciones',$transiciones);
-        
-      
 
         //$rankingSegundo = $this->Rankingprods->query("SELECT Rankingprods.id AS `Rankingprods__id`, Rankingprods.systemNumber AS `Rankingprods__systemNumber`, Rankingprods.time AS `Rankingprods__time`, Rankingprods.suma AS `Rankingprods__suma`, Rankingprods.productividad AS `Rankingprods__productividad`, Rankingprods.events AS `Rankingprods__events`, Rankingprods.tipo AS `Rankingprods__tipo` FROM rankingprods Rankingprods WHERE Rankingprods.id =4");
         //$this -> set('rankingSegundo',$rankingSegundo);
@@ -226,42 +208,56 @@ class RankingprodsController extends AppController
         $diasG = $mainData["diasG"];
         $aerosG = $mainData["aerosG"];
         $diasG = explode('-',$diasG);
-        $diasG[0] =  str_replace(' ', '', $diasG[0]);
-        $diasG[1] =  str_replace(' ', '', $diasG[1]);
-        $this->set('diasG',implode(',',$diasG));
         $diasG[0]=$this->getFormatoFecha($diasG[0]);
         $diasG[1]=$this->getFormatoFecha($diasG[1]);
+        $diasG[0] =  str_replace(' ', '', $diasG[0]);
+        $diasG[1] =  str_replace(' ', '', $diasG[1]);
         
-        /*REESTRUCTURACION*/
-        $contenedor = $mainData['contenedor'];
-        /*Sacar los dias por separado */
-            
-        
-        $simple = array();
-        $compuesto = array();
         $series = array();
-        
-        foreach($aerosG as $aero):
-            $conjuntoAero = $this->Rankingprods->find('all')->where(['Rankingprods.fecha >=' => $diasG[0],
-                                                                                    'Rankingprods.fecha <=' => $diasG[1],
-                                                                                    'Rankingprods.systemNumber =' => $aero])->order(['Rankingprods.fecha' => 'ASC']);
-            foreach($conjuntoAero as $conjunto):
-                array_push($simple, $conjunto['fecha']);
-                array_push($simple, $conjunto['productividad']);
-
-                array_push($compuesto,implode(',',$simple));
-                
-                $simple = array();
+        $categorias = array();
+        //$rankingprodsG = $this->Rankingprods->find('all', array('conditions' => array("Rankingprods.systemNumber" => $aerosG)));
+        $rankingprodsG = $this->Rankingprods->find('all')->where(['Rankingprods.fecha >=' => $diasG[0],
+                                                                    'Rankingprods.fecha <=' => $diasG[1]])->order(['Rankingprods.fecha' => 'ASC']);
+        foreach ($aerosG as $aero):
+            $serieAero = array();
+            foreach ($rankingprodsG as $ranking): 
+                if($aero == $ranking["systemNumber"]){
+                    array_push($serieAero, $ranking);
+                }
             endforeach;
-            array_push($series,implode('|',$compuesto));
-            $compuesto = array();
+            array_push($series,$serieAero);
         endforeach;
         
-        $this->set('temporalRankings',implode(':',$series));
-        $this->set('contenedor',$contenedor);
+        foreach ($serieAero as $registro):
+            array_push($categorias,$registro["fecha"]);
+        endforeach;
+        /* Ahora solo cojo el dato de productividad */
+        $dataAux = array();
+        $dataArray = array();
+        $dataStr = array();
+        foreach ($series as $serieAux):
+            $dataAux = array();
+            foreach($serieAux as $ranking):
+                array_push($dataAux,$ranking["productividad"]);
+            endforeach;
+            array_push($dataArray,$dataAux);
+        endforeach;
+        
+        foreach($dataArray as $productividades):
+            array_push($dataStr,implode(',',$productividades));
+        endforeach;
+        
+        $this->set("categorias",implode(',',$categorias));
+        $this ->set("dataStr",implode('|',$dataStr));
+
+        $this ->set("series",$series);
+       // $rankingprodsG = $this->Rankingprods->find('all',$conditions);
+        $this ->set('rankingprodsG',$rankingprodsG);
+        $this -> set('diasG',$diasG);
+        $this -> set('aerosG',$aerosG);
+        $this -> set('aerosStr',implode(',',$aerosG));
         
 
-        
     }
     public function getInfoAero(){
                 $this->loadModel('Aeros');
@@ -288,11 +284,6 @@ class RankingprodsController extends AppController
     public function getFechaRango($miRango){
         $miCadena = explode('-',$miFecha);
         
-    }
-    public function getFormatoFechaPicker($miFecha){
-        $miFecha = explode('/',$miFecha);
-        $miFecha = $miFecha[1].'/'.$miFecha[0]."/".$miFecha[2];
-        return $miFecha;
     }
 
 }

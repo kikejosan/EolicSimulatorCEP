@@ -18,7 +18,7 @@
                 <ul class="dropdown-menu">
                   <?php foreach($vientosPHP as $viento):?>
                   <li role="presentation">
-                      <a role="menuitem" tabindex="-1" href="<?php echo '#tab_Q'.hash('ripemd160', $viento);?>" data-toggle="tab"><?php echo $viento ?></a>
+                      <a role="menuitem" tabindex="-1" href="<?php echo '#tab_'.hash('ripemd160', $viento);?>" data-toggle="tab"><?php echo $viento ?></a>
                   </li>
                   <?php endforeach;?>
                 </ul>
@@ -27,9 +27,9 @@
             <div class="tab-content">
                 <?php foreach($vientosPHP as $viento):?>
                 <?php if($vientosPHP[0] == $viento){ ?>
-                    <div class="tab-pane active" id="<?php echo 'tab_Q'.hash('ripemd160', $viento)?>"><?php echo $viento;?></div>
+                    <div class="tab-pane active" id="<?php echo 'tab_'.hash('ripemd160', $viento)?>"><?php echo $viento;?></div>
                 <?php }else{ ?>
-                    <div class="tab-pane" id="<?php echo 'tab_Q'.hash('ripemd160', $viento)?>"><?php echo $viento;?></div>
+                    <div class="tab-pane" id="<?php echo 'tab_'.hash('ripemd160', $viento)?>"><?php echo $viento;?></div>
                 <?php }                                
                endforeach;?>
             </div>
@@ -74,7 +74,7 @@
     }
     //crearGrafico(vientosF[1]+"Cheese",conjunto[12],vientosF[12]);
     for(var i=0;i<vientosF.length;i++){
-        crearGrafico("tab_Q"+contenedores[i],conjunto[i],vientosF[i]);
+        crearGrafico("tab_"+contenedores[i],conjunto[i],vientosF[i]);
     }
 function crearGrafico(contenedor,dataSerie,bin){
     

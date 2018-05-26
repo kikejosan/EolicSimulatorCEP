@@ -109,48 +109,17 @@ class EstadisticodiariosController extends AppController
         $parques = $this->Parques->find('all');
         $this -> set('parques',$parques);
         
-        
-        $estadistiosFechas = $this->Estadisticodiarios->find('all')->select(['Estadisticodiarios.fecha'])->group(['Estadisticodiarios.fecha'])->order(['Estadisticodiarios.fecha' => 'DESC']);  
-        $fechasLimite = array();
-        array_push($fechasLimite,$estadistiosFechas->last()['fecha']);
-        array_push($fechasLimite,$estadistiosFechas->first()['fecha']);
-        $this->set('fechasLimite',implode(',',$fechasLimite));
-        
     }
     public function getRendimiento(){
         $this->loadModel('Fueras');
         $this->loadModel('Bajadaderendimientos');
         $this->loadModel('Rankingprods');
-        $this->loadModel('Aeros');
-        $this->loadModel('Parques');
-        
-        
-        
-        $this->loadModel('Parques');
-        $parques = $this->Parques->find('all');
-        $this -> set('parques',$parques);
-        
-        
-        
-        
-        $bines = $this->Estadisticodiarios->find('all')->select(['Estadisticodiarios.viento'])->group(['Estadisticodiarios.viento'])->order(['Estadisticodiarios.viento' => 'ASC']);  
-        $this->set('bines',$bines);
-        
 
-        $estadistiosFechas = $this->Estadisticodiarios->find('all')->select(['Estadisticodiarios.fecha'])->group(['Estadisticodiarios.fecha'])->order(['Estadisticodiarios.fecha' => 'DESC']);  
-        $fechasLimite = array();
-        array_push($fechasLimite,$estadistiosFechas->last()['fecha']);
-        array_push($fechasLimite,$estadistiosFechas->first()['fecha']);
-        $this->set('fechasLimite',implode(',',$fechasLimite));
+
         
         
         $formulario = $this->request->getData();
         $this->set('formulario',$formulario);
-        
-        $nombreParque = $formulario['parque1'];
-        $parqueCogido = $this->Parques->find('all')->where(['Parques.nombre =' => $nombreParque]);
-        $aerosParque = $this->Aeros->find('all')->where(['Aeros.id_parque =' => $parqueCogido->first()['id']]);
-        $this -> set('aeros',$aerosParque);
         
         $estadisticos = $this->Estadisticodiarios->find('all')->where(['Estadisticodiarios.fecha =' => ($this->getFormatoFecha($formulario["datepickerI"]))]);
         $this -> set('estadisticos',$estadisticos);
@@ -169,7 +138,6 @@ class EstadisticodiariosController extends AppController
         $mainData = $this->request->getData();
         $diaG = $mainData["dia"];
         $aerosG = $mainData["aerosG"];
-        $this->set('contenedor',$mainData['contenedor']);
         
         $this->set('diaG',$diaG);
         $this->set('aerosG',implode(',',$aerosG));
@@ -242,9 +210,6 @@ class EstadisticodiariosController extends AppController
         $diaG = $mainData["dia"];
         $aerosG = $mainData["aerosG"];
         
-        $this->set('contenedor',$mainData['contenedor']);
-
-        
         $this->set('diaG',$diaG);
         $this->set('aerosG',implode(',',$aerosG));
         
@@ -314,7 +279,11 @@ class EstadisticodiariosController extends AppController
         
         $totalFueras = $this->Fueras->find('all')->where(['Fueras.fecha =' => ($this->getFormatoFecha($diaG))]);
         $vientos = $this->Fueras->find()->select(['Fueras.viento'])->where(['Fueras.fecha =' => ($this->getFormatoFecha($diaG))])->group(['Fueras.viento']);     
-
+        
+        //$this->set("fuerasDeQuesos",$vientos);
+        
+            
+        
         
         $fuerasStr = array();
         $fuerasVientoAux = array();
@@ -345,98 +314,11 @@ class EstadisticodiariosController extends AppController
         $this->set("vientosF",implode(',',$vientosArray));
         
     }
-    
-    public function muestroGraficaBinMedias(){
-        $mainData = $this->request->getData();
-        $diasTemporal = $mainData['dia'];
-        $aerosTemporal = $mainData['aerosTemporal'];
-        $bin = $mainData['binViento'];
-        $contenedor = $mainData['contenedor'];
-        /*Sacar los dias por separado */
-        $diasTemporal = explode('-',$diasTemporal);
-        $diasTemporal[0]=$this->getFormatoFecha($diasTemporal[0]);
-        $diasTemporal[1]=$this->getFormatoFecha($diasTemporal[1]);
-        $diasTemporal[0] =  str_replace(' ', '', $diasTemporal[0]);
-        $diasTemporal[1] =  str_replace(' ', '', $diasTemporal[1]);
         
-        
-        $simple = array();
-        $compuesto = array();
-        $series = array();
-        
-        foreach($aerosTemporal as $aero):
-            $conjuntoAero = $this->Estadisticodiarios->find('all')->find('all')->where(['Estadisticodiarios.fecha >=' => $diasTemporal[0],
-                                                                                            'Estadisticodiarios.fecha <=' => $diasTemporal[1],
-                                                                                            'Estadisticodiarios.viento =' => $bin,
-                                                                                            'Estadisticodiarios.systemNumber =' => $aero])->order(['Estadisticodiarios.fecha' => 'ASC']);
-            foreach($conjuntoAero as $conjunto):
-                array_push($simple, $conjunto['fecha']);
-                array_push($simple, $conjunto['media']);
-
-                array_push($compuesto,implode(',',$simple));
-                
-                $simple = array();
-            endforeach;
-            array_push($series,implode('|',$compuesto));
-            $compuesto = array();
-        endforeach;
-        
-        $this->set('temporalMedias',implode(':',$series));
-        $this->set('contenedor',$contenedor);
-        $this->set('bin',$bin);
-        
-        
-        
-    }
-    public function muestroGraficaBinDesviaciones(){
-        $mainData = $this->request->getData();
-        $diasTemporal = $mainData['dia'];
-        $aerosTemporal = $mainData['aerosTemporal'];
-        $bin = $mainData['binViento'];
-        $contenedor = $mainData['contenedor'];
-        /*Sacar los dias por separado */
-        $diasTemporal = explode('-',$diasTemporal);
-        $diasTemporal[0]=$this->getFormatoFecha($diasTemporal[0]);
-        $diasTemporal[1]=$this->getFormatoFecha($diasTemporal[1]);
-        $diasTemporal[0] =  str_replace(' ', '', $diasTemporal[0]);
-        $diasTemporal[1] =  str_replace(' ', '', $diasTemporal[1]);
-        
-        
-        $simple = array();
-        $compuesto = array();
-        $series = array();
-        
-        foreach($aerosTemporal as $aero):
-            $conjuntoAero = $this->Estadisticodiarios->find('all')->find('all')->where(['Estadisticodiarios.fecha >=' => $diasTemporal[0],
-                                                                                            'Estadisticodiarios.fecha <=' => $diasTemporal[1],
-                                                                                            'Estadisticodiarios.viento =' => $bin,
-                                                                                            'Estadisticodiarios.systemNumber =' => $aero])->order(['Estadisticodiarios.fecha' => 'ASC']);
-            foreach($conjuntoAero as $conjunto):
-                array_push($simple, $conjunto['fecha']);
-                array_push($simple, $conjunto['desviacion']);
-
-                array_push($compuesto,implode(',',$simple));
-                
-                $simple = array();
-            endforeach;
-            array_push($series,implode('|',$compuesto));
-            $compuesto = array();
-        endforeach;
-        
-        $this->set('temporalMedias',implode(':',$series));
-        $this->set('contenedor',$contenedor);
-        $this->set('bin',$bin);
-    }
-
-
     public function getFormatoFecha($miFecha){
         $miFecha = explode('/', $miFecha);
         $miFecha=$miFecha[2]."-".$miFecha[1]."-".$miFecha[0];
         
         return $miFecha;
-    }
-    public function getFormatoFechaPicker($miFecha){
-        $miFecha = explode('/',$miFecha);
-        $miFecha = $miFecha[1].'/'.$miFecha[0]."/".$miFecha[2];
     }
 }

@@ -23,8 +23,8 @@ $this->Html->script([
   'AdminLTE./plugins/input-mask/jquery.inputmask.date.extensions',
   'AdminLTE./plugins/input-mask/jquery.inputmask.extensions',
   'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js',
-  'AdminLTE./plugins/datepicker/bootstrap-datepicker',
   'AdminLTE./plugins/daterangepicker/daterangepicker',
+  'AdminLTE./plugins/datepicker/bootstrap-datepicker',
   'AdminLTE./plugins/colorpicker/bootstrap-colorpicker.min',
   'AdminLTE./plugins/timepicker/bootstrap-timepicker.min',
   'AdminLTE./plugins/iCheck/icheck.min',
@@ -53,7 +53,6 @@ $this->Html->script([
           <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="true">Datos obtenidos</a></li>
           <li class=""><a href="#tab_2" data-toggle="tab" aria-expanded="false">Análisis de desviaciones</a></li>
           <li class=""><a href="#tab_3" data-toggle="tab" aria-expanded="false">Análisis de los puntos fuera</a></li>
-          <li class=""><a href="#tab_4" data-toggle="tab" aria-expanded="false">Análisis temporal</a></li>
         </ul>
         <div class="tab-content">
             <div class="tab-pane active" id="tab_1">
@@ -210,9 +209,11 @@ $this->Html->script([
                                     <div class="form-group">
                                         <label>Aeros seleccionados</label>
                                         <select id="aerosG" class="form-control select2" multiple="multiple" data-placeholder="Seleccionar" style="width: 100%;">
-                                            <?php foreach ($aeros as $aero) :?>
-                                                <option>  <?php echo $aero['SystemNumber']?></option>
-                                            <?php endforeach; ?>
+                                            <option>724024001</option>
+                                            <option>724024002</option>
+                                            <option>724024003</option>
+                                            <option>724024004</option>
+                                            <option>724024031</option>
                                         </select>
                                     </div>
                                     
@@ -297,9 +298,11 @@ $this->Html->script([
                                     <div class="form-group">
                                         <label>Aeros seleccionados</label>
                                         <select id="aerosF" class="form-control select2" multiple="multiple" data-placeholder="Seleccionar" style="width: 100%;">
-                                            <?php foreach ($aeros as $aero) :?>
-                                                <option>  <?php echo $aero['SystemNumber']?></option>
-                                            <?php endforeach; ?>
+                                            <option>724024001</option>
+                                            <option>724024002</option>
+                                            <option>724024003</option>
+                                            <option>724024004</option>
+                                            <option>724024031</option>
                                         </select>
                                     </div>
                                     
@@ -358,128 +361,34 @@ $this->Html->script([
                     </div>
                 </div>
             </div>
-            <div class="tab-pane" id="tab_4">
-                <div class="container-fluid">
-                    <div class='col-md-3'>
-                        <div class="box">
-                            <div class="box-header with-border">
-                              <h3 class="box-title">Formulario para el seguimiento temporal</h3>
-                              <div class="box-tools pull-right">
-                                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                  <i class="fa fa-minus"></i></button>
-                                <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
-                                  <i class="fa fa-times"></i></button>
-                              </div>
-                            </div>
-                            <div class="box-body">
-                                    <div class="form-group">
-                                        <label>Rango de fechas:</label>
 
-                                        <div class="input-group">
-                                          <div class="input-group-addon">
-                                            <i class="fa fa-calendar"></i>
-                                          </div>
-                                          <input type="text" class="form-control pull-right" id="diasTemporal">
-                                        </div>
-
-
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Aeros seleccionados</label>
-                                        <select id="aerosTemporal" class="form-control select2" multiple="multiple" data-placeholder="Seleccionar" style="width: 100%;">
-                                            <?php foreach ($aeros as $aero) :?>
-                                                <option>  <?php echo $aero['SystemNumber']?></option>
-                                            <?php endforeach; ?>
-                                        </select>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label>Bin de viento</label>
-                                        <select id="binViento" class="form-control" data-placeholder="Seleccionar" style="width: 100%;">
-                                            <?php foreach ($bines as $bin) :?>
-                                                <option>  <?php echo $bin['viento']?></option>
-                                            <?php endforeach; ?>
-                                        </select>
-                                    </div>
-
-                                    <button id="btnTemporal" type="button" class="btn btn-block btn-primary btn-lg">Generar gráfico</button>
-
-                            </div>  
-                        </div>
-                    </div>
-                    <div class='col-md-9'>
-                        <div class="box">
-                            <div class="box-header with-border">
-                              <h3 class="box-title">Seguimiento de medias</h3>
-                              <div class="box-tools pull-right">
-                                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                  <i class="fa fa-minus"></i></button>
-                                <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
-                                  <i class="fa fa-times"></i></button>
-                              </div>
-                            </div>
-                            <div class="box-body">
-                                <div class='container-fluid' id='graficoTemporalMedias'>
-                                </div>
-                            </div>  
-                        </div>
-                        <div class="box">
-                            <div class="box-header with-border">
-                              <h3 class="box-title">Seguimiento de desviaciones</h3>
-                              <div class="box-tools pull-right">
-                                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                  <i class="fa fa-minus"></i></button>
-                                <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
-                                  <i class="fa fa-times"></i></button>
-                              </div>
-                            </div>
-                            <div class="box-body">
-                                <div class='container-fluid' id='graficoTemporalDesviaciones'>
-                                </div>
-                            </div>  
-                        </div>
-                    </div>
-                    
-                </div>
-            </div>
+          
         </div>
+            <!-- /.tab-content -->
     </div>
-    
+    <div class="container-fluid text-center">
+        <div class="row">
+            
+
+        </div>
+        <br>
+        
+    </div>
     
 </section>
 
 <script>
   $(function () {
-    var fechasLimite = "<?php echo $fechasLimite ?>";
-    fechasLimite = fechasLimite.split(',');
-    var inicio = new Date(fechasLimite[0]);
-    var final = new Date(fechasLimite[1]);
-    
     $('#datepicker1').datepicker({
       format: 'dd/mm/yyyy',
-       startDate:inicio,
-       endDate:final,
       autoclose: true
     });
     $('#datepicker2').datepicker({
       format: 'dd/mm/yyyy',
-      startDate:inicio,
-      endDate:final,
       autoclose: true
     });
     
     $(".select2").select2();
-    $(function () {
-        $('#diasTemporal').daterangepicker({
-            locale: {
-                format: 'DD/MM/YYYY'
-            },
-            startDate:inicio,
-            endDate:final,
-            minDate:inicio,
-            maxDate:final
-        });
-    });
     $('#example1').DataTable({
         "language": {
             "lengthMenu": "Mostrar _MENU_ entradas por pagina",
@@ -565,71 +474,44 @@ $this->Html->script([
 </script>
 <script>
     $("#btnGrafica").on("click",function(){
-        if($("#datepicker1").val()==null || $("#aerosG").val()==null){
-            alert('Faltan campos por rellenar');
-        }else{
-            $.post('http://localhost/EolicEventConsumer/estadisticodiarios/muestroGraficaRangos',
-             {dia : $("#datepicker1").val(), aerosG : $("#aerosG").val(), contenedor:"graficaDesviaciones"}, 
-             function(data) {
-                 variable = data;
-
-                 $("#graficoRangos").html(data);
-
-
-
-             });
-
-            $.post('http://localhost/EolicEventConsumer/estadisticodiarios/muestroGraficaBarras',
-            {dia : $("#datepicker1").val(), aerosG : $("#aerosG").val(), contenedor:"contenedorBarras"}, 
-            function(data) {
-                variable = data;
-                $("#graficoBarras").html(data)
-            });
-        }
+        $.post('http://localhost/EolicEventConsumer/estadisticodiarios/muestroGraficaRangos',
+         {dia : $("#datepicker1").val(), aerosG : $("#aerosG").val()}, 
+         function(data) {
+             variable = data;
+             $("#graficoRangos").html(data);
+             
+                
+         });
+        
+        $.post('http://localhost/EolicEventConsumer/estadisticodiarios/muestroGraficaBarras',
+        {dia : $("#datepicker1").val(), aerosG : $("#aerosG").val()}, 
+        function(data) {
+            variable = data;
+            $("#graficoBarras").html(data)
+        });
+        
        
         
     });
     $("#btnF").on("click",function(){
-        if($("#datepicker2").val()==null || $("#aerosF").val()==null){
-            alert('Faltan campos por rellenar');
-        }else{
-            $.post('http://localhost/EolicEventConsumer/estadisticodiarios/muestroGraficaRangos',
-             {dia : $("#datepicker2").val(), aerosG : $("#aerosF").val(),contenedor:"graficaFueras"}, 
-             function(data) {
-                 variable = data;
-                 $("#curvaFuera").html(data);
+        $.post('http://localhost/EolicEventConsumer/estadisticodiarios/muestroGraficaRangos',
+         {dia : $("#datepicker2").val(), aerosG : $("#aerosF").val()}, 
+         function(data) {
+             variable = data;
+             $("#curvaFuera").html(data);
+             
+                
+         });
+         $.post('http://localhost/EolicEventConsumer/estadisticodiarios/muestroGraficaQuesos',
+         {dia : $("#datepicker2").val()}, 
+         function(data) {
+             variable = data;
+             $("#graficoQuesos").html(data);
+             
+                
+         });
 
-
-             });
-             $.post('http://localhost/EolicEventConsumer/estadisticodiarios/muestroGraficaQuesos',
-             {dia : $("#datepicker2").val()}, 
-             function(data) {
-                 variable = data;
-                 $("#graficoQuesos").html(data);    
-             });
-         }
-    });
-    
-    $("#btnTemporal").on("click",function(){
-        if($("#diasTemporal").val()==null || $("#binViento").val()==null || $('#aerosTemporal').val()==null){
-            alert('Faltan campos por rellenar');
-        }else{
-            $.post('http://localhost/EolicEventConsumer/estadisticodiarios/muestroGraficaBinMedias',
-             {dia : $("#diasTemporal").val(), binViento : $('#binViento').val() ,aerosTemporal : $("#aerosTemporal").val(),contenedor:"graficoBM"},
-             function(data) {
-                 variable = data;
-                 $("#graficoTemporalMedias").html(data);
-
-
-             });
-             $.post('http://localhost/EolicEventConsumer/estadisticodiarios/muestroGraficaBinDesviaciones',
-             {dia : $("#diasTemporal").val(), binViento : $('#binViento').val() ,aerosTemporal : $("#aerosTemporal").val(),contenedor:"graficoBD"},
-             function(data) {
-                 variable = data;
-                 $("#graficoTemporalDesviaciones").html(data);    
-             });
-        }
-    });
+    }); 
 </script>
 
 

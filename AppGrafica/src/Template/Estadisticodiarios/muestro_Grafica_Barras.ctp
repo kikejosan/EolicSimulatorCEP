@@ -9,14 +9,14 @@
       </div>
     </div>
     <div class="box-body">
-        <div class="container-fluid" id="contenedorBarras"></div>           
+        <div class="container-fluid" id="<?php echo $contenedor; ?>"></div>           
     </div>
                             
 </div>
 
 <script>
     /*VARIOS AEROGENERADORES EN EL MISMO GRAFICO*/
-      
+    var contenedor = "<?php echo $contenedor; ?>";    
     var aerosSeleccionados = "<?php echo $aerosG; ?>";
     aerosSeleccionados = aerosSeleccionados.split(",");   
     var vientos = "<?php echo $StrV;?>";
@@ -98,7 +98,7 @@ for(var i=0; i<seriesMedias4.length;i++){
 
 
 
-Highcharts.chart('contenedorBarras', {
+Highcharts.chart(contenedor, {
       chart: {
                 type:'column',
                 zoomType : 'xy'
@@ -109,19 +109,22 @@ Highcharts.chart('contenedorBarras', {
     },
 
     xAxis: {
-        type: [0,20]
+        type: [0,20],
+        title: {
+            text: "Bin de viento (m/s)"
+        }
     },
 
     yAxis: {
         title: {
-            text: null
+            text: "Potencia producida (KW)"
         }
     },
 
     tooltip: {
         crosshairs: true,
         shared: true,
-        valueSuffix: 'KW'
+        valueSuffix: ' KW'
     },
 
     legend: {

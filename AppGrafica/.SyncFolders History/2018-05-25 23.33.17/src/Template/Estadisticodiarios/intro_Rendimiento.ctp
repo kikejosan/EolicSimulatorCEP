@@ -20,37 +20,31 @@
             </div>
             <div class="col-md-4">
                 <br>
-            <div class="box box-primary" style="background-color: #e6f3ff;">
-                <div class="row">
-                    <div class="col-md-1"></div>
-                    <div class="col-md-10">
-                        <form class="form-group" method="post" action="../estadisticodiarios/getRendimiento">
-                            <h3>Parque</h3>
-                            <select id="parque1" class="form-control" name="parque1">
-                                <?php foreach($parques as $parque): ?>
-                                <option><?php echo $parque['Nombre']; ?></option>
-                                <?php endforeach; ?>
-                            </select>
-                            <br>
-                            <h3>Día del año: </h3>
-                                <div class="input-group date">
-                                    <div class="input-group-addon">
-                                        <i class="fa fa-calendar"></i>
-                                    </div>
-                                    <input required="true" type="text" class="form-control pull-right" id="datepickerI" name="datepickerI">
-                                </div>
-                            <br>
-                            <input type="submit" id="btnIntro" class="btn btn-block btn-primary" value="Seguimiento"/>    
-                            
-                        </form>
-                    </div>
-                    <div class="col-md-1"></div>
-                </div>
+                <div class="box box-primary" style="background-color: #e6f3ff;">
+                <form class="form-group" method="post" action="../estadisticodiarios/getRendimiento">
+                    <h3>Parque</h3>
+                    <select id="parque1" class="form-control" name="parque1">
+                        <?php foreach($parques as $parque): ?>
+                        <option><?php echo $parque['Nombre']; ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                    <br>
+                    <h3>Día del año: </h3>
+                        <div class="input-group date">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input required="true" type="text" class="form-control pull-right" id="datepickerI" name="datepickerI">
+                        </div>
+                    <br>
+                    <input type="submit" id="btnIntro" class="btn btn-block btn-primary" value="Seguimiento"/>    
+                </form>
                     <br>
                     
             </div>
             </div>
-            
+            <div class="col-md-4" id="tablasRank">
+            </div>
 
         </div>
     </div>
@@ -80,7 +74,7 @@ $this->Html->script([
   'AdminLTE./plugins/input-mask/jquery.inputmask.extensions',
   'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js',
   'AdminLTE./plugins/daterangepicker/daterangepicker',
-  //'AdminLTE./plugins/datepicker/bootstrap-datepicker',
+  'AdminLTE./plugins/datepicker/bootstrap-datepicker',
   'AdminLTE./plugins/colorpicker/bootstrap-colorpicker.min',
   'AdminLTE./plugins/timepicker/bootstrap-timepicker.min',
   'AdminLTE./plugins/iCheck/icheck.min',
@@ -89,23 +83,12 @@ $this->Html->script([
 ?>
 <?php $this->start('scriptBottom'); ?>
 <script>
-
   $(function () {
-        var fechasLimite = "<?php echo $fechasLimite ?>";
-        fechasLimite = fechasLimite.split(',');
-        var inicio = new Date(fechasLimite[0]);
-        var final = new Date(fechasLimite[1]);
     $('#datepickerI').datepicker({
-        
         format: 'dd/mm/yyyy',
-        startDate: inicio,
-        endDate:final,
         autoclose: true
-        
     });
   });
-  
-
 </script>
 <?php $this->end(); ?>
 

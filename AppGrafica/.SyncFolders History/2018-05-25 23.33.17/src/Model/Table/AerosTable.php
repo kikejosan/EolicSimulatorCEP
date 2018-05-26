@@ -33,7 +33,6 @@ class AerosTable extends Table
         $this->setTable('aeros');
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
-        $this->belongsTo('Parques');
     }
 
     /**

@@ -1,8 +1,6 @@
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
-
-
 <section class="content-header">
       <h1 id="titulo">
         Búsqueda de rankings de productividad
@@ -25,31 +23,24 @@
             <div class="col-md-4">
                 <br>
                 <div class="box box-primary" style="background-color: #e6f3ff;">
-                <div class="row">
-                    <div class="col-md-1"></div>
-                    <div class="col-md-10">
-                        <form class="form-group" method="post" action="../rankingprods/getProductividad">
-                            <h3>Parque</h3>
-                            <select id="parque1" class="form-control" name="parque1">
-                                <?php foreach($parques as $parque): ?>
-                                <option><?php echo $parque['Nombre']; ?></option>
-                                <?php endforeach; ?>
-                            </select>
-                            <br>
-                            <h3>Día del año: </h3>
-                                <div class="input-group date">
-                                    <div class="input-group-addon">
-                                        <i class="fa fa-calendar"></i>
-                                    </div>
-                                    <input required="true" type="text" class="form-control pull-right" id="datepickerI" name="datepickerI">
-                                </div>
-                            <br>
-                            <input type="submit" id="btnIntro" class="btn btn-block btn-primary" value="Seguimiento"/>    
-                        </form>
-                    </div>
-                    <div class="col-md-1"></div>
-                </div>
+                <form class="form-group" method="post" action="../rankingprods/getProductividad">
+                    <h3>Parque</h3>
+                    <select id="parque1" class="form-control" name="parque1">
+                        <?php foreach($parques as $parque): ?>
+                        <option><?php echo $parque['Nombre']; ?></option>
+                        <?php endforeach; ?>
+                    </select>
                     <br>
+                    <h3>Día del año: </h3>
+                        <div class="input-group date">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input required="true" type="text" class="form-control pull-right" id="datepickerI" name="datepickerI">
+                        </div>
+                    <br>
+                    <input type="submit" id="btnIntro" class="btn btn-block btn-primary" value="Seguimiento"/>    
+                </form>
               
             </div>
             </div>
@@ -93,19 +84,12 @@ $this->Html->script([
 ?>
 <?php $this->start('scriptBottom'); ?>
 <script>
-    var fechasLimite = "<?php echo $fechasLimite ?>";
-    fechasLimite = fechasLimite.split(',');
-    var inicio = new Date(fechasLimite[0]);
-    var final = new Date(fechasLimite[1]);
-    
+  $(function () {
     $('#datepickerI').datepicker({
         format: 'dd/mm/yyyy',
-        startDate:inicio,
-        endDate:final,
         autoclose: true
-        
     });
-    
+  });
 </script>
 <?php $this->end(); ?>
 
