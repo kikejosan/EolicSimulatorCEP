@@ -260,8 +260,7 @@ $this->Html->script([
                     </div>
                     <div class="col-md-7" id="sitio">
                         <div class="col-md-12" id="graficoRangos">
-                            <br>
-                            <center><img class="img-responsive img-thumbnail" src="/EolicEventConsumer/admin_l_t_e/img/6335.jpg"  width="100%" height="100%"></center>
+                            
                             
                         </div>
                         <div class="col-md-12" id="graficoBarras">
@@ -350,12 +349,10 @@ $this->Html->script([
                     </div>
                     <div class="col-md-7">
                         <div class="col-md-12" id="curvaFuera">
-                            <br>
-                            <br>
-                            <center><img class="img-responsive img-thumbnail" src="/EolicEventConsumer/admin_l_t_e/img/6335.jpg"  width="100%" height="100%"></center>
+                            
                             
                         </div>
-                        <div class="col-md-12" id="graficoQuesos">
+                        <div class="col-md-12" id="graficoQuesos">fff
                             
                         </div>
                     </div>
@@ -411,12 +408,35 @@ $this->Html->script([
                         </div>
                     </div>
                     <div class='col-md-9'>
-                        <div class="col-md-12" id='graficoTemporalMedias'>
-                           <center><img class="img-responsive img-thumbnail" src="/EolicEventConsumer/admin_l_t_e/img/6335.jpg"  width="50%" height="50%"></center>
+                        <div class="box">
+                            <div class="box-header with-border">
+                              <h3 class="box-title">Seguimiento de medias</h3>
+                              <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                  <i class="fa fa-minus"></i></button>
+                                <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
+                                  <i class="fa fa-times"></i></button>
+                              </div>
+                            </div>
+                            <div class="box-body">
+                                <div class='container-fluid' id='graficoTemporalMedias'>
+                                </div>
+                            </div>  
                         </div>
-                        
-                        <div class="col-md-12" id='graficoTemporalDesviaciones'>
-                            
+                        <div class="box">
+                            <div class="box-header with-border">
+                              <h3 class="box-title">Seguimiento de desviaciones</h3>
+                              <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                  <i class="fa fa-minus"></i></button>
+                                <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
+                                  <i class="fa fa-times"></i></button>
+                              </div>
+                            </div>
+                            <div class="box-body">
+                                <div class='container-fluid' id='graficoTemporalDesviaciones'>
+                                </div>
+                            </div>  
                         </div>
                     </div>
                     
