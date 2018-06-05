@@ -18,10 +18,6 @@ import com.espertech.esper.client.EventBean;
 import com.espertech.esper.client.StatementAwareUpdateListener;
 
 
-/**
- * @author Juan Boubeta-Puig <juan.boubeta@uca.es>
- *
- */
 public class Watcher implements Callable { 
 	
 	@Override

@@ -1,0 +1,5 @@
+@Name("DesviacionDePotencia") 
+insert into CorrelacionEventosConPotenciaMenor
+select e.power as potenciaProducida
+from pattern [(every (e = WindEvent(e.power > 1200.0) ->
+				a = WindEvent(a.power > 1300.0)))]

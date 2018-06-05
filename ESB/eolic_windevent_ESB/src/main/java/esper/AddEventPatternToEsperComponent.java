@@ -23,78 +23,49 @@ public class AddEventPatternToEsperComponent implements Callable {
 	
 	@Override
 	public Object onCall(final MuleEventContext eventContext) throws Exception {
-		
+		/* 
+		 * Obtenemos el payload que es el mensaje de Mule de entrada para incorporar el patrón al motor CEP */
 		final Object payload = eventContext.getMessage().getPayload();		
 		final EPStatement pattern = EsperUtils.addNewEventPattern(payload.toString());
 						
+		/* Adherimos un listener a cada patrón, de forma que cuando es detectado se envía al flujo de despliegue*/
 		StatementAwareUpdateListener genericListener = new StatementAwareUpdateListener() {
 			
 			@Override
 			public void update(EventBean[] newComplexEvents, EventBean[] oldComplexEvents, 
-					EPStatement detectedEventPattern, EPServiceProvider serviceProvider) {
+				EPStatement detectedEventPattern, EPServiceProvider serviceProvider) {
 				System.out.println("/n/n/n/n/n/n/n/n/n/n");
 				
-				System.out.println("	ATENCION!: HE DETECTADO UN EVENTO COMPLEJO ESTOY MANDANDO UN AVISO A TU CORREO");
 				if (newComplexEvents != null) {	
-					
 					try {
+						System.out.println("	ATENCION!: HE DETECTADO UN EVENTO COMPLEJO");
+						System.out.println("		===== Payload del Evento Complejo:" + newComplexEvents[0].getUnderlying());
 						
-						// newComplexEvents[0].getUnderlying() is the payload of the complex event detected by this listener.
-						System.out.println("		=====complex event payload:" + newComplexEvents[0].getUnderlying());
-						
-						// detectedEventPattern.getEventType().getName() specifies the event pattern that has created this complex event.
 						String eventPatternName = detectedEventPattern.getEventType().getName();
-						System.out.println("		=====eventPatternName: " + eventPatternName);
-						
-						// Create the detected complex event as a Java map (eventPatternName, event properties)
-						
-						Map<String, Object> complexEvent = new LinkedHashMap<String, Object>();
+						System.out.println("		===== Tipo de Evento Complejo: " + eventPatternName);
+
 					
 						System.out.println("		===== Estamos leyendo LA COLA DE EVENTOS COMPLEJOS");
-						for(int i=0; i<newComplexEvents.length;i++){
+						/*for(int i=0; i<newComplexEvents.length;i++){
 							System.out.println("		===== "+newComplexEvents[i].getUnderlying());
-						}
+						}*/
 						
-						/*
-						ArrayList<Map<String, Object>> todos = new ArrayList<Map<String, Object>>();
-						for(int i=0; i<newComplexEvents.length;i++){
-							Map<String, Object> auxComplexEvent = new LinkedHashMap<String, Object>();
-							auxComplexEvent.put(eventPatternName,newComplexEvents[i].getUnderlying());
-							todos.add(auxComplexEvent);
-						}
-						MuleMessage auxMessage = new DefaultMuleMessage(todos,eventContext.getMuleContext());
-						Map<String, Object> auxMessageProperties = new HashMap<String, Object>();
-						auxMessageProperties.put("eventPatternName", eventPatternName);
-						auxMessage.addProperties(auxMessageProperties, PropertyScope.OUTBOUND);
-						eventContext.getMuleContext().getClient().dispatch("ComplexEventConsumerGlobalVM", auxMessage);
-						*/
+						/* El patrón puede disparar varios eventos complejos a la vez, por tanto deberemos de enviar
+						 * toda la cola de eventos complejos a nuestro flujo de despliegue*/
 						for(int i=0; i<newComplexEvents.length;i++){
 							System.out.println("		FOR===== "+newComplexEvents[i].getUnderlying());
+							/* Obtenemos el evento complejo de la cola*/
 							Map<String, Object> auxComplexEvent = new LinkedHashMap<String, Object>();
 							auxComplexEvent.put(eventPatternName,newComplexEvents[i].getUnderlying());
+							/* Lo transformamos a un mensaje de Mule para desplegarlo y le añadimos el tipo del evento complejo al mensaje de Mule*/
 							MuleMessage auxMessage = new DefaultMuleMessage(auxComplexEvent,eventContext.getMuleContext());
 							Map<String, Object> auxMessageProperties = new HashMap<String, Object>();
 							auxMessageProperties.put("eventPatternName", eventPatternName);
 							auxMessage.addProperties(auxMessageProperties, PropertyScope.OUTBOUND);
+							/* Enviamos el mensaje al flujo de despliegue */
 							eventContext.getMuleContext().getClient().dispatch("ComplexEventConsumerGlobalVM", auxMessage);
 						}
-						
-						
-						
-						
-						
-						/*complexEvent.put(eventPatternName, newComplexEvents[0].getUnderlying());
-						/*AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA*/
-						// Create the Mule message containing the complex event to be sent to the ComplexEventReceptionAndDecisionMaking flow 						
-						//MuleMessage message = new DefaultMuleMessage(complexEvent, eventContext.getMuleContext());
-						
-						// Add messageProperties, a map containing eventPatternName, to the Mule message
-						//Map<String, Object> messageProperties = new HashMap<String, Object>();
-						//messageProperties.put("eventPatternName", eventPatternName);
-						//message.addProperties(messageProperties, PropertyScope.OUTBOUND);
-					
-						// Send the created Mule message to the ComplexEventConsumerGlobalVM connector located in the ComplexEventReceptionAndDecisionMaking flow
-						//eventContext.getMuleContext().getClient().dispatch("ComplexEventConsumerGlobalVM", message);
+
 					} catch (MuleException e) {
 						e.printStackTrace();
 					}
@@ -102,6 +73,7 @@ public class AddEventPatternToEsperComponent implements Callable {
 			}
 		};
 		
+		System.out.println(" @MOTOR CEP: Patrón incorporado = "+pattern.getName());
 		pattern.addListener(genericListener);
 			
 		return payload.toString();
