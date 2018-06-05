@@ -65,4 +65,10 @@ class ErrorController extends AppController
     public function afterFilter(Event $event)
     {
     }
+    public function datosInexistentes(){
+        
+    }
+    public function formularioIncorrecto(){
+        
+    }
 }

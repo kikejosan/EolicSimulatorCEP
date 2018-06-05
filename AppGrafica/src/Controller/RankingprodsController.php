@@ -106,122 +106,90 @@ class RankingprodsController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
-    
-    public function introduccion(){
+    /*
+     * Muestra por pantalla el formulario para entrar al apartado de productividad.
+     * Se filtran los días que están registrados y se muestran los parques disponibles.
+     */
+    public function introProductividad(){
         $this->loadModel('Parques');
         $parques = $this->Parques->find('all');
         $this -> set('parques',$parques);
         
+        /* Se obtienen los días en los que se han registrado rankings diarios */
         $rankingsFechas = $this->Rankingprods->find('all')->select(['Rankingprods.fecha'])->group(['Rankingprods.fecha'])->order(['Rankingprods.fecha' => 'DESC']);  
         $fechasLimite = array();
         array_push($fechasLimite,$rankingsFechas->last()['fecha']);
         array_push($fechasLimite,$rankingsFechas->first()['fecha']);
         $this->set('fechasLimite',implode(',',$fechasLimite));
-        
-        
-        
-    }
-    public function muestroRankingParque(){
-//        $rankingprod = $this->Rankingprods->get($id, [
-//            'contain' => []
-//        ]);
-//
-//        $this->set('rankingprod', $rankingprod);
-        /*
-            Información que hace falta:
-         * - Sacar la lista de todos los aeros
-         * - Sacar la información del primer aerogenerador
-         * - Sacar los rankings de los últimos 5 días
-         * - Inhabilitar los días de los calendarios que no se puede sacar el ranking
-         *          */
-        //$this -> set(compact("aeros"));
-        /*$formulario = $this->request->getData();
-        $this->set('formulario',$formulario);*/
-        $dateTaken = $this->request->getData();
-        
-//        $dateTaken = explode('/', $dateTaken);
-//        $dateTaken=$dateTaken[2]."-".$dateTaken[0]."-".$dateTaken[1];
-//        $dateTaken = $this->Rankingprods->find('all')->where(['Rankingprods.fecha =' =>$dateTaken]);
-        
-        
-        $rankingPrimero = $this->Rankingprods->find('all')->where(['Rankingprods.fecha =' => ($this->getFormatoFecha($dateTaken["fecha"]))])->order(['Rankingprods.productividad' => 'DESC']);
-        $this -> set('rankingAux',$rankingPrimero);
-        $this -> set('fechaAux',$dateTaken["fecha"]);
 
-       
-       
     }
+    /*
+     * Es una función para dar el ranking que se ha producido en una fecha concreta
+     */     
+    public function muestroRankingParque(){
+        $mainData = $this->request->getData();       
+        $rankingPrimero = $this->getRankingDia(($this->getFormatoFecha($mainData["fecha"])), $mainData['parque']);
+        $this -> set('rankingAux',$rankingPrimero);
+        $this -> set('fechaAux',$mainData["fecha"]);
+   
+    }
+    /*
+     *  Despliega todo el apartado de Productividad.
+     *  Se cargan:
+     *      - Los aerogeneradores del parque.
+     *      - Los rankingprods que se han dado en ese parque el día seleccionado.
+     *      - Los transiciones que se han detectado en ese parque el día seleccionado.
+     */
     
     public function getProductividad(){
-//        $rankingprod = $this->Rankingprods->get($id, [
-//            'contain' => []
-//        ]);
-//
-//        $this->set('rankingprod', $rankingprod);
-        /*
-            Información que hace falta:
-         * - Sacar la lista de todos los aeros
-         * - Sacar la información del primer aerogenerador
-         * - Sacar los rankings de los últimos 5 días
-         * - Inhabilitar los días de los calendarios que no se puede sacar el ranking
-         *          */
-        //$this -> set(compact("aeros"));
-        $rankingsFechas = $this->Rankingprods->find('all')->select(['Rankingprods.fecha'])->group(['Rankingprods.fecha'])->order(['Rankingprods.fecha' => 'DESC']);  
-        $fechasLimite = array();
-        array_push($fechasLimite,$rankingsFechas->last()['fecha']);
-        array_push($fechasLimite,$rankingsFechas->first()['fecha']);
-        $this->set('fechasLimite',implode(',',$fechasLimite));
-        
-        $formulario = $this->request->getData();
-        $this->set('formulario',$formulario);
-        
         $this->loadModel('Aeros');
         $this->loadModel('Parques');
+        $formulario = $this->request->getData();
+        $this->set('formulario',$formulario);
 
-
-        //$idParque = $this->find('all',array('conditions' =>array('Parques.Nombre'==$formulario['parque1']),'fields' => 'User.id'));
-        
-        //$idParque = $this -> Parques ->find('all',array('conditions' =>array('Parques.Nombre ==' =>$formulario["parque1"])));
-        
-        $this->loadModel('Parques');
-        $parques = $this->Parques->find('all');
-        $this -> set('parques',$parques);
-        
+        /* Cargamos los aerogeneradores del parque */
         $nombreParque = $formulario['parque1'];
         $parqueCogido = $this->Parques->find('all')->where(['Parques.nombre =' => $nombreParque]);
         $aerosParque = $this->Aeros->find('all')->where(['Aeros.id_parque =' => $parqueCogido->first()['id']]);
         $this -> set('aeros',$aerosParque);
+        $this ->set('parque',$parqueCogido->first()['id']);
+        $this->set('fecha',$formulario["datepickerI"]);
 
-        //$cadenaFecha = split(",",$formulario["datepickerI"]);
+        /* Cargamos las fechas en las que se han registrado Rankings diarios*/
+        $rankingsFechas = $this->Rankingprods->find('all')->select(['Rankingprods.fecha'])->group(['Rankingprods.fecha'])->order(['Rankingprods.fecha' => 'DESC']);  
+        $fechasLimite = array();
+        array_push($fechasLimite,$rankingsFechas->last()['fecha']);
+        array_push($fechasLimite,$rankingsFechas->first()['fecha']);
+        $this->set('fechasLimite',implode(',',$fechasLimite));       
         
-       /*orden para sacar los ranking de ese dia*/
-    
-        /*$rankingPrimero = $this->Rankingprods->find('all')->where(['Rankingprods.fecha =' =>$fechaFormateado]);
-        $this -> set('rankingPrimero',$rankingPrimero);*/
-        
-        $rankings = $this->Rankingprods->find('all')->where(['Rankingprods.fecha =' => ($this->getFormatoFecha($formulario["datepickerI"]))])->order(['Rankingprods.productividad' => 'DESC']);
+        /* Cargo los rankings de esas fechas en orden descente del parque concreto*/
+        $rankings = $this->getRankingDia(($this->getFormatoFecha($formulario["datepickerI"])),$parqueCogido->first()['id']);
         $this -> set('rankings',$rankings);
         $this -> set('fechaFormateado',$formulario["datepickerI"]);
         
-        
-        $rankings2 = $this->Rankingprods->find('all')->where(['Rankingprods.fecha =' => ($this->getFormatoFecha($formulario["datepickerI"]))]);
-        $rankingPrimero = $rankings2->first();
-        $this->set("rankingPrimero",$rankingPrimero["systemNumber"]);
-        $miAero = $this->Aeros->find('all')->where(['Aeros.SystemNumber =' => $rankingPrimero["systemNumber"]]);
-        
+        /*   Escojo el primer ranking de todo para mostrar su información básica, en caso contrario cojo el primer aerogenerador del parque que encuentre.
+         *   Puede caber la posibilidad de que el parque no tenga ningún aerogenerador registrado, y esta carga de información sea vacía
+         */
+        if(!empty($rankings)){
+            $rankingPrimero = $rankings[0];
+            $this->set("rankingPrimero",$rankingPrimero["systemNumber"]);
+            $miAero = $this->Aeros->find('all')->where(['Aeros.SystemNumber =' => $rankingPrimero["systemNumber"]]);
+        }else{
+            $miAero = $this->Aeros->find('all')->where(['Aeros.id_parque =' =>$parqueCogido->first()['id']]);
+        }
         $this -> set('miAero',$miAero->first());
         
-        $this->loadModel('Transicions');
-        $transiciones = $this->Transicions->find('all');
+        /* Recojo todas las transioiones que se han registrado para ese parque*/
+        $transiciones = $this->getTransiciones($parqueCogido->first()['id']);
         $this -> set('transiciones',$transiciones);
-        
-      
-
-        //$rankingSegundo = $this->Rankingprods->query("SELECT Rankingprods.id AS `Rankingprods__id`, Rankingprods.systemNumber AS `Rankingprods__systemNumber`, Rankingprods.time AS `Rankingprods__time`, Rankingprods.suma AS `Rankingprods__suma`, Rankingprods.productividad AS `Rankingprods__productividad`, Rankingprods.events AS `Rankingprods__events`, Rankingprods.tipo AS `Rankingprods__tipo` FROM rankingprods Rankingprods WHERE Rankingprods.id =4");
-        //$this -> set('rankingSegundo',$rankingSegundo);
-
     }
+    /*
+     *  Muestra el seguimiento del ranking en un rango de días de los aerogeneradores seleccionados. Se cargan:
+     *      - Los días del rango establecido con ranking registrados para esos aerogeneradores.
+     *      - Los ranking registrados en el rango de días introducido para esos aeroge
+     */
     public function muestroGrafica(){
+        /* Cargamos los días del rango introducido de días, solo el límite infimo y el maximo  */
         $mainData = $this->request->getData();
         $diasG = $mainData["diasG"];
         $aerosG = $mainData["aerosG"];
@@ -232,15 +200,12 @@ class RankingprodsController extends AppController
         $diasG[0]=$this->getFormatoFecha($diasG[0]);
         $diasG[1]=$this->getFormatoFecha($diasG[1]);
         
-        /*REESTRUCTURACION*/
-        $contenedor = $mainData['contenedor'];
-        /*Sacar los dias por separado */
-            
         
+        
+        /* Cargamos las series de la grafica con la productividad correspondiente a cada aerogenerador en el rango de dias solicitado*/        
         $simple = array();
         $compuesto = array();
         $series = array();
-        
         foreach($aerosG as $aero):
             $conjuntoAero = $this->Rankingprods->find('all')->where(['Rankingprods.fecha >=' => $diasG[0],
                                                                                     'Rankingprods.fecha <=' => $diasG[1],
@@ -257,14 +222,25 @@ class RankingprodsController extends AppController
             $compuesto = array();
         endforeach;
         
+        /*Cargo los ranking separandolos con el caracter ":" y cargamos el nombre del contenedor donde irá ubicado el gráfico*/
         $this->set('temporalRankings',implode(':',$series));
+        $contenedor = $mainData['contenedor'];
         $this->set('contenedor',$contenedor);
         
 
         
     }
+    /* Carga los datos del modelo de un aerogenerador concreto cuyo systemNumber es pasado por parámetro:
+        Muestra por pantalla:
+     *      - el id de la base de datos
+     *      - el systemNumber
+     *      - la fila
+     *      - la columna
+     *      - el idIngeboards
+     *      */
     public function getInfoAero(){
-                $this->loadModel('Aeros');
+        /*Cargamos el modelo de Aeros y obtenemos el aerogenerador con systemNumber igual pasado por parámetro*/
+        $this->loadModel('Aeros');
 
         $data = $this->request->getData();
 
@@ -273,22 +249,59 @@ class RankingprodsController extends AppController
         $this -> set('miAero',$miAero->first());
     }
     
-    public function getRankings(){
-        /*$dateTaken = $this->request->getData();    */ 
-        
-        
-    }
-    
+    /* Este método transforma una fecha del formato dia/mes/año al formato año-mes-dia*/
     public function getFormatoFecha($miFecha){
         $miFecha = explode('/', $miFecha);
         $miFecha=$miFecha[2]."-".$miFecha[1]."-".$miFecha[0];
         
         return $miFecha;
     }
+    /* Se obtiene un array con los ranking que se ha efectuado en un parque un día concreto*/
+    public function getRankingDia($unaFecha,$unParque){
+        $this->loadModel('Aeros');
+        $this->loadModel('Parques');
+        /*Cargo los aeros del parque y los ranking de ese dia*/
+        $aerosParque = $this->Aeros->find('all')->where(['Aeros.id_parque =' => $unParque]);
+        $rankings = $this->Rankingprods->find('all')->where(['Rankingprods.fecha =' => $unaFecha])->order(['Rankingprods.productividad' => 'DESC']);
+        
+        /*Saco los ranking en orden de los aerogeneradores del parque escogido*/
+        $rankingDiario = array();
+        foreach($rankings as $ranking):
+            foreach($aerosParque as $aero):
+                if($ranking['systemNumber']==$aero['SystemNumber']){
+                    array_push($rankingDiario,$ranking);
+                }
+            endforeach;
+        endforeach;
+        
+        return $rankingDiario;
+    }
+    /* Se obtiene un array con las transiciones que se han efectuado en un parque */
+    public function getTransiciones($unParque){
+        $this->loadModel('Transicions');
+        
+        /*Cargo los aeros del parque y las transiciones todos los parques*/
+        $aerosParque = $this->Aeros->find('all')->where(['Aeros.id_parque =' => $unParque]);
+        $transiciones = $this->Transicions->find('all');
+        
+        /* Saco las transiciones de los aerogeneradores del parque que pasamos por parámetro*/
+        $transicionesParque = array();
+        foreach($transiciones as $transicion):
+            foreach($aerosParque as $aero):
+                if($transicion['systemNumber']==$aero['SystemNumber']){
+                    array_push($transicionesParque,$transicion);
+                }
+            endforeach;
+        endforeach;
+        
+        return $transicionesParque;
+    }
+    /* Separar en dos el rango de fechas */
     public function getFechaRango($miRango){
         $miCadena = explode('-',$miFecha);
         
     }
+    /*Transforma una fecha en el formato mes/dia/año al formato dia/mes/año*/
     public function getFormatoFechaPicker($miFecha){
         $miFecha = explode('/',$miFecha);
         $miFecha = $miFecha[1].'/'.$miFecha[0]."/".$miFecha[2];

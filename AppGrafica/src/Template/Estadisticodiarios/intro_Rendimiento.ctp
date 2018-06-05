@@ -1,22 +1,22 @@
 <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Análisis de rendimiento
+        Análisis del Rendimiento
         <small>Introducción</small>
       </h1>
       <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Rendimiento</a></li>
-        <li class="active">Búsqueda</li>
+        <li><a href="#"><i class="fa fa-fw fa-search"></i>Búsqueda</a></li>
+        <li class="active">Rendimiento</li>
       </ol>
     </section>
 <br>
     <!-- Main content -->
-    <section class="content" height=2222 style="background-image: url('/EolicEventConsumer/admin_l_t_e/img/eolicPark.jpg');   background-position: center center;   background-repeat: no-repeat;    background-size: cover; background-attachment: fixed;  background-color: #464646;">
+    <section class="content" height=2222 style="background-image: url('/EolicEventConsumer/admin_l_t_e/img/introR.jpg');   background-position: center center;   background-repeat: no-repeat;    background-size: cover; background-attachment: fixed;  background-color: #464646;">
     <div class="container-fluid text-center">
         
         <div class="row">
             <div class="col-md-4" id="tablasRank">
-                <br>
+                
             </div>
             <div class="col-md-4">
                 <br>
@@ -49,6 +49,10 @@
                     <br>
                     
             </div>
+            </div>
+            <div class="col-md-4">
+                
+                
             </div>
             
 
@@ -89,7 +93,7 @@ $this->Html->script([
 ?>
 <?php $this->start('scriptBottom'); ?>
 <script>
-
+/* Inicialización del datepicker de la pantalla */
   $(function () {
         var fechasLimite = "<?php echo $fechasLimite ?>";
         fechasLimite = fechasLimite.split(',');

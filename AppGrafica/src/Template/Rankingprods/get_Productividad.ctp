@@ -34,12 +34,11 @@ $this->Html->script([
 
 <section class="content-header">
     <h1>
-        Análisis de la productividad
+        Análisis de la Productividad
         <small>Version 2.0</small>
     </h1>
       <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li><a href="#">RankingProds</a></li>
+        <li><a href="#"><i class="fa fa-dashboard"></i> <?php echo $formulario['parque1']; ?></a></li>
         <li class="active">Productividad</li>
       </ol>
 </section>
@@ -227,26 +226,12 @@ $this->Html->script([
                     </div>
                 </div>
                 <div class='col-md-9'>
-                    <div class="box">
-                        <div class="box-header with-border">
-                          <h3 class="box-title">Gráfico de Seguimiento</h3>
-                          <div class="box-tools pull-right">
-                            <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-                              <i class="fa fa-minus"></i></button>
-                            <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
-                              <i class="fa fa-times"></i></button>
-                          </div>
-                        </div>
-                        <div class="box-body">
-                            <div class='container-fluid' id='graficaI'>
-                                <center><img src="/EolicEventConsumer/admin_l_t_e/img/6335.jpg"  width="500" height="500"></center>
-                            </div>
-                        </div>  
-                    </div>
+                    <div class="container-fluid" id="graficaI"></div>
                 </div>
                 </div>
                 
                 <div class='row'>
+                    <div class="col-md-12">
                     <div class="box">
                         <div class="box-header with-border">
                           <h3 class="box-title">Transiciones en los Rankings</h3>
@@ -258,6 +243,7 @@ $this->Html->script([
                           </div>
                         </div>
                         <div class="box-body">
+                            <div class="container-fluid">
                             <table id="example1" class="table table-bordered table-striped" >
                                 <thead>
                                 <tr style="background-color: #c2c2bc">
@@ -292,10 +278,12 @@ $this->Html->script([
                                 </tr>
                                 </tfoot>
                               </table>
+                                </div> 
                         </div>  
                     </div>
                     
                 </div>
+                    </div>
                 </div>
           </div>
           
@@ -382,49 +370,60 @@ $this->Html->script([
     
     
     $(document).ready(function(){
+        
        $("#datepicker1").change(function(){
-           $.post('http://localhost/EolicEventConsumer/rankingprods/muestrorankingparque',
-            {fecha : $("#datepicker1").val()}, 
-            function(data) {
-                variable = data;
-                $("#bodyRanking1").html(data);
-                
-            });
+           if($("#datepicker1").val()!=""){
+                $.post('http://localhost/EolicEventConsumer/rankingprods/muestrorankingparque',
+                {fecha : $("#datepicker1").val(), parque:"<?php echo $parque; ?>"}, 
+                function(data) {
+                    variable = data;
+                    $("#bodyRanking1").html(data);
+
+                });
+            }
         });
         $("#datepicker2").change(function(){
-           $.post('http://localhost/EolicEventConsumer/rankingprods/muestrorankingparque',
-            {fecha : $("#datepicker2").val()}, 
-            function(data) {
-                variable = data;
-                $("#bodyRanking2").html(data)
-            });
+            if($("#datepicker2").val()!=""){
+                $.post('http://localhost/EolicEventConsumer/rankingprods/muestrorankingparque',
+                {fecha : $("#datepicker2").val(), parque:"<?php echo $parque; ?>"}, 
+                function(data) {
+                    variable = data;
+                    $("#bodyRanking2").html(data)
+                });
+            }
        
         
         }); 
         $("#datepicker3").change(function(){
-           $.post('http://localhost/EolicEventConsumer/rankingprods/muestrorankingparque',
-            {fecha : $("#datepicker3").val()}, 
-            function(data) {
-                variable = data;
-                $("#bodyRanking3").html(data)
-            });
-       
-        
+            if($("#datepicker3").val()!=""){
+                $.post('http://localhost/EolicEventConsumer/rankingprods/muestrorankingparque',
+                 {fecha : $("#datepicker3").val(), parque:"<?php echo $parque; ?>"}, 
+                 function(data) {
+                     variable = data;
+                     $("#bodyRanking3").html(data)
+                 });
+            }
         }); 
         $("#datepicker4").change(function(){
-           $.post('http://localhost/EolicEventConsumer/rankingprods/muestrorankingparque',
-            {fecha : $("#datepicker4").val()}, 
-            function(data) {
-                variable = data;
-                $("#bodyRanking4").html(data)
-            });
-       
+            if($("#datepicker4").val()!=""){
+                $.post('http://localhost/EolicEventConsumer/rankingprods/muestrorankingparque',
+                {fecha : $("#datepicker4").val(), parque:"<?php echo $parque; ?>"}, 
+                function(data) {
+                    variable = data;
+                    $("#bodyRanking4").html(data)
+                });
+            }
         
         });
         
         $("#btnGrafica").on("click",function(){
             if($("#aerosG").val()==null || $("#diasG").val()==null){
-                alert('Faltan campos por rellenar');
+                $.post('http://localhost/EolicEventConsumer/error/formularioIncorrecto',
+                function(data) {
+                    variable = data;
+                    $("#graficaI").html(data);
+                    
+                });
             }else{
            $.post('http://localhost/EolicEventConsumer/rankingprods/muestroGrafica',
             {diasG : $("#diasG").val(), aerosG : $("#aerosG").val(), contenedor:'rankingGrafica'}, 

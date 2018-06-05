@@ -15,125 +15,113 @@
 </div>
 
 <script>
-    /*VARIOS AEROGENERADORES EN EL MISMO GRAFICO*/
+    /* Sacamos la información adquirida por medio del controlador:
+     *  - Aerogeneradores introducidos.
+     *  - Bines de viento por aerogenerador
+     *  - Desviaciones de los bines de viento por aerogenerador
+     */
     var contenedor = "<?php echo $contenedor; ?>";    
     var aerosSeleccionados = "<?php echo $aerosG; ?>";
     aerosSeleccionados = aerosSeleccionados.split(",");   
     var vientos = "<?php echo $StrV;?>";
-    var medias = "<?php echo $StrM;?>";
     var desviaciones = "<?php echo $StrD;?>";
     vientos = vientos.split("|");
-    medias = medias.split("|");
     desviaciones = desviaciones.split("|");
-    
-    
-    var arrayPrueba = "<?php echo $arrayPrueba;?>";
-    var arrayPrueba2 = "<?php echo $arrayPrueba2;?>";
-    var arrayPrueba3 = "<?php echo $arrayPrueba3;?>";
 
-    
     var arrayV = [];
-    var arrayM = [];
     var arrayD = [];
 
-    /*-------------------------------------------------------------------------------------------*/
+    
     var arrayRAux = [];
-    var arrayMAux = [];
     var arraySRAux = [];
-    var arraySMAux = [];
 
 
     var arrayMV = [];
     var arrayMD = [];
-    var arrayMM = [];
+    
     
     var rangos = [];
-    var seriesMedias = [];
-    var seriesMedias2 = [];
-    var seriesMedias3 = [];
-    var seriesMedias4 = [];
+    var seriesDesviaciones2 = [];
+    var seriesDesviaciones3 = [];
+    var seriesDesviaciones4 = [];
+    /* En caso de que no haya datos que mostrar, se le mostrará al usuario por pantalla */
+    if(desviaciones==""){
+        $.post('http://localhost/EolicEventConsumer/error/datosInexistentes',
+        function(data) {
+            variable = data;
+
+            $("#"+"<?php echo $contenedor ?>").html(data);
+        });
+    }else{
+        /* Preparamos un array con las series de datos:
+         * SerieEjemplo seria:  [[binViento,desviacion],[binViento2,desviacion2],[binViento3,desviacion3]] 
+         * El conjunto de la serie corresponde a un aerogenerador, es decir... las coleeciones de los pares binViento y desviacion */
+        for(var i=0; i<vientos.length;i++){
+            arrayMV = vientos[i].split(',');
+            arrayMD = desviaciones[i].split(',');
 
 
-    for(var i=0; i<vientos.length;i++){
-        console.log("hola soy el viento ");
-        
-        arrayMV = vientos[i].split(',');
-        arrayMD = desviaciones[i].split(',');
-        arrayMM = medias[i].split(',');
-        
-        for(var j=0; j<arrayMV.length;j++){
-            media = parseFloat(arrayMM[j]);
-            viento = parseFloat(arrayMV[j]);
-            desviacion = parseFloat(arrayMD[j]);
+            for(var j=0; j<arrayMV.length;j++){
+                viento = parseFloat(arrayMV[j]);
+                desviacion = parseFloat(arrayMD[j]);
 
-            seriesMedias2.push(viento);
-            seriesMedias2.push(desviacion);
-            
-            seriesMedias3.push(seriesMedias2);
-         
-            seriesMedias2 = [];
+                seriesDesviaciones2.push(viento);
+                seriesDesviaciones2.push(desviacion);
+                seriesDesviaciones3.push(seriesDesviaciones2);
+
+                seriesDesviaciones2 = [];
+            }
+            seriesDesviaciones4.push(seriesDesviaciones3);
+            seriesDesviaciones3=[];
         }
-        seriesMedias4.push(seriesMedias3);
-        seriesMedias3=[];
-    }
 
+        /* Preparo el estilo de las series para que el estilo de la gráfica sea el adecuado*/
+        var series2 =[];
+        for(var i=0; i<seriesDesviaciones4.length;i++){
+            var primero = {
+                name:  aerosSeleccionados[i],
+                data: seriesDesviaciones4[i],
+                zIndex: 1,
+                marker: {
+                    fillColor: 'white',
+                    lineWidth: 2,
+                    lineColor: Highcharts.getOptions().colors[i]
+                }
+            }
+            series2.push(primero);
 
-var series2 =[];
-for(var i=0; i<seriesMedias4.length;i++){
-    var primero = {
-        name:  aerosSeleccionados[i],
-        data: seriesMedias4[i],
-        zIndex: 1,
-        marker: {
-            fillColor: 'white',
-            lineWidth: 2,
-            lineColor: Highcharts.getOptions().colors[i]
         }
-    }
-    series2.push(primero);
-   // series2.push(segundo);
-    
-}
 
+        /*Cargo del grafico en el contenedor especificado */
+        Highcharts.chart(contenedor, {
+              chart: {
+                        type:'column',
+                        zoomType : 'xy'
+                    },
 
-
-
-Highcharts.chart(contenedor, {
-      chart: {
-                type:'column',
-                zoomType : 'xy'
+            title: {
+                text: 'Análisis de desviaciones'
             },
-
-    title: {
-        text: 'Análisis de desviaciones'
-    },
-
-    xAxis: {
-        type: [0,20],
-        title: {
-            text: "Bin de viento (m/s)"
-        }
-    },
-
-    yAxis: {
-        title: {
-            text: "Potencia producida (KW)"
-        }
-    },
-
-    tooltip: {
-        crosshairs: true,
-        shared: true,
-        valueSuffix: ' KW'
-    },
-
-    legend: {
-    },
-
-    series: series2
-});
-
-
-
+            xAxis: {
+                type: [0,20],
+                title: {
+                    text: "Bin de viento (m/s)"
+                }
+            },
+            yAxis: {
+                title: {
+                    text: "Potencia producida (KW)"
+                }
+            },
+            tooltip: {
+                crosshairs: true,
+                shared: true,
+                valueSuffix: ' KW'
+            },
+            legend: {
+            },
+            series: series2
+        });
+    }
 </script>
 

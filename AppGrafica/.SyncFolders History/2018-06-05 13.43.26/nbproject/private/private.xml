@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/C:/xampp/htdocs/EolicEventConsumer/src/Controller/EstadisticodiariosController.php</file>
+            <file>file:/C:/xampp/htdocs/EolicEventConsumer/src/Template/Rankingprods/get_Productividad.ctp</file>
+            <file>file:/C:/xampp/htdocs/EolicEventConsumer/src/Template/Rankingprods/introduccion.ctp</file>
+            <file>file:/C:/xampp/htdocs/EolicEventConsumer/src/Template/Estadisticodiarios/muestro_Grafica_Bin_Desviaciones.ctp</file>
+            <file>file:/C:/xampp/htdocs/EolicEventConsumer/src/Controller/RankingprodsController.php</file>
+            <file>file:/C:/xampp/htdocs/EolicEventConsumer/src/Template/Estadisticodiarios/intro_Rendimiento.ctp</file>
+            <file>file:/C:/xampp/htdocs/EolicEventConsumer/src/Model/Table/AerosTable.php</file>
+            <file>file:/C:/xampp/htdocs/EolicEventConsumer/src/Template/Estadisticodiarios/muestro_Grafica_Bin_Medias.ctp</file>
+            <file>file:/C:/xampp/htdocs/EolicEventConsumer/src/Template/Estadisticodiarios/get_Rendimiento.ctp</file>
+            <file>file:/C:/xampp/htdocs/EolicEventConsumer/src/Template/Estadisticodiarios/muestro_Grafica_Quesos.ctp</file>
+        </group>
+    </open-files>
+</project-private>

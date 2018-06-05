@@ -15,7 +15,13 @@
 </div>
 
 <script>
+    /* Sacamos la información adquirida por medio del controlador:
+     *  - Aerogeneradores introducidos.
+     *  - Medias producidas por los aerogeneradores seleccionados los días especificados.
+     *  - Días a los que pertenecen esas medias
+     */
     var temporalMedias = "<?php echo $temporalMedias ?>"; 
+    
     temporalMedias = temporalMedias.split(':');
     var contenedor = "<?php echo $contenedor; ?>";
     var bin = "<?php echo $bin; ?>";
@@ -26,82 +32,102 @@
     var compuestoAux = [];
     var simpleAux = [];
     var fechaSimple = new Date();
-    for(var i=0;i<temporalMedias.length;i++){
-        compuesto = temporalMedias[i].split('|');
-        for(var j=0;j<compuesto.length;j++){
-            simple = compuesto[j].split(',');
-            
-            fechaSimple = Math.round(Date.parse(simple[0])+3600000);
-            simpleAux.push(fechaSimple);
-            simpleAux.push(parseFloat(simple[1]));
-            
-            compuestoAux.push(simpleAux);
-            simpleAux = [];
-        }
-        series.push(compuestoAux);
-        compuestoAux = [];
-        
-    }
-    var aerosSeleccionados = $('#aerosTemporal').val();
-    var series2 =[];
-    for(var i=0; i<series.length;i++){
-        var primero = {
-            name:  aerosSeleccionados[i],
-            data: series[i],
-            zIndex: 1,
-            marker: {
-                fillColor: 'white',
-                lineWidth: 2,
-                lineColor: Highcharts.getOptions().colors[i]
+    
+    
+    if(esVacio(temporalMedias)){
+        $.post('http://localhost/EolicEventConsumer/error/datosInexistentes',
+        function(data) {
+            variable = data;
+
+            $("#"+"<?php echo $contenedor ?>").html(data);
+        });
+    }else{
+        /* Preparamos un array con las series de datos:
+         * SerieEjemplo seria:  [[fechaMillisec,media],[fechaMillisec2,media2],[fechaMillisec3,media3]] 
+         */
+        for(var i=0;i<temporalMedias.length;i++){
+            compuesto = temporalMedias[i].split('|');
+            for(var j=0;j<compuesto.length;j++){
+                simple = compuesto[j].split(',');
+
+                fechaSimple = Math.round(Date.parse(simple[0])+3600000);
+                simpleAux.push(fechaSimple);
+                simpleAux.push(parseFloat(simple[1]));
+
+                compuestoAux.push(simpleAux);
+                simpleAux = [];
             }
+            series.push(compuestoAux);
+            compuestoAux = [];
+
         }
-        series2.push(primero);
-       // series2.push(segundo);
+        /* Preparo el estilo de las series para que el estilo de la gráfica sea el adecuado*/
+        var aerosSeleccionados = $('#aerosTemporal').val();
+        var series2 =[];
+        for(var i=0; i<series.length;i++){
+            var primero = {
+                name:  aerosSeleccionados[i],
+                data: series[i],
+                zIndex: 1,
+                marker: {
+                    fillColor: 'white',
+                    lineWidth: 2,
+                    lineColor: Highcharts.getOptions().colors[i]
+                }
+            }
+            series2.push(primero);
+           // series2.push(segundo);
 
-    }
-
-var fechita = '1/19/2018';
-var miFechita = new Date(fechita);
+        }
 
 
-Highcharts.chart(contenedor, {
-      chart: {
-                type:'areaspline',
-                zoomType : 'xy'
+
+        /*Cargo del grafico en el contenedor especificado */
+        Highcharts.chart(contenedor, {
+              chart: {
+                        type:'areaspline',
+                        zoomType : 'xy'
+                    },
+
+            title: {
+                text: 'Análisis temporal de medias en el bin '+bin
             },
 
-    title: {
-        text: 'Análisis temporal de medias en el bin '+bin
-    },
+            xAxis: {
+                type: 'datetime',
+                title:{
+                    text: "Transcurso del tiempo (dias)"
+                }
+            },
 
-    xAxis: {
-        type: 'datetime',
-        title:{
-            text: "Transcurso del tiempo (dias)"
+            yAxis: {
+                title: {
+                    text: "Potencia producida (KW)"
+                }
+            },
+            plotOptions: {
+                areaspline: {
+                    fillOpacity: 0.5
+                }
+            },
+
+            tooltip: {
+                crosshairs: true,
+                shared: true,
+                valueSuffix: 'KW'
+            },
+
+            legend: {
+            },
+
+            series: series2
+        });
+    }
+    function esVacio (datos){
+        for (var i=0;i<datos.length;i++){
+            if(datos[i]!="") return false;
         }
-    },
-
-    yAxis: {
-        title: {
-            text: "Potencia producida (KW)"
-        }
-    },
-    plotOptions: {
-        areaspline: {
-            fillOpacity: 0.5
-        }
-    },
-
-    tooltip: {
-        crosshairs: true,
-        shared: true,
-        valueSuffix: 'KW'
-    },
-
-    legend: {
-    },
-
-    series: series2
-});
+        return true;
+    }
     
 </script>
