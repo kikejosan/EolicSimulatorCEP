@@ -1,4 +1,4 @@
-<div class="box">
+<div class="box" id="<?php echo $contenedor.'b'; ?>">
     <div class="box-header with-border">
       <h3 class="box-title">Gráfico de Seguimiento</h3>
       <div class="box-tools pull-right">

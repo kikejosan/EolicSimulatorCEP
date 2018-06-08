@@ -2,5 +2,6 @@
 INSERT INTO Escala
 SELECT systemNumber as systemNumber,
 count(suma) % numAeros+1 as posicion,
-fecha
+fecha,
+numAeros
 FROM  RankingProd

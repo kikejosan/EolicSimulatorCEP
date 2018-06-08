@@ -136,6 +136,21 @@ http://www.mulesoft.org/schema/mule/ftp http://www.mulesoft.org/schema/mule/ftp/
 );]]></db:parameterized-query>
                     </db:insert>
                 </when>
+                <when expression="#[message.inboundProperties['eventPatternName'] ==&quot;Notificacion&quot;]">
+                    <db:insert config-ref="MySQL_Configuration" doc:name="Notificacions">
+                        <db:parameterized-query><![CDATA[insert into notificacions(systemNumber,tipo,fecha,campo1,campo2,campo3,campo4,campo5) values (
+		#[payload["Notificacion"]["systemNumber"]],
+		#[payload["Notificacion"]["tipo"]],
+		#[payload["Notificacion"]["fecha"]],
+		#[payload["Notificacion"]["campo1"]],
+		#[payload["Notificacion"]["campo2"]],
+		#[payload["Notificacion"]["campo3"]],
+		#[payload["Notificacion"]["campo4"]],
+		#[payload["Notificacion"]["campo5"]]
+		
+);]]></db:parameterized-query>
+                    </db:insert>
+                </when>
                 <otherwise>
                     <logger message="WARN ---&gt;  #[payload]" level="WARN" doc:name="Logger"/>
                 </otherwise>

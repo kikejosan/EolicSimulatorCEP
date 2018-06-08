@@ -47,8 +47,8 @@ $this->Html->script([
 <section class="content" >
     <div class="nav-tabs-custom">
         <ul class="nav nav-tabs">
-          <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="true">Seleccion de Rankings</a></li>
-          <li class=""><a href="#tab_2" data-toggle="tab" aria-expanded="false">Análisis gráfico</a></li>
+          <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="true">Selección de Rankings</a></li>
+          <li class=""><a href="#tab_2" data-toggle="tab" aria-expanded="false">Análisis Gráfico de la Productividad</a></li>
         </ul>
         <div class="tab-content">
             <div class="tab-pane active" id="tab_1">
@@ -89,92 +89,109 @@ $this->Html->script([
                 <div class="col-md-10" id="tablasRank">
                     <div class="box box-body"  style="background-color: #ccffff">
                     <h2>Seguimiento de <?php echo $formulario['parque1']; ?>  </h2>
-                    <div class="container-fluid" >
-                        <div class="col-md-3" id="ranking1">
+                    
+                    <div class="container-fluid">
+                        <div class="col-md-12">
+                                <table class="table table-bordered" id="tablaC">
+                                    <thead style="text-align:  center">
+                                        <tr>
+                                            <td>
+                                                <div class="form-group">
+                                                    <label>Ranking del día:</label>
+                                                    <div class="input-group date">
+                                                      <div class="input-group-addon">
+                                                        <i class="fa fa-calendar"></i>
+                                                      </div>
+                                                        <input type="text" class="form-control pull-right" id="datepicker1" value="<?php echo $formulario["datepickerI"]; ?>" >
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group">
+                                                    <label>Ranking del día:</label>
+                                                    <div class="input-group date">
+                                                      <div class="input-group-addon">
+                                                        <i class="fa fa-calendar"></i>
+                                                      </div>
+                                                        <input type="text" class="form-control pull-right" id="datepicker2" value="Seleccionar" >
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group">
+                                                    <label>Ranking del día:</label>
+                                                    <div class="input-group date">
+                                                      <div class="input-group-addon">
+                                                        <i class="fa fa-calendar"></i>
+                                                      </div>
+                                                        <input type="text" class="form-control pull-right" id="datepicker3" value="Seleccionar" >
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group">
+                                                    <label>Ranking del día:</label>
+                                                    <div class="input-group date">
+                                                      <div class="input-group-addon">
+                                                        <i class="fa fa-calendar"></i>
+                                                      </div>
+                                                        <input type="text" class="form-control pull-right" id="datepicker4" value="Seleccionar" >
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group">
+                                                    <label>Ranking del día:</label>
+                                                    <div class="input-group date">
+                                                      <div class="input-group-addon">
+                                                        <i class="fa fa-calendar"></i>
+                                                      </div>
+                                                        <input type="text" class="form-control pull-right" id="datepicker5" value="Seleccionar" >
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group">
+                                                    <label>Ranking del día:</label>
+                                                    <div class="input-group date">
+                                                      <div class="input-group-addon">
+                                                        <i class="fa fa-calendar"></i>
+                                                      </div>
+                                                        <input type="text" class="form-control pull-right" id="datepicker6" value="Seleccionar" >
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group">
+                                                    <label>Ranking del día:</label>
+                                                    <div class="input-group date">
+                                                      <div class="input-group-addon">
+                                                        <i class="fa fa-calendar"></i>
+                                                      </div>
+                                                        <input type="text" class="form-control pull-right" id="datepicker7" value="Seleccionar" >
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            
+                                        </tr>
+                                        
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><table class="table table-bordered" id="tabla1"><tbody id="bodyRanking1"></tbody></table></td>
+                                            <td><table class="table table-bordered" id="tabla2"><tbody id="bodyRanking2"></tbody></table></td>
+                                            <td><table class="table table-bordered" id="tabla3"><tbody id="bodyRanking3"></tbody></table></td>
+                                            <td><table class="table table-bordered" id="tabla4"><tbody id="bodyRanking4"></tbody></table></td>
+                                            <td><table class="table table-bordered" id="tabla5"><tbody id="bodyRanking5"></tbody></table></td>
+                                            <td><table class="table table-bordered" id="tabla6"><tbody id="bodyRanking6"></tbody></table></td>
+                                            <td><table class="table table-bordered" id="tabla7"><tbody id="bodyRanking7"></tbody></table></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             
-                            <table class="table table-bordered " style="border-color:black;" id="tabla1">
-                                <thead style="text-align:  center">
-                                    <tr>
-                                        <div class="form-group">
-                                            <label>Ranking del día:</label>
-                                            <div class="input-group date">
-                                              <div class="input-group-addon">
-                                                <i class="fa fa-calendar"></i>
-                                              </div>
-                                                <input type="text" class="form-control pull-right" id="datepicker1" value="<?php echo $formulario["datepickerI"]; ?>" >
-                                            </div>
-                                        </div>
-                                    </tr>
-                                </thead>
-                                <tbody id="bodyRanking1">
-                                    <?php foreach ($rankings as $ranking) :?>
-                                    <tr>
-                                        <td><?php echo $ranking['systemNumber']?></td>
-                                    </tr>
-                                    <?php endforeach; ?>
-                                </tbody>
-                            </table>
+                            
                         </div>
-                        <div class="col-md-3" id="ranking2">
-                            <table class="table table-bordered" id="tabla2">
-                                <thead style="text-align:  center">
-                                    <tr>
-                                        <div class="form-group">
-                                            <label>Ranking del día:</label>
-                                            <div class="input-group date">
-                                              <div class="input-group-addon">
-                                                <i class="fa fa-calendar"></i>
-                                              </div>
-                                                <input type="text" class="form-control pull-right" id="datepicker2" value="Seleccionar" >
-                                            </div>
-                                        </div>
-                                    </tr>
-                                </thead>
-                                <tbody id="bodyRanking2">
-
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="col-md-3" id="ranking3">
-                            <table class="table table-bordered" id="tabla3">
-                                <thead style="text-align:  center">
-                                    <tr>
-                                        <div class="form-group">
-                                            <label>Ranking del día:</label>
-                                            <div class="input-group date">
-                                              <div class="input-group-addon">
-                                                <i class="fa fa-calendar"></i>
-                                              </div>
-                                                <input type="text" class="form-control pull-right" id="datepicker3" value="Seleccionar" >
-                                            </div>
-                                        </div>
-                                    </tr>
-                                </thead>
-                                <tbody id="bodyRanking3">
-
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="col-md-3" id="ranking4">
-                            <table class="table table-bordered" id="tabla4">
-                                <thead style="text-align:  center">
-                                    <tr>
-                                        <div class="form-group">
-                                            <label>Ranking del día:</label>
-                                            <div class="input-group date">
-                                              <div class="input-group-addon">
-                                                <i class="fa fa-calendar"></i>
-                                              </div>
-                                                <input type="text" class="form-control pull-right" id="datepicker4" value="Seleccionar" >
-                                            </div>
-                                        </div>
-                                    </tr>
-                                </thead>
-                                <tbody id="bodyRanking4">
-
-                                </tbody>
-                            </table>
-                        </div>
+                        
                     </div>
                 </div>
                 </div>
@@ -184,7 +201,7 @@ $this->Html->script([
 <!-- ------------------------------FINAL DEL PRIMER PANEL  --------------------------------------------------->
             <div class="tab-pane" id="tab_2">
                 <div class='row'>
-                <div class='col-md-3'>
+                <div class='col-md-4'>
                     <div class="box">
                         <div class="box-header with-border">
                           <h3 class="box-title">Formulario</h3>
@@ -224,14 +241,6 @@ $this->Html->script([
                             </div>
                         </div>  
                     </div>
-                </div>
-                <div class='col-md-9'>
-                    <div class="container-fluid" id="graficaI"></div>
-                </div>
-                </div>
-                
-                <div class='row'>
-                    <div class="col-md-12">
                     <div class="box">
                         <div class="box-header with-border">
                           <h3 class="box-title">Transiciones en los Rankings</h3>
@@ -252,7 +261,8 @@ $this->Html->script([
                                   <th style="text-align: center;">Fin</th>
                                   <th style="text-align: center;">Posicion Inicio</th>
                                   <th style="text-align: center;">Posicion Fin</th>
-                                  <th style="text-align: center;">Variacion</th>
+                                  <th style="text-align: center;">Var</th>
+                                  <th style="text-align: center;">Var %</th>
                                 </tr>
                                 </thead>
                                 <tbody>                              
@@ -264,6 +274,7 @@ $this->Html->script([
                                         <td style="text-align: center;"><?php echo $transicion['posicionInicio']?></td>
                                         <td style="text-align: center;"><?php echo $transicion['posicionFin']?></td>
                                         <td style="text-align: center;"><?php echo $transicion['variacion']?></td>
+                                        <td style="text-align: center;"><?php echo $transicion['variacion']*3.33?></td>
                                     </tr>
                                     <?php endforeach; ?>
                                 </tbody>
@@ -281,15 +292,21 @@ $this->Html->script([
                                 </div> 
                         </div>  
                     </div>
-                    
                 </div>
-                    </div>
+                <div class='col-md-8'>
+                    <div class="container-fluid" id="aviso"></div>
+                    <div class="container-fluid" id="graficaI"></div>
+                    <div class="container-fluid" id="graficaPos"></div>
+                </div>
+                </div>
+                
+                
                 </div>
           </div>
           
         </div>
             <!-- /.tab-content -->
-    </div>
+    
     <div class="container-fluid text-center">
         <div class="row">
             
@@ -303,6 +320,31 @@ $this->Html->script([
 <input id="globalSeguir" type="hidden" name="opcion" value="">
 
 <script>
+    /* Iniciacion de las tablas de los ranking de una forma dinámica
+     * Inicializo las fechas y cargo los 7 siguientes días, en caso de que no haya datos en la BB.DD no se carga nada*/
+    var strFecha = "<?php echo $fechaDB; ?>";
+    var fechaForm = new Date(strFecha);
+    var numeroFecha = Math.round(Date.parse(fechaForm))-3600000;
+   
+    
+    for(var i=0;i<7;i++){
+        fechaForm = new Date(numeroFecha+86400000*i);
+        strFecha = (fechaForm.getDate())+"/"+(fechaForm.getMonth()+1)+"/"+fechaForm.getFullYear();
+        muestroRankingParque(strFecha,i+1);
+        console.log(fechaForm);
+        console.log(strFecha);
+    }
+    function muestroRankingParque(fecha,indice){
+        console.log(indice)
+        $("#datepicker"+indice).val(fecha);
+        $.post('http://localhost/EolicEventConsumer/rankingprods/muestrorankingparque',
+        {fecha : fecha, parque:"<?php echo $parque; ?>"}, 
+        function(data) {
+            variable = data;
+            $("#bodyRanking"+indice).html(data)
+        });
+    }
+    
     seguimiento();
     
     function seguimiento(idASeguir){
@@ -318,6 +360,15 @@ $this->Html->script([
                 $(this).attr("bgcolor","#ccccff");
             });
             $("#tabla4 td").each(function(){
+                $(this).attr("bgcolor","#ccccff");
+            });
+            $("#tabla5 td").each(function(){
+                $(this).attr("bgcolor","#ccccff");
+            });
+            $("#tabla6 td").each(function(){
+                $(this).attr("bgcolor","#ccccff");
+            });
+            $("#tabla7 td").each(function(){
                 $(this).attr("bgcolor","#ccccff");
             });
         }else{ 
@@ -351,6 +402,15 @@ $this->Html->script([
 
                }
             });
+            $("#tabla5 td").each(function(){
+               if($(this).text().includes(idASeguir)){
+                   console.log("ENCONTRADO");
+                   $(this).attr("bgcolor","#F99090");
+               }else{
+                    $(this).attr("bgcolor","#ccccff");
+
+               }
+            });
 
             $("#tabla4 td").each(function(){
                if($(this).text().includes(idASeguir)){
@@ -361,6 +421,25 @@ $this->Html->script([
 
                }
             });
+            $("#tabla6 td").each(function(){
+               if($(this).text().includes(idASeguir)){
+                   console.log("ENCONTRADO");
+                   $(this).attr("bgcolor","#F99090");
+               }else{
+                    $(this).attr("bgcolor","#ccccff");
+
+               }
+            });
+            $("#tabla7 td").each(function(){
+               if($(this).text().includes(idASeguir)){
+                   console.log("ENCONTRADO");
+                   $(this).attr("bgcolor","#F99090");
+               }else{
+                    $(this).attr("bgcolor","#ccccff");
+
+               }
+            });
+            
         }
         
     }
@@ -416,21 +495,65 @@ $this->Html->script([
         
         });
         
+        $("#datepicker5").change(function(){
+            if($("#datepicker5").val()!=""){
+                $.post('http://localhost/EolicEventConsumer/rankingprods/muestrorankingparque',
+                {fecha : $("#datepicker5").val(), parque:"<?php echo $parque; ?>"}, 
+                function(data) {
+                    variable = data;
+                    $("#bodyRanking5").html(data)
+                });
+            }
+        
+        });
+        $("#datepicker6").change(function(){
+            if($("#datepicker6").val()!=""){
+                $.post('http://localhost/EolicEventConsumer/rankingprods/muestrorankingparque',
+                {fecha : $("#datepicker6").val(), parque:"<?php echo $parque; ?>"}, 
+                function(data) {
+                    variable = data;
+                    $("#bodyRanking6").html(data)
+                });
+            }
+        
+        });
+        $("#datepicker7").change(function(){
+            if($("#datepicker7").val()!=""){
+                $.post('http://localhost/EolicEventConsumer/rankingprods/muestrorankingparque',
+                {fecha : $("#datepicker7").val(), parque:"<?php echo $parque; ?>"}, 
+                function(data) {
+                    variable = data;
+                    $("#bodyRanking7").html(data)
+                });
+            }
+        
+        });
+        
+        
         $("#btnGrafica").on("click",function(){
             if($("#aerosG").val()==null || $("#diasG").val()==null){
                 $.post('http://localhost/EolicEventConsumer/error/formularioIncorrecto',
                 function(data) {
                     variable = data;
-                    $("#graficaI").html(data);
+                    $("#rankingGraficab").remove();
+                    $("#graficaPos2b").remove();
+                    $("#aviso").html(data);
                     
                 });
             }else{
-           $.post('http://localhost/EolicEventConsumer/rankingprods/muestroGrafica',
-            {diasG : $("#diasG").val(), aerosG : $("#aerosG").val(), contenedor:'rankingGrafica'}, 
-            function(data) {
-                variable = data;
-                $("#graficaI").html(data)
-            });
+                
+                $.post('http://localhost/EolicEventConsumer/rankingprods/muestroGrafica',
+                 {diasG : $("#diasG").val(), aerosG : $("#aerosG").val(), contenedor:'rankingGrafica'}, 
+                 function(data) {
+                     variable = data;
+                     $("#graficaI").html(data)
+                 });
+                $.post('http://localhost/EolicEventConsumer/rankingprods/muestroGraficaPos',
+                {diasG : $("#diasG").val(), aerosG : $("#aerosG").val(), contenedor:'graficaPos2'}, 
+                function(data) {
+                    variable = data;
+                    $("#graficaPos").html(data)
+                });
        
             }
         }); 
@@ -445,6 +568,7 @@ $this->Html->script([
                 $("#infoAero").html(data)
             });
         }
+        
         
         $('#tabla1').on('click','tr td', function(){
             seguimiento($(this).text());
@@ -462,6 +586,21 @@ $this->Html->script([
             seguimiento($(this).text());
             postAeroSeguir($(this).text());
         });
+        $('#tabla5').on('click','tr td', function(){
+            seguimiento($(this).text());
+            postAeroSeguir($(this).text());
+        });
+        $('#tabla6').on('click','tr td', function(){
+            seguimiento($(this).text());
+            postAeroSeguir($(this).text());
+        });
+        $('#tabla7').on('click','tr td', function(){
+            seguimiento($(this).text());
+            postAeroSeguir($(this).text());
+        });
+        
+        
+        
         
     });
     
@@ -476,7 +615,7 @@ $this->Html->script([
     fechasLimite = fechasLimite.split(',');
     var inicio = new Date(fechasLimite[0]);
     var final = new Date(fechasLimite[1]);
-    $('#datepicker').datepicker({
+    $('#datepicker1').datepicker({
         format: 'dd/mm/yyyy',
         startDate:inicio,
         endDate:final,
@@ -502,12 +641,25 @@ $this->Html->script([
         endDate:final,
         autoclose: true
     });
-    $('#datepicker1').datepicker({
+    $('#datepicker5').datepicker({
         format: 'dd/mm/yyyy',
         startDate:inicio,
         endDate:final,
         autoclose: true
     });
+    $('#datepicker6').datepicker({
+        format: 'dd/mm/yyyy',
+        startDate:inicio,
+        endDate:final,
+        autoclose: true
+    });
+    $('#datepicker7').datepicker({
+        format: 'dd/mm/yyyy',
+        startDate:inicio,
+        endDate:final,
+        autoclose: true
+    });
+    
     
     $(".select2").select2();
     
@@ -546,7 +698,7 @@ $this->Html->script([
         }
     });
      
-
+     
   });
 </script>
 

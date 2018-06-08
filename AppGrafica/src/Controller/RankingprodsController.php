@@ -146,7 +146,7 @@ class RankingprodsController extends AppController
         $this->loadModel('Parques');
         $formulario = $this->request->getData();
         $this->set('formulario',$formulario);
-
+        $this -> set('fechaDB',$this->getFormatoFecha($formulario["datepickerI"]));
         /* Cargamos los aerogeneradores del parque */
         $nombreParque = $formulario['parque1'];
         $parqueCogido = $this->Parques->find('all')->where(['Parques.nombre =' => $nombreParque]);
@@ -166,6 +166,7 @@ class RankingprodsController extends AppController
         $rankings = $this->getRankingDia(($this->getFormatoFecha($formulario["datepickerI"])),$parqueCogido->first()['id']);
         $this -> set('rankings',$rankings);
         $this -> set('fechaFormateado',$formulario["datepickerI"]);
+        
         
         /*   Escojo el primer ranking de todo para mostrar su información básica, en caso contrario cojo el primer aerogenerador del parque que encuentre.
          *   Puede caber la posibilidad de que el parque no tenga ningún aerogenerador registrado, y esta carga de información sea vacía
@@ -213,6 +214,49 @@ class RankingprodsController extends AppController
             foreach($conjuntoAero as $conjunto):
                 array_push($simple, $conjunto['fecha']);
                 array_push($simple, $conjunto['productividad']);
+
+                array_push($compuesto,implode(',',$simple));
+                
+                $simple = array();
+            endforeach;
+            array_push($series,implode('|',$compuesto));
+            $compuesto = array();
+        endforeach;
+        
+        /*Cargo los ranking separandolos con el caracter ":" y cargamos el nombre del contenedor donde irá ubicado el gráfico*/
+        $this->set('temporalRankings',implode(':',$series));
+        $contenedor = $mainData['contenedor'];
+        $this->set('contenedor',$contenedor);
+        
+
+        
+    }
+    public function muestroGraficaPos(){
+        /* Cargamos los días del rango introducido de días, solo el límite infimo y el maximo  */
+        $this->loadModel('Escalas');
+        $mainData = $this->request->getData();
+        $diasG = $mainData["diasG"];
+        $aerosG = $mainData["aerosG"];
+        $diasG = explode('-',$diasG);
+        $diasG[0] =  str_replace(' ', '', $diasG[0]);
+        $diasG[1] =  str_replace(' ', '', $diasG[1]);
+        $this->set('diasG',implode(',',$diasG));
+        $diasG[0]=$this->getFormatoFecha($diasG[0]);
+        $diasG[1]=$this->getFormatoFecha($diasG[1]);
+        
+        
+        
+        /* Cargamos las series de la grafica con la productividad correspondiente a cada aerogenerador en el rango de dias solicitado*/        
+        $simple = array();
+        $compuesto = array();
+        $series = array();
+        foreach($aerosG as $aero):
+            $conjuntoAero = $this->Escalas->find('all')->where(['Escalas.fecha >=' => $diasG[0],
+                                                                                    'Escalas.fecha <=' => $diasG[1],
+                                                                                    'Escalas.systemNumber =' => $aero])->order(['Escalas.fecha' => 'ASC']);
+            foreach($conjuntoAero as $conjunto):
+                array_push($simple, $conjunto['fecha']);
+                array_push($simple, $conjunto['posicion']);
 
                 array_push($compuesto,implode(',',$simple));
                 

@@ -1,0 +1,94 @@
+create schema WindEvent(systemNumber int, time Date, windSpeed double, power double);
+
+@Name("WindEventTr")
+INSERT INTO WindEventTr
+SELECT *,
+(case when ((windSpeed-Math.floor(windSpeed))-0.5)<0 then Math.floor(windSpeed)
+	  else Math.floor(windSpeed)+0.5 end) as viento
+FROM  WindEvent;
+
+@Name("WindEventR")
+INSERT INTO WindEventR
+SELECT power,
+systemNumber, 
+AVG(power) as media,
+STDDEV(power) as desviacion,
+windSpeed,
+viento,
+count(systemNumber) as veces,
+MIN(time.roundFloor('day')) as fecha
+FROM  WindEventTr.win:time_batch(2 hour) ventana
+GROUP BY systemNumber, viento;
+
+@Name("Fuera")
+INSERT INTO Fuera
+SELECT DISTINCT systemNumber,
+media,
+desviacion,
+count(systemNumber) as vecesFuera,
+viento,
+MAX(fecha) as fecha
+FROM WindEventR.win:time_batch(1 sec) ventana
+WHERE power<media-desviacion OR power>media+desviacion
+GROUP BY systemNumber,viento
+HAVING count(systemNumber)>0
+order by viento;
+
+@Name("EstadisticoDiario")
+INSERT INTO EstadisticoDiario
+SELECT systemNumber, 
+AVG(power) as media,
+STDDEV(power) as desviacion,
+viento,
+count(systemNumber) as veces,
+MIN(time.roundFloor('day')) as fecha
+FROM  WindEventTr.win:time_batch(2 hour) ventana
+GROUP BY systemNumber, viento
+HAVING STDDEV(power)>0
+order by viento;
+
+@Name("NotificacionFuera")
+INSERT INTO Notificacion
+SELECT e.systemNumber as systemNumber,
+"Fuera" as tipo,
+e.fecha as fecha,
+e.vecesFuera as campo1,
+e.vecesFuera as campo2,
+e.viento as campo3,
+e.media as campo4,
+e.desviacion as campo5
+FROM  PATTERN[every e = Fuera(e.vecesFuera>0)];
+
+@Name("NotificacionBajadaD")
+INSERT INTO Notificacion
+SELECT a1.systemNumber as systemNumber,
+"Bajada" as tipo,
+a1.fecha as fecha,
+a1.veces as campo1,
+a2.veces as campo2,
+a2.viento as campo3,
+a2.desviacion as campo4,
+(100-(a2.desviacion*100/a1.desviacion)) as campo5
+FROM PATTERN[
+	every a1=EstadisticoDiario() -> a2=EstadisticoDiario(a1.systemNumber=a2.systemNumber AND 
+											a1.viento = a2.viento AND ((100-(a2.desviacion*100/a1.desviacion)) <-10))
+]
+order by a1.fecha;
+
+@Name("NotificacionBajadaM")
+INSERT INTO Notificacion
+SELECT a1.systemNumber as systemNumber,
+"Bajada" as tipo,
+a1.fecha as fecha,
+a1.veces as campo1,
+a2.veces as campo2,
+a2.viento as campo3,
+a2.media as campo4,
+(100-(a2.media*100/a1.media)) as campo5
+FROM PATTERN[
+	every a1=EstadisticoDiario() -> a2=EstadisticoDiario(a1.systemNumber=a2.systemNumber AND 
+											a1.viento = a2.viento AND ((100-(a2.media*100/a1.media)) <-10))
+]
+order by a1.fecha;
+
+

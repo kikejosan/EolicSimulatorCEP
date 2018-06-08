@@ -1,0 +1,15 @@
+@Name("NotificacionBajadaD")
+INSERT INTO Notificacion
+SELECT a1.systemNumber as systemNumber,
+"Bajada" as tipo,
+a1.fecha as fecha,
+a1.veces as campo1,
+a2.veces as campo2,
+a2.viento as campo3,
+a2.desviacion as campo4,
+(100-(a2.desviacion*100/a1.desviacion)) as campo5
+FROM PATTERN[
+	every a1=EstadisticoDiario() -> a2=EstadisticoDiario(a1.systemNumber=a2.systemNumber AND 
+											a1.viento = a2.viento AND ((100-(a2.desviacion*100/a1.desviacion)) <-10))
+]
+order by a1.fecha

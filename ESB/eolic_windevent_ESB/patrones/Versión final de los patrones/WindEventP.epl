@@ -1,0 +1,4 @@
+@Name("WindEventP")
+INSERT INTO WindEventP
+SELECT COUNT(DISTINCT systemNumber) as numAeros,*
+FROM WindEvent.win:length_batch(4438) t;

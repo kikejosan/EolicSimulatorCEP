@@ -50,8 +50,8 @@ $this->Html->script([
     <div class="nav-tabs-custom">
         <ul class="nav nav-tabs">
           <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="true">Datos obtenidos</a></li>
-          <li class=""><a href="#tab_2" data-toggle="tab" aria-expanded="false">Análisis de desviaciones</a></li>
-          <li class=""><a href="#tab_3" data-toggle="tab" aria-expanded="false">Análisis de los puntos fuera</a></li>
+          <li class=""><a href="#tab_2" data-toggle="tab" aria-expanded="false">Análisis de Desviaciones Típicas</a></li>
+          <li class=""><a href="#tab_3" data-toggle="tab" aria-expanded="false">Análisis de Outliers x1</a></li>
           <li class=""><a href="#tab_4" data-toggle="tab" aria-expanded="false">Análisis temporal</a></li>
         </ul>
         <div class="tab-content">

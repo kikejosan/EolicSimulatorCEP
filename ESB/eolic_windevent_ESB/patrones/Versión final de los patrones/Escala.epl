@@ -1,0 +1,22 @@
+@Name("Escala")
+INSERT INTO Escala
+SELECT systemNumber as systemNumber,
+count(suma) % numAeros+1 as posicion,
+fecha,
+numAeros,
+productividad
+FROM  RankingProd;
+
+@Name("Transicion")
+INSERT INTO Transicion
+SELECT a1.systemNumber as systemNumber,
+		a1.posicion as posicionInicio,
+		a2.posicion as posicionFin,
+		a2.posicion - a1.posicion as variacion,
+		a1.fecha as inicio,
+		a2.fecha as fin,
+        (a2.posicion - a1.posicion)*(100/a1.numAeros) as variacionR,
+        100-(a2.productividad*100/a1.productividad) as variacionPR
+FROM PATTERN [every  a1 = Escala() ->
+						a2 = Escala(a1.systemNumber = a2.systemNumber)
+]
