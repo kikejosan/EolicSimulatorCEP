@@ -32,6 +32,8 @@ class Transicion extends Entity
         'posicionFin' => true,
         'variacion' => true,
         'inicio' => true,
-        'fin' => true
+        'fin' => true,
+        'variacionR' => true,
+        'variacionPR' =>true
     ];
 }

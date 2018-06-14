@@ -20,27 +20,32 @@ public class SendEventToEsperComponent {
 		String eventTypeName = (String) eventMap.keySet().toArray()[0];
 		System.out.println("=== Evento tipo: " + eventTypeName);
 		
-		/* Obtenemos el schema del evento simple X por si todavía no se ha introducido su schema en el motor CEP*/
-		
-		Map<String, Object> eventPayload = new HashMap<String, Object>();
-		eventPayload = (Map<String, Object>) eventMap.get(eventTypeName);
-		
-		Map<String, Object> eventPayloadTypeMap = new HashMap<String, Object>();
-		eventPayloadTypeMap = getEventType(eventPayload);
-		
-		System.out.println("					===eventPayloadTypeMap: " + eventPayloadTypeMap);
-		
-		/*En caso de que no hayamos introducido aún lo introducimos y lo mandamos
-		 * En caso contrario, simplemente lo mandamos */
-		if (!EsperUtils.eventTypeExists(eventTypeName)) {
-			EsperUtils.addNewEventType(eventTypeName, eventPayloadTypeMap);
-			System.out.println("	***" + eventTypeName + " schema de evento simple añadido a MOTOR CEP");
+		if(eventTypeName=="Ruido"){
+			System.out.println("@ El evento 'Ruido' nos será enviado al motor CEP");
+		}else{
+			/* Obtenemos el schema del evento simple X por si todavía no se ha introducido su schema en el motor CEP*/
+			
+			Map<String, Object> eventPayload = new HashMap<String, Object>();
+			eventPayload = (Map<String, Object>) eventMap.get(eventTypeName);
+			
+			Map<String, Object> eventPayloadTypeMap = new HashMap<String, Object>();
+			eventPayloadTypeMap = getEventType(eventPayload);
+			
+			System.out.println("					===eventPayloadTypeMap: " + eventPayloadTypeMap);
+			
+			/*En caso de que no hayamos introducido aún lo introducimos y lo mandamos
+			 * En caso contrario, simplemente lo mandamos */
+			if (!EsperUtils.eventTypeExists(eventTypeName)) {
+				EsperUtils.addNewEventType(eventTypeName, eventPayloadTypeMap);
+				System.out.println("	***" + eventTypeName + " schema de evento simple añadido a MOTOR CEP");
+			}
+			System.out.println("	@Sytem: ATENCION ESTOY MANDANDO EVENTO SIMPLE: ");
+			System.out.println("		- EventPayload: "+eventPayload);
+			System.out.println("		- Eventype: "+eventTypeName);
+			EsperUtils.sendEvent(eventPayload, eventTypeName);
+			System.out.println("\n	@System: Mandado " + eventTypeName + " to Esper: " + eventPayload);
 		}
-		System.out.println("	@Sytem: ATENCION ESTOY MANDANDO EVENTO SIMPLE: ");
-		System.out.println("		- EventPayload: "+eventPayload);
-		System.out.println("		- Eventype: "+eventTypeName);
-		EsperUtils.sendEvent(eventPayload, eventTypeName);
-		System.out.println("\n	@System: Mandado " + eventTypeName + " to Esper: " + eventPayload);
+		
 	}
 
 	
@@ -63,9 +68,7 @@ public class SendEventToEsperComponent {
 			}
 			
 			}
-	return eventTypeMap;
-		
+		return eventTypeMap;
 
-		
 	}
 }

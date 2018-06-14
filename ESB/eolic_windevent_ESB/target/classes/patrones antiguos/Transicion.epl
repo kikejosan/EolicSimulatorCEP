@@ -1,0 +1,11 @@
+@Name("Transicion")
+INSERT INTO Transicion
+SELECT a1.systemNumber as systemNumber,
+		a1.posicion as posicionInicio,
+		a2.posicion as posicionFin,
+		a1.posicion - a2.posicion as variacion,
+		a1.fecha as inicio,
+		a2.fecha as fin
+FROM PATTERN [every  a1 = Escala() ->
+						a2 = Escala(a1.systemNumber = a2.systemNumber)
+]

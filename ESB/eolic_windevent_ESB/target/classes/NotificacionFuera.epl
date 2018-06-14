@@ -1,0 +1,11 @@
+@Name("NotificacionFuera")
+INSERT INTO Notificacion
+SELECT e.systemNumber as systemNumber,
+"Fuera" as tipo,
+e.fecha as fecha,
+e.vecesFuera as campo1,
+e.vecesFuera as campo2,
+e.viento as campo3,
+e.media as campo4,
+e.desviacion as campo5
+FROM  PATTERN[every e = Fuera(e.vecesFuera>=16)]

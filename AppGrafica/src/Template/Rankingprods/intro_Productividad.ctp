@@ -93,6 +93,7 @@ $this->Html->script([
 ?>
 <?php $this->start('scriptBottom'); ?>
 <script>
+    /*Inicializa el datepicker con el rango de fechas oportuno*/
     var fechasLimite = "<?php echo $fechasLimite ?>";
     fechasLimite = fechasLimite.split(',');
     var inicio = new Date(fechasLimite[0]);

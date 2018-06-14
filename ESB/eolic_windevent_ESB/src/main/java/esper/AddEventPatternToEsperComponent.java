@@ -34,11 +34,11 @@ public class AddEventPatternToEsperComponent implements Callable {
 			@Override
 			public void update(EventBean[] newComplexEvents, EventBean[] oldComplexEvents, 
 				EPStatement detectedEventPattern, EPServiceProvider serviceProvider) {
-				System.out.println("/n/n/n/n/n/n/n/n/n/n");
+				
 				
 				if (newComplexEvents != null) {	
 					try {
-						System.out.println("	ATENCION!: HE DETECTADO UN EVENTO COMPLEJO");
+						System.out.println("	ATENCION!: SE HA DETECTADO UN EVENTO COMPLEJO");
 						System.out.println("		===== Payload del Evento Complejo:" + newComplexEvents[0].getUnderlying());
 						
 						String eventPatternName = detectedEventPattern.getEventType().getName();
@@ -46,14 +46,12 @@ public class AddEventPatternToEsperComponent implements Callable {
 
 					
 						System.out.println("		===== Estamos leyendo LA COLA DE EVENTOS COMPLEJOS");
-						/*for(int i=0; i<newComplexEvents.length;i++){
-							System.out.println("		===== "+newComplexEvents[i].getUnderlying());
-						}*/
+						
 						
 						/* El patrón puede disparar varios eventos complejos a la vez, por tanto deberemos de enviar
 						 * toda la cola de eventos complejos a nuestro flujo de despliegue*/
 						for(int i=0; i<newComplexEvents.length;i++){
-							System.out.println("		FOR===== "+newComplexEvents[i].getUnderlying());
+							System.out.println("	===== Procesando y enviando a despliegue Evento Complejo: "+newComplexEvents[i].getUnderlying());
 							/* Obtenemos el evento complejo de la cola*/
 							Map<String, Object> auxComplexEvent = new LinkedHashMap<String, Object>();
 							auxComplexEvent.put(eventPatternName,newComplexEvents[i].getUnderlying());

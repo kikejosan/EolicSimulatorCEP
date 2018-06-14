@@ -51,7 +51,7 @@ $this->Html->script([
         <ul class="nav nav-tabs">
           <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="true">Datos obtenidos</a></li>
           <li class=""><a href="#tab_2" data-toggle="tab" aria-expanded="false">Análisis de Desviaciones Típicas</a></li>
-          <li class=""><a href="#tab_3" data-toggle="tab" aria-expanded="false">Análisis de Outliers x1</a></li>
+          <li class=""><a href="#tab_3" data-toggle="tab" aria-expanded="false">Análisis de Outliers</a></li>
           <li class=""><a href="#tab_4" data-toggle="tab" aria-expanded="false">Análisis temporal</a></li>
         </ul>
         <div class="tab-content">
@@ -93,10 +93,10 @@ $this->Html->script([
                                     <thead>
                                     <tr style="background-color: #c2c2bc">
                                       <th style="text-align: center;">SystemNumber</th>
-                                      <th style="text-align: center;">Viento (m/s)</th>
+                                      <th style="text-align: center;">Bin de viento (m/s)</th>
                                       <th style="text-align: center;">Fecha</th>
-                                      <th style="text-align: center;">Media (KW)</th>
-                                      <th style="text-align: center;">Desviación (KW)</th>
+                                      <th style="text-align: center;">Media (KW/h)</th>
+                                      <th style="text-align: center;">Desviación típica (KW/h)</th>
                                     </tr>
                                     </thead>
                                     <tbody id="example1Body">                              
@@ -105,8 +105,8 @@ $this->Html->script([
                                             <td style="text-align: center;"><?php echo $estadistico['systemNumber']?></td>
                                             <td style="text-align: center;"><?php echo $estadistico['viento']?></td>
                                             <td style="text-align: center;"><?php echo $estadistico['fecha']?></td>
-                                            <td style="text-align: center;"><?php echo $estadistico['media']?></td>
-                                            <td style="text-align: center;"><?php echo $estadistico['desviacion']?></td>
+                                            <td style="text-align: center;"><?php echo round($estadistico['media'],2); ?></td>
+                                            <td style="text-align: center;"><?php echo round($estadistico['desviacion'],2); ?></td>
                                         </tr>
                                         <?php endforeach; ?>
                                     </tbody>
@@ -118,7 +118,7 @@ $this->Html->script([
                         <div class="col-md-6" id="datos">
                             <div class="box">
                                 <div class="box-header with-border">
-                                  <h3 class="box-title">Conjunto de puntos fuera de los intervalos de confianza</h3>
+                                  <h3 class="box-title">Outliers detectados</h3>
                                   <div class="box-tools pull-right">
                                     <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
                                       <i class="fa fa-minus"></i></button>
@@ -131,11 +131,11 @@ $this->Html->script([
                                         <thead>
                                         <tr style="background-color: #c2c2bc">
                                             <th style="text-align: center;">SystemNumber</th>
-                                            <th style="text-align: center;">Viento (m/s)</th>
+                                            <th style="text-align: center;">Bin de viento (m/s)</th>
                                             <th style="text-align: center;">Fecha</th>
-                                            <th style="text-align: center;">Puntos fuera</th>
-                                            <th style="text-align: center;">Media (KW)</th>
-                                            <th style="text-align: center;">Desviación (KW)</th>
+                                            <th style="text-align: center;">Nº Outliers</th>
+                                            <th style="text-align: center;">Media (KW/h)</th>
+                                            <th style="text-align: center;">Desviación típica (KW/h)</th>
                                         </tr>
                                         </thead>
                                         <tbody id="example2Body">                              
@@ -145,8 +145,8 @@ $this->Html->script([
                                                 <td style="text-align: center;"><?php echo $unoF['viento']?></td>
                                                 <td style="text-align: center;"><?php echo $unoF['fecha']?></td>
                                                 <td style="text-align: center;"><?php echo $unoF['vecesFuera']?></td>
-                                                <td style="text-align: center;"><?php echo $unoF['media']?></td>
-                                                <td style="text-align: center;"><?php echo $unoF['desviacion']?></td>
+                                                <td style="text-align: center;"><?php echo round($unoF['media'],2) ?></td>
+                                                <td style="text-align: center;"><?php echo round($unoF['desviacion'],2) ?></td>
                                             </tr>
                                             <?php endforeach; ?>
                                         </tbody>
@@ -171,11 +171,11 @@ $this->Html->script([
                                         <thead>
                                         <tr style="background-color: #c2c2bc">
                                           <th style="text-align: center;">SystemNumber</th>
-                                          <th style="text-align: center;">Viento (m/s)</th>
+                                          <th style="text-align: center;">Bin de viento (m/s)</th>
                                           <th style="text-align: center;">Inicio</th>
-                                          <th style="text-align: center;">Media Inicio (KW)</th>
+                                          <th style="text-align: center;">Media Inicio (KW/h)</th>
                                           <th style="text-align: center;">Fin</th>
-                                          <th style="text-align: center;">Media Fin (KW)</th>
+                                          <th style="text-align: center;">Media Fin (KW/h)</th>
                                         </tr>
                                         </thead>
                                         <tbody id="example3Body">                              
@@ -184,9 +184,9 @@ $this->Html->script([
                                                 <td style="text-align: center;"><?php echo $bajada['systemNumber1']?></td>
                                                 <td style="text-align: center;"><?php echo $bajada['viento1']?></td>
                                                 <td style="text-align: center;"><?php echo $bajada['fecha1']?></td>
-                                                <td style="text-align: center;"><?php echo $bajada['media1']?></td>
+                                                <td style="text-align: center;"><?php echo round($bajada['media1'],2)?></td>
                                                 <td style="text-align: center;"><?php echo $bajada['fecha2']?></td>
-                                                <td style="text-align: center;"><?php echo $bajada['media2']?></td>
+                                                <td style="text-align: center;"><?php echo round($bajada['media2'],2)?></td>
                                             </tr>
                                             <?php endforeach; ?>
                                         </tbody>
@@ -253,10 +253,10 @@ $this->Html->script([
                                     <thead>
                                     <tr style="background-color: #c2c2bc">
                                       <th style="text-align: center;">SystemNumber</th>
-                                      <th style="text-align: center;">Viento (m/s)</th>
+                                      <th style="text-align: center;">Bin de viento (m/s)</th>
                                       <th style="text-align: center;">Fecha</th>
-                                      <th style="text-align: center;">Media (KW)</th>
-                                      <th style="text-align: center;">Desviación (KW)</th>
+                                      <th style="text-align: center;">Media (KW/h)</th>
+                                      <th style="text-align: center;">Desviación típica (KW/h)</th>
                                     </tr>
                                     </thead>
                                     <tbody>                              
@@ -265,8 +265,8 @@ $this->Html->script([
                                             <td style="text-align: center;"><?php echo $estadistico['systemNumber']?></td>
                                             <td style="text-align: center;"><?php echo $estadistico['viento']?></td>
                                             <td style="text-align: center;"><?php echo $estadistico['fecha']?></td>
-                                            <td style="text-align: center;"><?php echo $estadistico['media']?></td>
-                                            <td style="text-align: center;"><?php echo $estadistico['desviacion']?></td>
+                                            <td style="text-align: center;"><?php echo round($estadistico['media'],2)?></td>
+                                            <td style="text-align: center;"><?php echo round($estadistico['desviacion'],2)?></td>
                                         </tr>
                                         <?php endforeach; ?>
                                     </tbody>
@@ -328,7 +328,7 @@ $this->Html->script([
                         <div class="col-md-12">
                             <div class="box">
                                 <div class="box-header with-border">
-                                  <h3 class="box-title">Puntos fuera</h3>
+                                  <h3 class="box-title">Outliers detectados</h3>
                                   <div class="box-tools pull-right">
                                     <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
                                       <i class="fa fa-minus"></i></button>
@@ -341,11 +341,11 @@ $this->Html->script([
                                         <thead>
                                             <tr style="background-color: #c2c2bc">
                                                 <th style="text-align: center;">SystemNumber</th>
-                                                <th style="text-align: center;">Viento (m/s)</th>
+                                                <th style="text-align: center;">Bin de viento (m/s)</th>
                                                 <th style="text-align: center;">Fecha</th>
-                                                <th style="text-align: center;">Puntos fuera</th>
-                                                <th style="text-align: center;">Media (KW)</th>
-                                                <th style="text-align: center;">Desviación (KW)</th>
+                                                <th style="text-align: center;">Nº Outliers</th>
+                                                <th style="text-align: center;">Media (KW/h)</th>
+                                                <th style="text-align: center;">Desviación típica (KW/h)</th>
                                             </tr>
                                         </thead>
                                         <tbody>                              
@@ -355,8 +355,8 @@ $this->Html->script([
                                                 <td style="text-align: center;"><?php echo $unoF['viento']?></td>
                                                 <td style="text-align: center;"><?php echo $unoF['fecha']?></td>
                                                 <td style="text-align: center;"><?php echo $unoF['vecesFuera']?></td>
-                                                <td style="text-align: center;"><?php echo $unoF['media']?></td>
-                                                <td style="text-align: center;"><?php echo $unoF['desviacion']?></td>
+                                                <td style="text-align: center;"><?php echo round($unoF['media'],2)?></td>
+                                                <td style="text-align: center;"><?php echo round($unoF['desviacion'],2)?></td>
                                             </tr>
                                             <?php endforeach; ?>
                                         </tbody>
@@ -383,7 +383,7 @@ $this->Html->script([
                     <div class='col-md-3'>
                         <div class="box">
                             <div class="box-header with-border">
-                              <h3 class="box-title">Formulario para el seguimiento temporal</h3>
+                              <h3 class="box-title">Formulario</h3>
                               <div class="box-tools pull-right">
                                 <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
                                   <i class="fa fa-minus"></i></button>
@@ -487,9 +487,9 @@ $this->Html->script([
     $('#example1').DataTable({
         "language": {
             "lengthMenu": "Mostrar _MENU_ entradas por pagina",
-            "zeroRecords": "Nada que mostrar - lo siento",
+            "zeroRecords": "Nada que mostrar - Lo siento",
             "info": "Enseñando página _PAGE_ de _PAGES_",
-            "infoEmpty": "No entradas disponibles",
+            "infoEmpty": "Ninguna entrada disponible",
             "infoFiltered": "(filtrado de _MAX_ entradas totales)",
             "search":         "Búsqueda: ",
             "paginate": {
@@ -503,9 +503,9 @@ $this->Html->script([
     $('#example2').DataTable({
         "language": {
             "lengthMenu": "Mostrar _MENU_ entradas por pagina",
-            "zeroRecords": "Nada que mostrar - lo siento",
+            "zeroRecords": "Nada que mostrar - Lo siento",
             "info": "Enseñando página _PAGE_ de _PAGES_",
-            "infoEmpty": "No entradas disponibles",
+            "infoEmpty": "Ninguna entrada disponible",
             "infoFiltered": "(filtrado de _MAX_ entradas totales)",
             "search":         "Búsqueda: ",
             "paginate": {
@@ -519,9 +519,9 @@ $this->Html->script([
     $('#example3').DataTable({
         "language": {
             "lengthMenu": "Mostrar _MENU_ entradas por pagina",
-            "zeroRecords": "Nada que mostrar - lo siento",
+            "zeroRecords": "Nada que mostrar - Lo siento",
             "info": "Enseñando página _PAGE_ de _PAGES_",
-            "infoEmpty": "No entradas disponibles",
+            "infoEmpty": "Ninguna entrada disponible",
             "infoFiltered": "(filtrado de _MAX_ entradas totales)",
             "search":         "Búsqueda: ",
             "paginate": {
@@ -535,9 +535,9 @@ $this->Html->script([
     $('#example4').DataTable({
         "language": {
             "lengthMenu": "Mostrar _MENU_ entradas por pagina",
-            "zeroRecords": "Nada que mostrar - lo siento",
+            "zeroRecords": "Nada que mostrar - Lo siento",
             "info": "Enseñando página _PAGE_ de _PAGES_",
-            "infoEmpty": "No entradas disponibles",
+            "infoEmpty": "Ninguna entrada disponible",
             "infoFiltered": "(filtrado de _MAX_ entradas totales)",
             "search":         "Búsqueda: ",
             "paginate": {
@@ -551,9 +551,9 @@ $this->Html->script([
     $('#example5').DataTable({
         "language": {
             "lengthMenu": "Mostrar _MENU_ entradas por pagina",
-            "zeroRecords": "Nada que mostrar - lo siento",
+            "zeroRecords": "Nada que mostrar - Lo siento",
             "info": "Enseñando página _PAGE_ de _PAGES_",
-            "infoEmpty": "No entradas disponibles",
+            "infoEmpty": "Ninguna entrada disponible",
             "infoFiltered": "(filtrado de _MAX_ entradas totales)",
             "search":         "Búsqueda: ",
             "paginate": {
@@ -574,6 +574,7 @@ $this->Html->script([
     
     
     /* Botón de la gráfica del seguimiento de las curvas de potencia, en caso de estar todo el formulario completo mostraremos por pantalla las graficas resultado
+     * y cargaremos en el datetable de la pestaña de análisis de desviaciones la información de ese día.
      * En caso de que falte algo por rellenar el navegador informará al usuario. Ambos seguimientos, serán de los aeros introducidos en el formulario
      */
     $("#btnGrafica").on("click",function(){
@@ -611,8 +612,8 @@ $this->Html->script([
         
     });
     
-    /* Botón del apartado de los puntos fuera, aquí mostraremos dos gráficas, la del seguimiento de curvas de potencia y la de sectores informando cuantos puntos
-     * fuera ha habido. 
+    /* Botón del apartado de los outliers, aquí mostraremos dos gráficas, la del seguimiento de curvas de potencia y la de sectores informando cuantos puntos
+     * fuera ha habido. Además, se cargará la información de los outliers de ese día en el datetable asignado para ese tab-pane
      * En caso de que falte algo por rellenar el navegador informará al usuario
      */
      
@@ -635,14 +636,14 @@ $this->Html->script([
 
 
              });
-             /* Llamada para generar el gráfico de sectores de los puntos fuera en cada bin de viento */
+             /* Llamada para generar el gráfico de sectores de los outliers en cada bin de viento */
              $.post('http://localhost/EolicEventConsumer/estadisticodiarios/muestroGraficaQuesos',
              {dia : $("#datepicker2").val(), parque:"<?php echo $parque; ?>"}, 
              function(data) {
                  variable = data;
                  $("#graficoQuesos").html(data);    
              });
-            /* Llamada para cargar los datos de los puntos fuera en la datetable */
+            /* Llamada para cargar los datos de los outliers en la datetable */
             $.post('http://localhost/EolicEventConsumer/estadisticodiarios/cargaDatosFueras',
             {dia : $("#datepicker2").val(), parque:"<?php echo $parque ?>",contenedor:"example5"},
             function(data) {
@@ -685,9 +686,9 @@ $this->Html->script([
     
     /*
     * Botón del apartado de los datos, sirve para poder actualizar la información de los datetables con el día introducido por parámetro.
+    * En caso de que el formulario sea enviado vacío mostrará el aviso oportuno.
     * 
      */
-    
     
     $("#btnDatos").on("click",function(){
         if($("#datepickerDatos").val()==""){
@@ -705,7 +706,7 @@ $this->Html->script([
                  variable = data;
                  $("#box1").html(data);
             });
-            /* Llamada para cargar los datos de los puntos fuera en la datetable */
+            /* Llamada para cargar los datos de los outliers en la datetable */
             $.post('http://localhost/EolicEventConsumer/estadisticodiarios/cargaDatosFueras',
              {dia : $("#datepickerDatos").val(), parque:"<?php echo $parque ?>",contenedor:"example2"},
              function(data) {

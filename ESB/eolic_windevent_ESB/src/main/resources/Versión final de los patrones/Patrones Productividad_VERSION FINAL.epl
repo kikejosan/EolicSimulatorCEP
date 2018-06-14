@@ -1,0 +1,56 @@
+create schema WindEvent(systemNumber int, time Date, windSpeed double, power double);
+
+@Name("WindEventP")
+INSERT INTO WindEventP
+SELECT COUNT(DISTINCT systemNumber) as numAeros,*
+FROM WindEvent.win:time_batch(2 hour) t;
+
+@Name("RankingProd")
+INSERT INTO RankingProd
+SELECT SUM(power) as suma, 
+count(systemNumber) as events,
+systemNumber,
+MAX(time) as time,
+SUM(power)/count(systemNumber) as productividad,
+MIN(time.roundFloor('day')) as fecha,
+numAeros
+FROM  WindEventP.win:time_batch(1 sec) t
+GROUP BY systemNumber,numAeros
+HAVING count(systemNumber)>0
+ORDER BY productividad DESC;
+
+@Name("Escala")
+INSERT INTO Escala
+SELECT systemNumber as systemNumber,
+count(suma) % numAeros+1 as posicion,
+fecha,
+numAeros,
+productividad
+FROM  RankingProd;
+
+@Name("Transicion")
+INSERT INTO Transicion
+SELECT a1.systemNumber as systemNumber,
+		a1.posicion as posicionInicio,
+		a2.posicion as posicionFin,
+		a2.posicion - a1.posicion as variacion,
+		a1.fecha as inicio,
+		a2.fecha as fin,
+        (a2.posicion - a1.posicion)*(100/a1.numAeros) as variacionR,
+        100-(a2.productividad*100/a1.productividad) as variacionPR
+FROM PATTERN [every  a1 = Escala() ->
+						a2 = Escala(a1.systemNumber = a2.systemNumber)
+];
+
+@Name("NotificacionTransicion")
+INSERT INTO Notificacion
+SELECT e.systemNumber as systemNumber,
+"Transicion" as tipo,
+e.inicio as fecha,
+e.posicionFin as campo1,
+e.variacion as campo2,
+e.variacionR as campo3,
+e.variacionPR as campo4,
+e.variacionPR as campo5
+FROM  PATTERN[every e = Transicion(e.variacionR < -60 OR e.variacionPR<-70 )];
+

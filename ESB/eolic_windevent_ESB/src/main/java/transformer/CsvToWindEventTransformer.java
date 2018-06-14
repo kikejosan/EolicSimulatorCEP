@@ -52,7 +52,7 @@ public class CsvToWindEventTransformer extends AbstractMessageTransformer{
 		}
 		
 		/* Mostramos por consola la transformación */
-		System.out.println("===    WindEvent transformado: " + eventMap);
+		System.out.println("===   WindEvent transformado: " + eventMap);
 
 		
 		/* Obtenemos el modelo entrenado de las medias y desviaciones teóricas por bines de vientoç
@@ -84,12 +84,13 @@ public class CsvToWindEventTransformer extends AbstractMessageTransformer{
 		/* Mostramos por donde va a caer el Evento Simple nuevo y sumamos la N de esa zona*/
 		System.out.println("intervalo "+viento+ " MAX/MIN ["+maximo+" "+minimo+"]");
 		miZona.N++;
-		if(potencia >=minimo && potencia<=maximo){
+		if(potencia >=minimo && potencia<=maximo && potencia > 0){
 			System.out.println("MANDO "+potencia);
 			
 		}else{
 			System.out.println("NO MANDO"+potencia);
-			
+			eventMap = new LinkedHashMap<String, Object>();
+			eventMap.put("Ruido", eventPayload);
 			
 		}
 		reglas = setZona(reglas,miZona,viento);	
@@ -210,17 +211,10 @@ public class CsvToWindEventTransformer extends AbstractMessageTransformer{
 				event.put("systemNumber", Integer.parseInt(registro[i]));
 				break;
 			case 2:
-				String miFecha [] = registro[i].split("/");
-				
+				String miFecha [] = registro[i].split("/");			
 				Date curDate = new Date(miFecha[0]+"/"+miFecha[1]+"/"+miFecha[2]);
-				System.out.println("EL PROGRAMA ME DA UNA FECHA: "+curDate);
 				SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
 				String fechaFormatoCorrecto = format.format(curDate);
-				
-				
-				System.out.println("EL FORMATO FECHA SALIDA ES INI"+registro[i]);
-				System.out.println("EL FORMATO FECHA SALIDA ES TRA"+curDate);
-				
 				event.put("fecha", fechaFormatoCorrecto);
 				break;
 			case 3:

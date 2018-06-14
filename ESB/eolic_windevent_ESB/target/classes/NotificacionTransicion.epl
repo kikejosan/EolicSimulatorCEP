@@ -1,0 +1,11 @@
+@Name("NotificacionTransicion")
+INSERT INTO Notificacion
+SELECT e.systemNumber as systemNumber,
+"Transicion" as tipo,
+e.inicio as fecha,
+e.posicionFin as campo1,
+e.variacion as campo2,
+e.variacionR as campo3,
+e.variacionPR as campo4,
+e.variacionPR as campo5
+FROM  PATTERN[every e = Transicion(e.variacionR < -75 )]

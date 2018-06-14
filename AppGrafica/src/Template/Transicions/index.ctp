@@ -23,6 +23,8 @@
                         <th scope="col"><?= $this->Paginator->sort('variacion') ?></th>
                         <th scope="col"><?= $this->Paginator->sort('inicio') ?></th>
                         <th scope="col"><?= $this->Paginator->sort('fin') ?></th>
+                        <th scope="col"><?= $this->Paginator->sort('variacionR') ?></th>
+                        <th scope="col"><?= $this->Paginator->sort('variacionPR') ?></th>
                         <th scope="col" class="actions"><?= __('Actions') ?></th>
                     </tr>
                 </thead>
@@ -36,6 +38,8 @@
                         <td><?= $this->Number->format($transicion->variacion) ?></td>
                         <td><?= h($transicion->inicio) ?></td>
                         <td><?= h($transicion->fin) ?></td>
+                        <td><?= $this->Number->format($transicion->variacionR) ?></td>
+                        <td><?= $this->Number->format($transicion->variacionPR) ?></td>
                         <td class="actions">
                             <?= $this->Html->link(__('View'), ['action' => 'view', $transicion->id], array('class'=>'btn btn-sm btn-default')) ?>
                             <?= $this->Html->link(__('Edit'), ['action' => 'edit', $transicion->id], array('class'=>'btn btn-sm btn-default')) ?>

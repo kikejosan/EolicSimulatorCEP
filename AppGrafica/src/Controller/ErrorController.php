@@ -65,9 +65,12 @@ class ErrorController extends AppController
     public function afterFilter(Event $event)
     {
     }
+    
+    /* Es un aviso que es mostrado cuando la búsqueda de información en la base de datos devuelve un conjunto vacío */
     public function datosInexistentes(){
         
     }
+    /* Es un aviso que es mostrado cuando alguno de los campos de un formulario queda sin rellenar */
     public function formularioIncorrecto(){
         
     }

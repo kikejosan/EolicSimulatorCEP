@@ -1,0 +1,12 @@
+@Name("EstadisticoDiario")
+INSERT INTO EstadisticoDiario
+SELECT systemNumber, 
+AVG(power) as media,
+STDDEV(power) as desviacion,
+viento,
+count(systemNumber) as veces,
+MIN(time.roundFloor('day')) as fecha
+FROM  WindEventTr.win:length_batch(4438) ventana
+GROUP BY systemNumber, viento
+HAVING STDDEV(power)>0
+order by viento

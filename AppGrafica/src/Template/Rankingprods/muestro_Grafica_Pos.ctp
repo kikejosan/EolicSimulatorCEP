@@ -16,6 +16,11 @@
 </div>
 
 <script>
+     /* Sacamos la información adquirida por medio del controlador:
+     *  - Aerogeneradores introducidos.
+     *  - Posiciones de los aerogeneradores seleccionados los días especificados.
+     *  - Días a los que pertenecen esas posiciones
+     */
     var temporalRankings = "<?php echo $temporalRankings ?>"; 
     temporalRankings = temporalRankings.split(':');
     var contenedor = "<?php echo $contenedor; ?>";
@@ -28,7 +33,7 @@
     var compuestoAux = [];
     var simpleAux = [];
     var fechaSimple = new Date();
-    
+     /*Controlamos si hay datos en la información aportada por el controlador*/
     if(esVacio(temporalRankings)){
         $.post('http://localhost/EolicEventConsumer/error/datosInexistentes',
         function(data) {
@@ -37,6 +42,9 @@
             $("#"+"<?php echo $contenedor?>").html(data);
         });
     }else{
+    /* Preparamos un array con las series de datos:
+         * SerieEjemplo seria:  [[fechaMillisec,posicion],[fechaMillisec2,posicion],[fechaMillisec3,posicion]] 
+         */
         for(var i=0;i<temporalRankings.length;i++){
             compuesto = temporalRankings[i].split('|');
             for(var j=0;j<compuesto.length;j++){
@@ -79,7 +87,7 @@
                     },
 
             title: {
-                text: 'Análisis de los rankings del '+ dia[0]+' al '+dia[1]
+                text: 'Análisis del Ranking del '+ dia[0]+' al '+dia[1]
             },
 
             xAxis: {

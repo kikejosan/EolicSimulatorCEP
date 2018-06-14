@@ -1,6 +1,6 @@
 <div class="box" id="boxRangos">
     <div class="box-header with-border">
-      <h3 class="box-title">Examen de curva de potencia</h3>
+      <h3 class="box-title">Examen de la Curva de Potencia</h3>
       <div class="box-tools pull-right">
         <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
           <i class="fa fa-minus"></i></button>
@@ -129,7 +129,7 @@
                     },
 
             title: {
-                text: 'Curvas de potencia'
+                text: 'Curva de Potencia'
             },
 
             xAxis: {
@@ -141,14 +141,14 @@
 
             yAxis: {
                 title: {
-                    text: "Potencia producida (KW)"
+                    text: "Potencia producida (KW/h)"
                 }
             },
 
             tooltip: {
                 crosshairs: true,
                 shared: true,
-                valueSuffix: ' KW'
+                valueSuffix: ' KW/h'
             },
 
             legend: {

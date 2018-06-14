@@ -1,6 +1,6 @@
 <div class="box" id="boxQuesos">
     <div class="box-header with-border">
-      <h3 class="box-title">Gráficos de los puntos fuera del intervalo de confianza</h3>
+      <h3 class="box-title">Examen de los Outliers detectados</h3>
       <div class="box-tools pull-right">
         <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
           <i class="fa fa-minus"></i></button>
@@ -41,8 +41,8 @@
 <script>
     /* Sacamos la información adquirida por medio del controlador:
      *  - Aerogeneradores introducidos.
-     *  - Bines de viento disponibles con puntos fuera
-     *  - Puntos fuera del intervalo confianza ese día en concreto
+     *  - Bines de viento disponibles con outliers
+     *  - Outliers del intervalo confianza esepuntos fuera día en concreto
      */
     var contenedores = "<?php echo $contenedores?>";
     contenedores = contenedores.split(',');
@@ -108,7 +108,7 @@
                     text: "Bin "+bin+" m/s"
                 },
                 tooltip: {
-                    pointFormat: '{series.name}: <b>{point.y} puntos  de {point.total}</b>'
+                    pointFormat: '{series.name}: <b>{point.y} outliers  de {point.total}</b>'
                 },
                 plotOptions: {
                     pie: {
@@ -116,7 +116,7 @@
                         cursor: 'pointer',
                         dataLabels: {
                             enabled: true,
-                            format: '<b>{point.name}</b>: {point.y} veces',
+                            format: '<b>{point.name}</b>: {point.y} outliers',
                             style: {
                                 color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
                             },
@@ -125,7 +125,7 @@
                     }
                 },
                 series: [{
-                    name: 'Puntos fuera',
+                    name: 'Outliers',
                     data: dataSerie
                 }]
             });

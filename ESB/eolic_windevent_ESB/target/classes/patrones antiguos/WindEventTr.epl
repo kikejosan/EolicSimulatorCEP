@@ -1,0 +1,6 @@
+@Name("WindEventTr")
+INSERT INTO WindEventTr
+SELECT *,
+(case when ((windSpeed-Math.floor(windSpeed))-0.5)<0 then Math.floor(windSpeed)
+	  else Math.floor(windSpeed)+0.5 end) as viento
+FROM  WindEvent

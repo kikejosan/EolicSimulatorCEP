@@ -185,9 +185,9 @@ class RankingprodsController extends AppController
         $this -> set('transiciones',$transiciones);
     }
     /*
-     *  Muestra el seguimiento del ranking en un rango de días de los aerogeneradores seleccionados. Se cargan:
+     *  Muestra el seguimiento de la productividad de los aerogeneradores que forman el ranking en los días introducidos por parámetro. Se cargan:
      *      - Los días del rango establecido con ranking registrados para esos aerogeneradores.
-     *      - Los ranking registrados en el rango de días introducido para esos aeroge
+     *      - Los ranking registrados en el rango de días introducido para esos aerogeneradores, y así sacar su productividad
      */
     public function muestroGrafica(){
         /* Cargamos los días del rango introducido de días, solo el límite infimo y el maximo  */
@@ -200,8 +200,6 @@ class RankingprodsController extends AppController
         $this->set('diasG',implode(',',$diasG));
         $diasG[0]=$this->getFormatoFecha($diasG[0]);
         $diasG[1]=$this->getFormatoFecha($diasG[1]);
-        
-        
         
         /* Cargamos las series de la grafica con la productividad correspondiente a cada aerogenerador en el rango de dias solicitado*/        
         $simple = array();
@@ -231,6 +229,11 @@ class RankingprodsController extends AppController
 
         
     }
+    /*
+     *  Muestra el seguimiento del ranking en un conjunto de días pasados por parámetro. Se cargan:
+     *      - Los días del rango establecido con ranking registrados para esos aerogeneradores.
+     *      - Los ranking registrados en el rango de días introducido.
+     */
     public function muestroGraficaPos(){
         /* Cargamos los días del rango introducido de días, solo el límite infimo y el maximo  */
         $this->loadModel('Escalas');

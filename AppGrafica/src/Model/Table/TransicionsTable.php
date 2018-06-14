@@ -70,6 +70,14 @@ class TransicionsTable extends Table
         $validator
             ->date('fin')
             ->allowEmpty('fin');
+        
+        $validator
+            ->numeric('variacionR')
+            ->allowEmpty('variacionR');
+        
+        $validator
+            ->numeric('variacionPR')
+            ->allowEmpty('variacionPR');
 
         return $validator;
     }

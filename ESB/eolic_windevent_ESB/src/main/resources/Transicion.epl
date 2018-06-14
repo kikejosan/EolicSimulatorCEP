@@ -3,9 +3,11 @@ INSERT INTO Transicion
 SELECT a1.systemNumber as systemNumber,
 		a1.posicion as posicionInicio,
 		a2.posicion as posicionFin,
-		a1.posicion - a2.posicion as variacion,
+		a2.posicion - a1.posicion as variacion,
 		a1.fecha as inicio,
-		a2.fecha as fin
+		a2.fecha as fin,
+        (a2.posicion - a1.posicion)*(100/a1.numAeros) as variacionR,
+        (a2.productividad*100/a1.productividad) as variacionPR
 FROM PATTERN [every  a1 = Escala() ->
-						a2 = Escala(a1.systemNumber = a2.systemNumber)
+					a2 = Escala(a1.systemNumber = a2.systemNumber)
 ]

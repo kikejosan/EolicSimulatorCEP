@@ -108,8 +108,8 @@ class EstadisticodiariosController extends AppController
      * Muestra por pantalla el formulario para entrar al apartado de rendimiento.
      * Se filtran los días que están registrados y se muestran los parques disponibles.
      * 
-     * A pesar de haberse filtrado los días, puede ocurrir que no haya datos a analizar,
-     *  pero en este caso se verá
+     *  A pesar de haberse filtrado los días, puede ocurrir que no haya datos a analizar,
+     *  pero en el apartado aparecerá que no hay datos, por lo que el usuario no estará perdido
      */
     public function introRendimiento(){
         $this->loadModel('Parques');
@@ -129,7 +129,7 @@ class EstadisticodiariosController extends AppController
      *  Se cargan:
      *      - Los aerogeneradores del parque.
      *      - Los estadisticosdiarios que se han dado en ese parque el día seleccionado.
-     *      - Los puntos fuera que se han detectado en ese parque el día seleccionado.
+     *      - Los outliers que se han detectado en ese parque el día seleccionado.
      *      - Las bajadas de rendimiento que se han dado en el parque el día seleccionado.
      *  
      */
@@ -166,7 +166,7 @@ class EstadisticodiariosController extends AppController
         $estadisticos = $this->getEstadisticoDia(($this->getFormatoFecha($formulario["datepickerI"])), $parqueCogido->first()['id']);
         $this -> set('estadisticos',$estadisticos);
         
-        /* Cargamos los puntos fuera del día seleccionado */
+        /* Cargamos los outliers del día seleccionado */
         $totalFueras = $this->getFuerasDia(($this->getFormatoFecha($formulario["datepickerI"])), $parqueCogido->first()['id']);
         $this -> set('totalFueras',$totalFueras);
         
@@ -276,11 +276,11 @@ class EstadisticodiariosController extends AppController
     }
     
     /*
-     * Genera un gráfico de sectores por cada bin de viento describiendo cuantos puntos fuera del intervalo de confianza
+     * Genera un gráfico de sectores por cada bin de viento describiendo cuantos outliers del intervalo de confianza
      * generado por cada aerogenerador se han dado, en el día que ha sido introducido por parámetro. 
-     * Cada sector representa el número de puntos fuera de un aerogenerador. Se carga:
-     *      - Puntos fuera de cada aerogenerador en cada bin de viento para ese día
-     *      - Bines de viento existentes en los que ha habido puntos fuera.
+     * Cada sector representa el número de outliers de un aerogenerador. Se carga:
+     *      - Outliers de cada aerogenerador en cada bin de viento para ese día
+     *      - Bines de viento existentes en los que ha habido outliers.
      * 
      */
     public function muestroGraficaQuesos(){
@@ -291,7 +291,7 @@ class EstadisticodiariosController extends AppController
         $mainData = $this->request->getData();
         $aerosParque = $this->Aeros->find('all')->where(['Aeros.id_parque =' => $mainData['parque']]);
 
-        /* Carga los bines de viento en los que se han detectado algún punto fuera*/
+        /* Carga los bines de viento en los que se ha detectado algún outlier*/
         $diaG = $mainData["dia"];
         $this->loadModel('Fueras');
         $vientos = $this->Fueras->find()->select(['Fueras.viento','Fueras.systemNumber'])->where(['Fueras.fecha =' => ($this->getFormatoFecha($diaG))])->group(['Fueras.viento']);
@@ -460,7 +460,7 @@ class EstadisticodiariosController extends AppController
         $this->set('estadisticos',$estadisticos);
         
     }
-    /* Cargamos los puntos fuera del parque y día introducidos por parámetro en formato DateTable */
+    /* Cargamos los outliers del parque y día introducidos por parámetro en formato DateTable */
     public function cargaDatosFueras(){
         $mainData = $this->request->getData();
         $dia = $this->getFormatoFecha($mainData['dia']);
@@ -503,16 +503,16 @@ class EstadisticodiariosController extends AppController
         
         return $estadisticoDiario;
     }
-    /* Se obtiene un array con los puntos fuera que se han efectuado en un parque un día concreto */
+    /* Se obtiene un array con los outliers que se han efectuado en un parque un día concreto */
     public function getFuerasDia($unaFecha,$unParque){
         $this->loadModel('Aeros');
         $this->loadModel('Fueras');
         
-        /*Cargo los aeros del parque y los puntos fuera de ese dia*/
+        /*Cargo los aeros del parque y los outliers de ese dia*/
         $aerosParque = $this->Aeros->find('all')->where(['Aeros.id_parque =' => $unParque]);
         $fueras = $this->Fueras->find('all')->where(['Fueras.fecha =' => $unaFecha]);
         
-        /*Saco los puntos fuera en orden de los aerogeneradores del parque escogido*/
+        /*Saco los outliers en orden de los aerogeneradores del parque escogido*/
         $fuerasDiario = array();
         foreach($fueras as $fuera):
             foreach($aerosParque as $aero):

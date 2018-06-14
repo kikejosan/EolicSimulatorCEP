@@ -76,13 +76,15 @@ http://www.mulesoft.org/schema/mule/ftp http://www.mulesoft.org/schema/mule/ftp/
                 </when>
                 <when expression="#[message.inboundProperties['eventPatternName'] ==&quot;Transicion&quot;]">
                     <db:insert config-ref="MySQL_Configuration" doc:name="Transicions">
-                        <db:parameterized-query><![CDATA[insert into transicions (systemNumber,posicionInicio,posicionFin,variacion,inicio,fin) values (
+                        <db:parameterized-query><![CDATA[insert into transicions (systemNumber,posicionInicio,posicionFin,variacion,inicio,fin,variacionR,variacionPR) values (
 		#[payload["Transicion"]["systemNumber"]],
 		#[payload["Transicion"]["posicionInicio"]],
 		#[payload["Transicion"]["posicionFin"]],
 		#[payload["Transicion"]["variacion"]],
 		#[payload["Transicion"]["inicio"]],
-		#[payload["Transicion"]["fin"]]
+		#[payload["Transicion"]["fin"]],
+		#[payload["Transicion"]["variacionR"]],
+		#[payload["Transicion"]["variacionPR"]]
 	);]]></db:parameterized-query>
                     </db:insert>
                 </when>

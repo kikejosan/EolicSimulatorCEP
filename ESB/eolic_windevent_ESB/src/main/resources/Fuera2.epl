@@ -1,0 +1,13 @@
+@Name("Fuera2")
+INSERT INTO Fuera2
+SELECT DISTINCT systemNumber,
+media,
+desviacion,
+count(systemNumber) as vecesFuera,
+viento,
+MAX(fecha) as fecha
+FROM WindEventR.win:time_batch(1 sec) ventana
+WHERE power<(media-(2*desviacion)) OR power>(media+(2*desviacion))
+GROUP BY systemNumber,viento
+HAVING count(systemNumber)>0
+order by viento

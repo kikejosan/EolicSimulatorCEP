@@ -201,7 +201,7 @@ $this->Html->script([
 <!-- ------------------------------FINAL DEL PRIMER PANEL  --------------------------------------------------->
             <div class="tab-pane" id="tab_2">
                 <div class='row'>
-                <div class='col-md-4'>
+                <div class='col-md-5'>
                     <div class="box">
                         <div class="box-header with-border">
                           <h3 class="box-title">Formulario</h3>
@@ -259,8 +259,8 @@ $this->Html->script([
                                   <th style="text-align: center;">SystemNumber</th>
                                   <th style="text-align: center;">Inicio</th>
                                   <th style="text-align: center;">Fin</th>
-                                  <th style="text-align: center;">Posicion Inicio</th>
-                                  <th style="text-align: center;">Posicion Fin</th>
+                                  <th style="text-align: center;">Pos.Inicio</th>
+                                  <th style="text-align: center;">Pos.Fin</th>
                                   <th style="text-align: center;">Var</th>
                                   <th style="text-align: center;">Var %</th>
                                 </tr>
@@ -274,7 +274,7 @@ $this->Html->script([
                                         <td style="text-align: center;"><?php echo $transicion['posicionInicio']?></td>
                                         <td style="text-align: center;"><?php echo $transicion['posicionFin']?></td>
                                         <td style="text-align: center;"><?php echo $transicion['variacion']?></td>
-                                        <td style="text-align: center;"><?php echo $transicion['variacion']*3.33?></td>
+                                        <td style="text-align: center;"><?php echo round($transicion['variacionR'],2)?></td>
                                     </tr>
                                     <?php endforeach; ?>
                                 </tbody>
@@ -283,9 +283,10 @@ $this->Html->script([
                                   <th style="text-align: center;">SystemNumber</th>
                                   <th style="text-align: center;">Inicio</th>
                                   <th style="text-align: center;">Fin</th>
-                                  <th style="text-align: center;">Posicion Inicio</th>
-                                  <th style="text-align: center;">Posicion Fin</th>
-                                  <th style="text-align: center;">Variacion</th>
+                                  <th style="text-align: center;">Pos.Inicio</th>
+                                  <th style="text-align: center;">Pos.Fin</th>
+                                  <th style="text-align: center;">Var</th>
+                                  <th style="text-align: center;">Var %</th>
                                 </tr>
                                 </tfoot>
                               </table>
@@ -293,7 +294,7 @@ $this->Html->script([
                         </div>  
                     </div>
                 </div>
-                <div class='col-md-8'>
+                <div class='col-md-7'>
                     <div class="container-fluid" id="aviso"></div>
                     <div class="container-fluid" id="graficaI"></div>
                     <div class="container-fluid" id="graficaPos"></div>
@@ -447,7 +448,8 @@ $this->Html->script([
 
     
     
-    
+    /* Especificación de las acciones a realizar dados unos eventos concretos, en concreto para el seguimiento
+     * visual del aerogenerador seleccionado en los rankings */
     $(document).ready(function(){
         
        $("#datepicker1").change(function(){
@@ -535,21 +537,23 @@ $this->Html->script([
                 $.post('http://localhost/EolicEventConsumer/error/formularioIncorrecto',
                 function(data) {
                     variable = data;
-                    $("#rankingGraficab").remove();
-                    $("#graficaPos2b").remove();
+                    
+                    $("#graficaI").html("<div></div>");
+                    $("#graficaPos").html("<div></div>");
                     $("#aviso").html(data);
                     
                 });
             }else{
-                
+                $("#aviso").html("<div></div>");
+                    
                 $.post('http://localhost/EolicEventConsumer/rankingprods/muestroGrafica',
-                 {diasG : $("#diasG").val(), aerosG : $("#aerosG").val(), contenedor:'rankingGrafica'}, 
+                 {diasG : $("#diasG").val(), aerosG : $("#aerosG").val(), contenedor:'rankingGraficab'}, 
                  function(data) {
                      variable = data;
                      $("#graficaI").html(data)
                  });
                 $.post('http://localhost/EolicEventConsumer/rankingprods/muestroGraficaPos',
-                {diasG : $("#diasG").val(), aerosG : $("#aerosG").val(), contenedor:'graficaPos2'}, 
+                {diasG : $("#diasG").val(), aerosG : $("#aerosG").val(), contenedor:'graficaPos2b'}, 
                 function(data) {
                     variable = data;
                     $("#graficaPos").html(data)
@@ -559,7 +563,7 @@ $this->Html->script([
         }); 
         
         
-        
+        /* Función para actualizar la información básica del aerogenerador seleccionado */
         function postAeroSeguir(aeroSeguir){
             $.post('http://localhost/EolicEventConsumer/rankingprods/getInfoAero',
             {idAero : aeroSeguir}, 
@@ -568,8 +572,7 @@ $this->Html->script([
                 $("#infoAero").html(data)
             });
         }
-        
-        
+        /* Eventos click de las celdas seleccionadas */        
         $('#tabla1').on('click','tr td', function(){
             seguimiento($(this).text());
             postAeroSeguir($(this).text());
@@ -609,7 +612,7 @@ $this->Html->script([
 </script>
 
 <script>
-    
+    /* Inicialización de formularios, datepickers, rangedatepickers y datetables*/
   $(function () {
     var fechasLimite = "<?php echo $fechasLimite ?>";
     fechasLimite = fechasLimite.split(',');
